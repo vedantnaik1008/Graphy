@@ -1,0 +1,21 @@
+body{
+    overflow-x: hidden;
+}
+
+.slide_in{
+    animation: slide_In 300ms ease-in-out;
+}
+
+.slide_in_reverse{
+    animation: slide_In 300ms ease-in-out reverse;
+}
+
+
+@keyframes slide_In {
+    0%{
+        transform: translateX(-200%);
+    }
+    100%{
+        transform: translateX(0%);
+    }
+}
