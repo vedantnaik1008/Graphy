@@ -8,7 +8,7 @@ const Tabs = ({tabs}) => {
     
     
     return (
-        <section className=' overflow-y-scroll overflow-x-hidden'>
+        <section className=' overflow-y-scroll overflow-x-hidden h-screen'>
             <div className='transition-all duration-300 ease-in-out w-[90%] mx-auto py-5'>
                 {TabsComponents.map((item) => (
                     <div className='' key={item.name}>
