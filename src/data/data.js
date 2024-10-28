@@ -15,7 +15,15 @@ export const sideBar = [
                 completedIcon: completedIcon,
                 completed: false,
                 icon: Video,
-                name: 'Importance of Product Management'
+                name: 'Importance of Product Management',
+                sub: [
+                    {
+                        name: 'Products Management Point One',
+                        completedIcon: completedIcon,
+                        completed: false,
+                        icon: Video
+                    }
+                ]
             },
             {
                 completedIcon: completedIcon,
@@ -124,6 +132,54 @@ export const sideBar = [
                 completed: false,
                 icon: stars,
                 name: 'End-of-Life Strategies (coming soon)'
+            }
+        ]
+    },
+    {
+        title: 'Books',
+        headingIcon: HeadingIcon,
+        tabs: [
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'Atomic Habits'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'Better Than Before'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'Tiny Habits'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'Will Power'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'Habits Of Highly Effective People'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'The Habits Blueprint'
+            },
+            {
+                completedIcon: completedIcon,
+                completed: false,
+                icon: PDF,
+                name: 'You Are Not Your Brain'
             }
         ]
     }

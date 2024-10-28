@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { app } from '../../FirebaseConfig';
 import { getDatabase, ref, get } from 'firebase/database';
+import FileUpload from '../FileUpload';
 
 const IOPM = () => {
     const [data, setData] = useState([]);
 
-    // https://graphy-c2078-default-rtdb.asia-southeast1.firebasedatabase.app/Video/data
     useEffect(() => {
         const fetchData = async () => {
             const db = getDatabase(app);
@@ -13,14 +13,12 @@ const IOPM = () => {
             const snapshot = await get(dbRef);
             if (snapshot.exists()) {
                 setData(Object.values(snapshot.val()));
-                console.log(Object.values(snapshot.val()));
             } else {
                 alert('error');
             }
         };
         fetchData();
     }, []);
-    console.log(data[0]);
     return (
         <section className=''>
             <iframe
@@ -31,6 +29,8 @@ const IOPM = () => {
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                 allowFullScreen></iframe>
+
+            <FileUpload />
         </section>
     );
 };
