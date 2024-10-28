@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 const SubItems = ({
     title,
@@ -10,7 +10,7 @@ const SubItems = ({
     setTabs
 }) => {
   
-    
+    const [click, setClick] = useState(false)
     return (
         <div className=''>
             <div className='flex gap-2 items-center '>
@@ -32,7 +32,7 @@ const SubItems = ({
                     {tabs.map((tab, tabIndex) => (
                         <div className='' key={`${tab.name}-${tabIndex}`}>
                             <div
-                                onClick={() => setTabs(tab.name)}
+                                onClick={() =>{ setTabs(tab.name); setClick((prev)=> !prev)}}
                                 className='flex gap-2 items-center'>
                                 <img
                                     src={tab.icon || tab.completedIcon}
@@ -49,7 +49,7 @@ const SubItems = ({
                                     }`}
                                 />}
                             </div>
-                            {tab && (
+                            {click && (
                                 <div className='flex gap-2 items-center ml-8'>
                                     {tab?.sub?.map((item, Index) => (
                                         <div
