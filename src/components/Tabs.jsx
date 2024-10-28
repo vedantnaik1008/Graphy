@@ -8,14 +8,15 @@ const Tabs = ({tabs}) => {
     
     
     return (
-        <section className=''>
+        <section className=' overflow-y-scroll overflow-x-hidden'>
             <div className='transition-all duration-300 ease-in-out w-[90%] mx-auto py-5'>
                 {TabsComponents.map((item) => (
                     <div className='' key={item.name}>
                         {tabs === item.name ? item.element : null}
-                        {item.sub && tabs === 'Products Management Point One'
-                            ? <PMPO />
-                            : null}
+                        {item.sub &&
+                        tabs === 'Products Management Point One' ? (
+                            <PMPO />
+                        ) : null}
                     </div>
                 ))}
             </div>

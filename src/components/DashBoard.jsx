@@ -7,7 +7,7 @@ const DashBoard = () => {
     const [toggle, setToggle] = useState(false)
 
     return (
-        <section className='flex w-full'>
+        <section className='lg:flex'>
             <SideBar setTabs={setTabs} toggle={toggle} setToggle={setToggle} />
             <Content tabs={tabs} toggle={toggle} setToggle={setToggle} />
         </section>

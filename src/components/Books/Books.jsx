@@ -9,8 +9,12 @@ const Books = ({bookUrl}) => {
       <div className='w-[90%] mx-auto my-20'>
           <ol>
               {fileLinks.map((link, index) => (
-                  <li key={index} className='flex gap-8 max-w-[700px]'>
-                      <a href={link} target='_blank' rel='noopener noreferrer'>
+                  <li key={index} className='flex justify-start gap-8'>
+                      <a
+                          href={link}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className=' max-w-[700px]'>
                           {link.replace(
                               'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2F',
                               ''
