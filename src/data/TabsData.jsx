@@ -1,4 +1,3 @@
-import AtomicHabits from "../components/Books/AtomicHabits";
 import Books from "../components/Books/Books";
 import IOPM from "../components/tabs/IOPM";
 import PDLC from "../components/tabs/PDLC";
