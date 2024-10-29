@@ -16,14 +16,14 @@ const HeaderNavigation = ({ toggle, setToggle }) => {
                         Introduction to Product Management
                     </h2>
                 </div>
-                <div className='flex flex-col items-end md:flex-row md:items-center gap-6'>
-                    <p className='text-[#5755d9]'>
+                <div className='flex items-center gap-6'>
+                    <p className='text-[#5755d9] text-[12px] md:text-base'>
                         Discuss {'('}
                         <span className='font-bold'>0</span>
                         {')'}
                     </p>
-                    <div className='flex gap-2'>
-                        <button className={`text-[#5755d9] px-8 py-2`}>
+                    <div className='flex gap-2  text-[12px] md:text-base'>
+                        <button className={`text-[#5755d9]`}>
                             {'<'} Previous
                         </button>
                         <button className={`bg-[#5755d9] text-white px-8 py-2`}>
