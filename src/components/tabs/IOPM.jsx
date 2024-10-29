@@ -5,9 +5,9 @@ import FileUpload from '../FileUpload';
 import useStorage from '../../hooks/useStorage';
 
 const IOPM = () => {
-  const { latestFiles,fileLinks, progress, handleFileChange, handleUpload } =
+  const { fileLinks, progress, handleFileChange, handleUpload } =
       useStorage('hero');
-      console.log(latestFiles[0].url);
+    //   console.log(latestFiles[0].url);
       
 
     return (

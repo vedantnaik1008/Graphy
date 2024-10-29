@@ -97,7 +97,7 @@ const useStorage = (getUrl) => {
     useEffect(() => {
         fetchFiles(); // Fetch files on component mount
     }, []);
-    return { progress, downloadURL, fileLinks, handleFileChange, handleUpload, latestFiles };
+    return { progress, downloadURL, fileLinks, handleFileChange, handleUpload };
 };
 
 export default useStorage;
