@@ -3,7 +3,7 @@ import Content from './Content';
 import SideBar from './SideBar';
 
 const DashBoard = () => {
-    const [tabs, setTabs] = useState('Importance of Product Management');
+    const [tabs, setTabs] = useState('Atomic Habits');
     const [toggle, setToggle] = useState(false)
 
     return (
