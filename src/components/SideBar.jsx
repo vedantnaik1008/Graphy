@@ -46,10 +46,10 @@ const SideBar = ({setTabs, toggle, setToggle}) => {
                 <div className='border-b-1px border-gray-300'>
                     <img src='' alt='' />
                 </div>
-                <div className='border-y-1px border-gray-300'>
+                {/* <div className='border-y-1px border-gray-300'>
                     <p className='w-full bg-black rounded-md'></p>
                     <p>13% completed in 22m</p>
-                </div>
+                </div> */}
                 <div className='border-y-1px border-gray-300'>
                     <div className=''>
                         <img src='' alt='' className='' />
