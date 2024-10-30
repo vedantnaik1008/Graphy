@@ -19,7 +19,9 @@ const Books = ({ bookUrl }) => {
                             className='transition-all
                             duration-300 ease-in-out w-full h-[50dvh]
                             md:h-[77dvh]'
-                            src={link}
+                            src={
+                                'https://drive.google.com/file/d/1jlurAicrREeP9C5PbsYdJYT9ItyuGevf/preview'
+                            }
                             title='YouTube video player'
                             allow='accelerometer;
                              clipboard-write; encrypted-media;
