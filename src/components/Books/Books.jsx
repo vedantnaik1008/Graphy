@@ -13,7 +13,7 @@ const Books = ({ bookUrl }) => {
             <ol className='flex flex-col  gap-8'>
                 {fileLinks.map((link, index) => (
                     <li key={index} className=''>
-                        <embed
+                        <iframe
                             width='300'
                             height='700'
                             className='transition-all
@@ -21,7 +21,10 @@ const Books = ({ bookUrl }) => {
                             md:h-[77dvh]'
                             src={link}
                             title='YouTube video player'
-                            ></embed>
+                            allow='accelerometer;
+                             clipboard-write; encrypted-media;
+                            gyroscope; picture-in-picture'
+                            allowFullScreen></iframe>
                     </li>
                 ))}
             </ol>
