@@ -21,8 +21,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[0].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -34,8 +33,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[0].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -61,8 +59,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[1].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -74,8 +71,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[1].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -101,8 +97,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[2].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -114,8 +109,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[2].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -141,8 +135,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[3].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -154,8 +147,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[3].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -181,8 +173,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[4].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -194,8 +185,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[4].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -221,8 +211,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[5].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -234,8 +223,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[5].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),
@@ -261,8 +249,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[6].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                    '/' + 'audio summary'
                 }
             />
         ),
@@ -274,8 +261,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[6].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                    '/' + 'full book'
                 }
             />
         ),

@@ -18,15 +18,15 @@ const Books = ({ bookUrl }) => {
         );
 
     return (
-        <div className='w-full md:w-[90%] mx-auto my-20'>
-            <ol className='flex flex-col  gap-8'>
+        <div className='w-full md:w-[90%] mx-auto my-4 h-full md:my-20'>
+            <ol className='flex flex-col'>
                 {fileLinks.map((link, index) => (
                     <li key={index} className=''>
                         <iframe
                             width='300'
                             height='700'
                             className='transition-all
-                            duration-300 ease-in-out w-full h-[60dvh]
+                            duration-300 ease-in-out w-full h-[77dvh]
                             md:h-[77dvh]'
                             src={render(link)}
                             title='YouTube video player'
