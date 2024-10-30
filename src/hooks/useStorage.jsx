@@ -14,7 +14,7 @@ const useStorage = (getUrl) => {
     const [downloadURL, setDownloadURL] = useState('');
     const [fileLinks, setFileLinks] = useState([]);
     const [loading, setLoading] = useState(false)
-    console.log('getUrl', getUrl);
+    // console.log('getUrl', getUrl);
     
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);

@@ -1,16 +1,38 @@
 /* eslint-disable react/prop-types */
 import { memo, useState } from 'react';
 
-const SubItems = ({
-    title,
-    headingIcon,
-    tabs,
-    isExpanded,
-    toggle,
-    setTabs
-}) => {
-  
-    const [click, setClick] = useState(false)
+const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
+    const [click, setClick] = useState(false);
+    const [toggle, setToggle] = useState({
+        one: false,
+        two: false,
+        three: false,
+        four: false,
+        five: false,
+        six: false,
+        seven: false
+    });
+
+    const ToggleArrowDown = (index) => {
+        setToggle((prev) => {
+            const newToggle = {
+                one: false,
+                two: false,
+                three: false,
+                four: false,
+                five: false,
+                six: false,
+                seven: false
+            };
+
+            const key = Object.keys(newToggle)[index];
+
+            // Toggle the clicked index
+            newToggle[key] = !prev[key];
+            return newToggle;
+        });
+    };
+
     return (
         <div className='pl-8'>
             <div className='flex gap-2 items-center justify-between'>
@@ -30,9 +52,8 @@ const SubItems = ({
                         click ? 'flex flex-col gap-4 py-2' : 'hidden'
                     }`}>
                     {tabs.map((tab, tabIndex) => (
-                        <div className='' key={`@${tab.name}@-${tabIndex}`}>
-                            <div
-                                className='flex gap-2 items-center justify-between'>
+                        <div className='' key={`${tab.name}-${tabIndex}`}>
+                            <div className='flex gap-2 items-center justify-between'>
                                 <div className='flex gap-2 items-center'>
                                     <img
                                         src={tab.icon || tab.completedIcon}
@@ -45,19 +66,22 @@ const SubItems = ({
                                 </div>
 
                                 <img
-                                    onClick={toggle}
                                     src={headingIcon}
                                     alt=''
+                                    onClick={() => ToggleArrowDown(tabIndex)}
                                     className={`w-[8%] transition-all duration-200 ease-in-out ${
-                                        isExpanded ? 'rotate-90' : 'rotate-0'
+                                        toggle[Object.keys(toggle)[tabIndex]]
+                                            ? 'rotate-90'
+                                            : 'rotate-0'
                                     }`}
                                 />
                             </div>
-                            
+
+                            {toggle[Object.keys(toggle)[tabIndex]] && (
                                 <div className='flex flex-col gap-1 ml-4'>
                                     {tab?.sub?.map((item, Index) => (
                                         <div
-                                            key={`@${tab.name}-@${item.name}-${Index}`}
+                                            key={`${item.name}-${Index}`}
                                             className='flex gap-2 items-center'>
                                             <img
                                                 src={
@@ -69,14 +93,18 @@ const SubItems = ({
                                             />
                                             <p
                                                 onClick={() =>
-                                                    setTabs(tab.name + ' ' + item.name)
+                                                    setTabs(
+                                                        tab.name +
+                                                            ' ' +
+                                                            item.name
+                                                    )
                                                 }>
                                                 {item.name}
                                             </p>
                                         </div>
                                     ))}
                                 </div>
-                           
+                            )}
                         </div>
                     ))}
                 </div>
@@ -84,7 +112,4 @@ const SubItems = ({
         </div>
     );
 };
-;
-
 export default memo(SubItems);
-

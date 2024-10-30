@@ -20,14 +20,12 @@ const SideBar = ({setTabs, toggle, setToggle}) => {
            sideBar.map((item, index) => ({
                ...item,
                isExpanded: !!expandedItems[index],
-               toggleSidebar: () => toggleItem(index),
                tabs: item.tabs.map((tab, tabIndex) => ({
                    ...tab,
                    isExpanded: !!expandedItems[`${index}-${tabIndex}`],
-                   toggleTab: () => toggleItem(index, tabIndex)
                }))
            })),
-       [expandedItems, toggleItem]
+       [expandedItems]
    );
 
         useEffect(() => {
