@@ -7,25 +7,33 @@ import { useMemo } from 'react';
 const SideBar = ({setTabs, toggle, setToggle}) => {
     const [expandedItems, setExpandedItems] = useState({});
 
-    const toggleItem = useCallback((index) => {
-        setExpandedItems((prevState) => ({
-            ...prevState,
-            [index]: !prevState[index]
-        }));
-    }, []);
+   const toggleItem = useCallback((sidebarIndex, tabIndex) => {
+       setExpandedItems((prevState) => ({
+           ...prevState,
+           [`${sidebarIndex}-${tabIndex}`]:
+               !prevState[`${sidebarIndex}-${tabIndex}`]
+       }));
+   }, []);
 
-    const sidebarItems = useMemo(
-        () =>
-            sideBar.map((item, index) => ({
-                ...item,
-                isExpanded: !!expandedItems[index],
-                toggle: () => toggleItem(index)
-            })),
-        [expandedItems, toggleItem]
-    );
-     useEffect(() => {
-         console.log('SideBar rendered');
-     }, []);
+   const sidebarItems = useMemo(
+       () =>
+           sideBar.map((item, index) => ({
+               ...item,
+               isExpanded: !!expandedItems[index],
+               toggleSidebar: () => toggleItem(index),
+               tabs: item.tabs.map((tab, tabIndex) => ({
+                   ...tab,
+                   isExpanded: !!expandedItems[`${index}-${tabIndex}`],
+                   toggleTab: () => toggleItem(index, tabIndex)
+               }))
+           })),
+       [expandedItems, toggleItem]
+   );
+
+        useEffect(() => {
+            console.log('SideBar rendered');
+        }, []);
+
 
     return (
         <>

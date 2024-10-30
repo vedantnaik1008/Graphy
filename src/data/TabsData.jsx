@@ -1,85 +1,284 @@
-import Books from "../components/Books/Books";
-import IOPM from "../components/tabs/IOPM";
-import PDLC from "../components/tabs/PDLC";
-import PMPO from "../components/tabs/PMPO";
-import { sideBar } from "./data";
+import Books from '../components/Books/Books';
+import { sideBar } from './data';
 
 export const TabsComponents = [
     {
-        element: <IOPM />,
-        name: 'Importance of Product Management',
-        sub: [
-            {
-                element: <PMPO />,
-                name: 'Products Management Point One'
-            }
-        ]
-    },
-    { element: <PDLC />, name: 'Product Development Lifecycle' },
-    {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[0].name} />,
-        name: 'Atomic Habits'
+        id: 1,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[0].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'Atomic Habits summary'
     },
     {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[1].name} />,
-        name: 'Better Than Before'
+        id: 2,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[0].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'Atomic Habits video'
     },
     {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[2].name} />,
-        name: 'Tiny Habits'
+        id: 3,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[0].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'Atomic Habits pdf'
     },
-    {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[3].name} />,
-        name: 'Will Power'
-    },
-    {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[4].name} />,
-        name: 'Habits Of Highly Effective People'
-    },
-    {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[5].name} />,
-        name: 'The Habits Blueprint'
-    },
-    {
-        element: <Books bookUrl={sideBar[sideBar.length - 1].tabs[6].name} />,
-        name: 'You Are Not Your Brain'
-    }
-    // { element: < />, name: 'Market Identification' },
-    // {
-    //     element: < />, name: 'Competitive Analysis'
-    // },
-    // {
-    //     element: < />, name: 'Consumer Behavior (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Market Trends (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Defining Product Vision (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Setting Product Goals (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Roadmapping (coming soon)'
-    // },
 
-    // {
-    //     element: < />, name: 'Cross-functional Collaboration (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Prototyping and MVP (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Launch Strategies (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Managing Product Performance (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'Iterative Improvement (coming soon)'
-    // },
-    // {
-    //     element: < />, name: 'End-of-Life Strategies (coming soon)'
-    // }
+    {
+        id: 4,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[1].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'Better Than Before summary'
+    },
+    {
+        id: 5,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[1].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'Better Than Before video'
+    },
+    {
+        id: 6,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[1].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'Better Than Before pdf'
+    },
+
+    {
+        id: 7,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[2].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'Tiny Habits summary'
+    },
+    {
+        id: 8,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[2].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'Tiny Habits video'
+    },
+    {
+        id: 9,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[2].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'Tiny Habits pdf'
+    },
+
+    {
+        id: 10,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[3].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'Will Power summary'
+    },
+    {
+        id: 11,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[3].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'Will Power video'
+    },
+    {
+        id: 12,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[3].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'Will Power pdf'
+    },
+
+    {
+        id: 13,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[4].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'Habits Of Highly Effective People summary'
+    },
+    {
+        id: 14,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[4].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'Habits Of Highly Effective People video'
+    },
+    {
+        id: 15,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[4].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'Habits Of Highly Effective People pdf'
+    },
+
+    {
+        id: 16,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[5].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'The Habits Blueprint summary'
+    },
+    {
+        id: 17,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[5].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'The Habits Blueprint video'
+    },
+    {
+        id: 18,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[5].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'The Habits Blueprint pdf'
+    },
+
+    {
+        id: 19,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[6].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                }
+            />
+        ),
+        name: 'You Are Not Your Brain summary'
+    },
+    {
+        id: 20,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[6].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[1].name
+                }
+            />
+        ),
+        name: 'You Are Not Your Brain video'
+    },
+    {
+        id: 21,
+        element: (
+            <Books
+                bookUrl={
+                    sideBar[sideBar.length - 1].tabs[6].name +
+                    '/' +
+                    sideBar[sideBar.length - 1].tabs[0].sub[2].name
+                }
+            />
+        ),
+        name: 'You Are Not Your Brain pdf'
+    }
 ];
