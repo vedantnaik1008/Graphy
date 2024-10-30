@@ -14,14 +14,15 @@ export const sideBar = [
                 name: 'Atomic Habits',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -31,14 +32,15 @@ export const sideBar = [
                 name: 'Better Than Before',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -48,14 +50,15 @@ export const sideBar = [
                 name: 'Tiny Habits',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -65,14 +68,15 @@ export const sideBar = [
                 name: 'Will Power',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -82,14 +86,15 @@ export const sideBar = [
                 name: 'Habits Of Highly Effective People',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -99,14 +104,15 @@ export const sideBar = [
                 name: 'The Habits Blueprint',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             },
             {
@@ -116,14 +122,15 @@ export const sideBar = [
                 name: 'You Are Not Your Brain',
                 sub: [
                     {
+                        name: 'full book'
+                    },
+                    {
                         name: 'summary'
                     },
                     {
-                        name: 'video'
+                        name: 'audio summary'
                     },
-                    {
-                        name: 'pdf'
-                    }
+                    
                 ]
             }
         ]

@@ -26,7 +26,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Atomic Habits video'
+        name: 'Atomic Habits audio summary'
     },
     {
         id: 3,
@@ -39,7 +39,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Atomic Habits pdf'
+        name: 'Atomic Habits full book'
     },
 
     {
@@ -66,7 +66,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Better Than Before video'
+        name: 'Better Than Before audio summary'
     },
     {
         id: 6,
@@ -79,7 +79,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Better Than Before pdf'
+        name: 'Better Than Before full book'
     },
 
     {
@@ -106,7 +106,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Tiny Habits video'
+        name: 'Tiny Habits audio summary'
     },
     {
         id: 9,
@@ -119,7 +119,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Tiny Habits pdf'
+        name: 'Tiny Habits full book'
     },
 
     {
@@ -146,7 +146,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Will Power video'
+        name: 'Will Power audio summary'
     },
     {
         id: 12,
@@ -159,7 +159,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Will Power pdf'
+        name: 'Will Power full book'
     },
 
     {
@@ -186,7 +186,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Habits Of Highly Effective People video'
+        name: 'Habits Of Highly Effective People audio summary'
     },
     {
         id: 15,
@@ -199,7 +199,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'Habits Of Highly Effective People pdf'
+        name: 'Habits Of Highly Effective People full book'
     },
 
     {
@@ -226,7 +226,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'The Habits Blueprint video'
+        name: 'The Habits Blueprint audio summary'
     },
     {
         id: 18,
@@ -239,7 +239,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'The Habits Blueprint pdf'
+        name: 'The Habits Blueprint full book'
     },
 
     {
@@ -266,7 +266,7 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'You Are Not Your Brain video'
+        name: 'You Are Not Your Brain audio summary'
     },
     {
         id: 21,
@@ -279,6 +279,6 @@ export const TabsComponents = [
                 }
             />
         ),
-        name: 'You Are Not Your Brain pdf'
+        name: 'You Are Not Your Brain full book'
     }
 ];

@@ -18,7 +18,7 @@ const Books = ({ bookUrl }) => {
         );
 
     return (
-        <div className='w-[90%] mx-auto my-20'>
+        <div className='w-full md:w-[90%] mx-auto my-20'>
             <ol className='flex flex-col  gap-8'>
                 {fileLinks.map((link, index) => (
                     <li key={index} className=''>
@@ -26,7 +26,7 @@ const Books = ({ bookUrl }) => {
                             width='300'
                             height='700'
                             className='transition-all
-                            duration-300 ease-in-out w-full h-[50dvh]
+                            duration-300 ease-in-out w-full h-[60dvh]
                             md:h-[77dvh]'
                             src={render(link)}
                             title='YouTube video player'
