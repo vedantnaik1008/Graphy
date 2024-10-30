@@ -1,43 +1,45 @@
+// 
+
 export const render = (url) => {
     if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FAtomic%20Habits%2Fpdf%2FBook%201-Atomic_Habits_by_James_Clear-1.pdf?alt=media&token=77263345-cdf3-4a1a-b451-ce55134e4163'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FAtomic%20Habits%2Ffull%20book%2FBook%201-Atomic_Habits_by_James_Clear-1.pdf?alt=media&token=77db8671-b39a-4faf-80bf-4c2498d3bb3d'
         )
     ) {
         return 'https://drive.google.com/file/d/1jlurAicrREeP9C5PbsYdJYT9ItyuGevf/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FBetter%20Than%20Before%2Fpdf%2FBook%202-Better-Than-Before-Mastering-the-Habits-of-Our-Everyday-Lives.pdf?alt=media&token=f213b20d-026b-4114-b542-cb14bcd0be62'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FBetter%20Than%20Before%2Ffull%20book%2FBook%202-Better-Than-Before-Mastering-the-Habits-of-Our-Everyday-Lives.pdf?alt=media&token=6eb26557-e05e-409d-9a16-aa677642c088'
         )
     ) {
         return 'https://drive.google.com/file/d/1-dfjbNCXj15cqa-esQkyVofq4K9Af4hO/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FTiny%20Habits%2Fpdf%2FBook%203-Tiny%20Habits%20By%20B.J.Fogg.pdf?alt=media&token=a35fc41f-1478-4c61-94fa-07cd950ee6e8'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FTiny%20Habits%2Ffull%20book%2FBook%203-Tiny%20Habits%20By%20B.J.Fogg.pdf?alt=media&token=7db9b3d3-ba5b-4387-8126-6dc5a9e6fcd1'
         )
     ) {
         return 'https://drive.google.com/file/d/12elWc4QOLSjPE2oeZ8QKnmQLc8XZkb_V/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FWill%20Power%2Fpdf%2FBook%204-Willpower_%20Rediscovering%20the%20Greatest%20Human%20Strength.pdf?alt=media&token=8044006c-68f3-4517-8c73-928abc196a64'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FWill%20Power%2Ffull%20book%2FBook%204-Willpower_%20Rediscovering%20the%20Greatest%20Human%20Strength.pdf?alt=media&token=1515a37b-277d-475e-9297-73c8bc323961'
         )
     ) {
         return 'https://drive.google.com/file/d/1j5WmlyH9128NK7M0skXOMbQ_KzLGU4fq/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FThe%20Habits%20Blueprint%2Fpdf%2FBook%205-The%20Habit%20Blueprint_%2015%20Simple%20Steps%20to%20Transform%20Your%20Life.pdf?alt=media&token=d73f8438-c181-4967-9a04-9133d1abfcf0'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FThe%20Habits%20Blueprint%2Ffull%20book%2FBook%205-The%20Habit%20Blueprint_%2015%20Simple%20Steps%20to%20Transform%20Your%20Life.pdf?alt=media&token=836dda31-9601-4a4e-9f4d-0497706eec03'
         )
     ) {
         return 'https://drive.google.com/file/d/1EbZOh2Oa5zXICWumRpxKHqn-kewQIaXh/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FYou%20Are%20Not%20Your%20Brain%2Fpdf%2FBook%206-You%20Are%20Not%20Your%20Brain_%20The%204-Step%20Solution%20for%20Changing%20Bad%20Habits%2C%20Ending%20Unhealthy%20Thinking%2C%20and%20Taking%20Control%20of%20Your%20Life.pdf?alt=media&token=4282a881-cf72-4521-a6fc-503279fe4ad1'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FYou%20Are%20Not%20Your%20Brain%2Ffull%20book%2FBook%206-You%20Are%20Not%20Your%20Brain_%20The%204-Step%20Solution%20for%20Changing%20Bad%20Habits%2C%20Ending%20Unhealthy%20Thinking%2C%20and%20Taking%20Control%20of%20Your%20Life.pdf?alt=media&token=d6e420d1-d67e-4a7a-ac29-2f729b892a09'
         )
     ) {
         return 'https://drive.google.com/file/d/18xBskcfdnXViWNf4enzGyErxi6IIf6Fm/preview';
     } else if (
         url?.includes(
-            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FHabits%20Of%20Highly%20Effective%20People%2Fpdf%2FThe%207%20Habits%20Of%20Highly%20Effective%20People%20-%20Personal%20Workbook.pdf?alt=media&token=e7fb5587-7553-4bb1-8fb2-27aaa74abc88'
+            'https://firebasestorage.googleapis.com/v0/b/graphy-c2078.appspot.com/o/Books%2FHabits%20Of%20Highly%20Effective%20People%2Ffull%20book%2FThe%207%20Habits%20Of%20Highly%20Effective%20People%20-%20Personal%20Workbook.pdf?alt=media&token=559c9801-70c6-4c32-8e63-087b5c1a5a33'
         )
     ) {
         return 'https://drive.google.com/file/d/1sv8OgmNR-_oGv-pE_PoZfhbGQEQAb5w2/preview';

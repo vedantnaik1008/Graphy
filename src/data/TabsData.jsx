@@ -8,8 +8,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[0].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -46,8 +45,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[1].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -84,8 +82,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[2].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -122,8 +119,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[3].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -160,8 +156,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[4].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -198,8 +193,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[5].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
@@ -236,8 +230,7 @@ export const TabsComponents = [
             <Books
                 bookUrl={
                     sideBar[sideBar.length - 1].tabs[6].name +
-                    '/' +
-                    sideBar[sideBar.length - 1].tabs[0].sub[0].name
+                    '/' + 'summary'
                 }
             />
         ),
