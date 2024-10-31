@@ -35,8 +35,12 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
 
     return (
         <div className='pl-8'>
-            <div className='flex gap-2 items-center justify-between'>
-                <h3 className='font-semibold'>{title}</h3>
+            <div className='cursor-pointer flex gap-2 items-center justify-between'>
+                <h3
+                    onClick={() => setClick((prevState) => !prevState)}
+                    className='font-semibold'>
+                    {title}
+                </h3>
                 <img
                     onClick={() => setClick((prevState) => !prevState)}
                     src={headingIcon}
@@ -54,13 +58,17 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
                     {tabs.map((tab, tabIndex) => (
                         <div className='' key={`${tab.name}-${tabIndex}`}>
                             <div className='flex gap-2 items-center justify-between'>
-                                <div className='flex gap-2 items-center'>
+                                <div className='flex gap-2 items-center cursor-pointer'>
                                     <img
                                         src={tab.icon || tab.completedIcon}
                                         alt=''
-                                        className=''
+                                        className='cursor-pointer'
                                     />
-                                    <p className='text-sm md:text-base'>
+                                    <p
+                                        onClick={() =>
+                                            ToggleArrowDown(tabIndex)
+                                        }
+                                        className='text-sm md:text-base'>
                                         {tab.name}
                                     </p>
                                 </div>
@@ -69,7 +77,7 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
                                     src={headingIcon}
                                     alt=''
                                     onClick={() => ToggleArrowDown(tabIndex)}
-                                    className={`w-[8%] transition-all duration-200 ease-in-out ${
+                                    className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out ${
                                         toggle[Object.keys(toggle)[tabIndex]]
                                             ? 'rotate-90'
                                             : 'rotate-0'
@@ -98,7 +106,7 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
                                                             ' ' +
                                                             item.name
                                                     )
-                                                }>
+                                                } className='cursor-pointer'>
                                                 {item.name}
                                             </p>
                                         </div>
