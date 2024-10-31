@@ -1,7 +1,43 @@
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
 import Bar from '../assets/Bar.svg';
+import { TabsComponents } from '../data/TabsData';
+const HeaderNavigation = ({
+    toggle,
+    tabs,
+    setToggle,
+    setTabs
+}) => {
+    const defaultTabIndex = TabsComponents.findIndex(
+        (tab) => tab.name === 'Atomic Habits full book'
+    );
+    const [currentIndex, setCurrentIndex] = useState(
+        defaultTabIndex !== -1 ? defaultTabIndex : 0
+    );
 
-const HeaderNavigation = ({ toggle, setToggle }) => {
+    useEffect(() => {
+        // Set the default tab on mount
+        setTabs(TabsComponents[currentIndex].name);
+    }, [currentIndex, setTabs]);
+
+    const handleNavigation = (direction) => {
+        setCurrentIndex((prevIndex) => {
+            let newIndex;
+            if (direction === 'next') {
+                newIndex = (prevIndex + 1) % TabsComponents.length; // Loop to the start
+            } else if (direction === 'prev') {
+                newIndex =
+                    (prevIndex - 1 + TabsComponents.length) %
+                    TabsComponents.length; // Loop to the end
+            } else {
+                return prevIndex;
+            }
+            setTabs(TabsComponents[newIndex].name); // Set the new tab name
+            return newIndex;
+        });
+    };
+    console.log(tabs, currentIndex);
+
     return (
         <section className='shadow-[0px_1px] shadow-gray-300 '>
             <div className='flex items-center justify-between mx-auto w-[90%] py-10'>
@@ -23,10 +59,23 @@ const HeaderNavigation = ({ toggle, setToggle }) => {
                         {')'}
                     </p> */}
                     <div className='flex gap-2  text-[12px] md:text-base'>
-                        <button className={`text-[#5755d9]`}>
+                        <button
+                            onClick={() => {
+                                handleNavigation('prev');
+                                setTabs(TabsComponents[currentIndex].name);
+                            }}
+                            className={`text-[#5755d9]`}
+                            disabled={currentIndex === 0}>
                             {'<'} Previous
                         </button>
-                        <button className={`bg-[#5755d9] text-white px-8 py-2`}>
+                        <button
+                            onClick={() => {
+                                handleNavigation('next');
+                            }}
+                            className={`bg-[#5755d9] text-white px-8 py-2`}
+                            disabled={
+                                currentIndex === TabsComponents.length - 1
+                            }>
                             Next {'>'}
                         </button>
                     </div>
