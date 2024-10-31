@@ -4,7 +4,7 @@ import HeadingIcon from '../assets/HeadingIcon.svg';
 
 export const sideBar = [
     {
-        title: 'Books',
+        title: 'Books Runner Marathon',
         headingIcon: HeadingIcon,
         tabs: [
             {
