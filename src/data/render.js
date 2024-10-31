@@ -1,5 +1,3 @@
-// 
-
 export const render = (url) => {
     if (
         url?.includes(
