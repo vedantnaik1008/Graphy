@@ -2,9 +2,9 @@
 import { memo, useState } from 'react';
 
 const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
-    const [click, setClick] = useState(false);
+    const [click, setClick] = useState(true);
     const [toggle, setToggle] = useState({
-        one: false,
+        one: true,
         two: false,
         three: false,
         four: false,
@@ -100,13 +100,13 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
                                                 className=''
                                             />
                                             <p
-                                                onClick={() =>
+                                                onClick={() =>{
                                                     setTabs(
                                                         tab.name +
                                                             ' ' +
                                                             item.name
-                                                    )
-                                                } className='cursor-pointer'>
+                                                    );
+                                                }} className='cursor-pointer'>
                                                 {item.name}
                                             </p>
                                         </div>

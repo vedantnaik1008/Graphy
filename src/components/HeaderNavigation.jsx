@@ -9,7 +9,7 @@ const HeaderNavigation = ({
     setTabs
 }) => {
     const defaultTabIndex = TabsComponents.findIndex(
-        (tab) => tab.name === 'Atomic Habits full book'
+        (tab) => tab.name === tabs
     );
     const [currentIndex, setCurrentIndex] = useState(
         defaultTabIndex !== -1 ? defaultTabIndex : 0
@@ -62,7 +62,6 @@ const HeaderNavigation = ({
                         <button
                             onClick={() => {
                                 handleNavigation('prev');
-                                setTabs(TabsComponents[currentIndex].name);
                             }}
                             className={`text-[#5755d9]`}
                             disabled={currentIndex === 0}>
