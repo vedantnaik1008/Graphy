@@ -9,13 +9,13 @@ const Books = ({ bookUrl }) => {
 
     if (loading)
         return (
-            <p className='text-5xl text-black w-[90%] mx-auto h-screen align-middle'>
+            <p className='text-5xl text-black w-[90%] flex justify-center items-center md:left-[40%] mx-auto h-[80dvh] align-middle'>
                 Loading
             </p>
         );
 
     return (
-        <div className='w-full md:w-[90%] mx-auto my-4 h-full md:my-20'>
+        <div className='w-full md:w-[90%] xl:w-[80%] mx-auto my-4 h-full md:mt-5'>
             <ol className='flex flex-col'>
                 {fileLinks.map((link, index) => (
                     <li key={index} className=''>
