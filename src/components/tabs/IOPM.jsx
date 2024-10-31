@@ -1,13 +1,9 @@
-// import { useEffect, useState } from 'react';
-// import { app } from '../../FirebaseConfig';
-// import { getDatabase, ref, get } from 'firebase/database';
 import FileUpload from '../FileUpload';
 import useStorage from '../../hooks/useStorage';
 
 const IOPM = () => {
   const { fileLinks, progress, handleFileChange, handleUpload } =
       useStorage('hero');
-    //   console.log(latestFiles[0].url);
       
 
     return (

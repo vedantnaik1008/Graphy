@@ -13,17 +13,6 @@ const FileUpload = ({ progress, handleFileChange, handleUpload }) => {
                 Upload
             </button>
             <p>Progress: {progress.toFixed(0)}%</p>
-            {/* {downloadURL && (
-              <p>
-                  File uploaded!{' '}
-                  <a
-                      href={downloadURL}
-                      target='_blank'
-                      rel='noopener noreferrer'>
-                      View File
-                  </a>
-              </p>
-          )} */}
         </div>
     );
 };

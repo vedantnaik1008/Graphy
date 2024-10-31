@@ -49,20 +49,6 @@ const SideBar = ({setTabs, toggle, setToggle}) => {
                         ? 'translate-x-0 absolute left-0 z-30 lg:relative'
                         : '-translate-x-full absolute left-0'
                 }`}>
-                <div className='border-b-1px border-gray-300'>
-                    <img src='' alt='' />
-                </div>
-                {/* <div className='border-y-1px border-gray-300'>
-                    <p className='w-full bg-black rounded-md'></p>
-                    <p>13% completed in 22m</p>
-                </div> */}
-                <div className='border-y-1px border-gray-300'>
-                    <div className=''>
-                        <img src='' alt='' className='' />
-                        <p></p>
-                    </div>
-                    <img src='' alt='' className='' />
-                </div>
                 <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5'>
                     {sidebarItems.map((item) => (
                         <SubItems

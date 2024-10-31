@@ -4,8 +4,7 @@ import {
     ref,
     uploadBytesResumable,
     getDownloadURL,
-    listAll,
-    getMetadata
+    listAll
 } from 'firebase/storage';
 
 const useStorage = (getUrl) => {
@@ -14,7 +13,6 @@ const useStorage = (getUrl) => {
     const [downloadURL, setDownloadURL] = useState('');
     const [fileLinks, setFileLinks] = useState([]);
     const [loading, setLoading] = useState(false)
-    // console.log('getUrl', getUrl);
     
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -62,7 +60,7 @@ const useStorage = (getUrl) => {
 
     useEffect(() => {
         
-        fetchFiles(); // Fetch files on component mount
+        fetchFiles();
     }, []);
     return { progress, downloadURL, fileLinks, handleFileChange, handleUpload, loading };
 };
