@@ -134,7 +134,9 @@ export const TabsComponents = [
         element: (
             <Books
                 bookUrl={
-                    sideBar[sideBar.length - 1].tabs[3].name + '/' + 'audio summary'
+                    sideBar[sideBar.length - 1].tabs[3].name +
+                    '/' +
+                    'audio summary'
                 }
             />
         ),
@@ -167,7 +169,9 @@ export const TabsComponents = [
         element: (
             <Books
                 bookUrl={
-                    sideBar[sideBar.length - 1].tabs[4].name + '/' + 'audio summary'
+                    sideBar[sideBar.length - 1].tabs[4].name +
+                    '/' +
+                    'audio summary'
                 }
             />
         ),
@@ -200,7 +204,9 @@ export const TabsComponents = [
         element: (
             <Books
                 bookUrl={
-                    sideBar[sideBar.length - 1].tabs[5].name + '/' + 'audio summary'
+                    sideBar[sideBar.length - 1].tabs[5].name +
+                    '/' +
+                    'audio summary'
                 }
             />
         ),
@@ -233,10 +239,12 @@ export const TabsComponents = [
         element: (
             <Books
                 bookUrl={
-                    sideBar[sideBar.length - 1].tabs[6].name + '/' + 'audio summary'
+                    sideBar[sideBar.length - 1].tabs[6].name +
+                    '/' +
+                    'audio summary'
                 }
             />
         ),
         name: 'You Are Not Your Brain audio summary'
-    }
+    },
 ];

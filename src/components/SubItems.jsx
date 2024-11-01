@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { TabsComponents } from '../data/TabsData';
 
 const SubItems = ({
@@ -43,6 +43,9 @@ const SubItems = ({
         });
     };
 
+    // useEffect(()=> {
+    //     ToggleArrowDown(defaultTabIndex)
+    // }, [defaultTabIndex])
     console.log('subItem', changeTabs, defaultTabIndex);
 
     return (
@@ -78,7 +81,7 @@ const SubItems = ({
                                     />
                                     <p
                                         onClick={() =>
-                                            ToggleArrowDown(tabIndex)
+                                            ToggleArrowDown(tabIndex )
                                         }
                                         className='text-sm md:text-base'>
                                         {tab.name}
@@ -118,15 +121,9 @@ const SubItems = ({
                                                             ' ' +
                                                             item.name
                                                     );
-                                                    setCurrentIndex(
-                                                        TabsComponents.findIndex(
-                                                            (i) =>
-                                                                i.name ===
-                                                                tab.name +
-                                                                    ' ' +
-                                                                    item.name
-                                                        )
-                                                    );
+                                                    setCurrentIndex(TabsComponents.findIndex((i)=> i.name === tab.name +
+                                                            ' ' +
+                                                            item.name))
                                                 }}
                                                 className='cursor-pointer'>
                                                 {item.name}

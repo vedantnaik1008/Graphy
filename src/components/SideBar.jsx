@@ -3,6 +3,7 @@ import  { useCallback, useEffect, useState } from 'react';
 import { sideBar } from '../data/data';
 import SubItems from './SubItems';
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 
 const SideBar = ({
     tabs: changeTabs,
@@ -69,6 +70,7 @@ const SideBar = ({
                         />
                     ))}
                 </div>
+                <Link to={'/teacher'} className="bg-purple-700 rounded-sm w-full fixed bottom-0 left-0 font-medium py-4 text-white text-center"><button>Upload</button></Link>
             </aside>
         </>
     );
