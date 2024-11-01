@@ -4,34 +4,41 @@ import { sideBar } from '../data/data';
 import SubItems from './SubItems';
 import { useMemo } from 'react';
 
-const SideBar = ({setTabs, toggle, setToggle}) => {
+const SideBar = ({
+    tabs: changeTabs,
+    setTabs,
+    toggle,
+    setToggle,
+    defaultTabIndex,
+    currentIndex,
+    setCurrentIndex
+}) => {
     const [expandedItems, setExpandedItems] = useState({});
 
-   const toggleItem = useCallback((sidebarIndex, tabIndex) => {
-       setExpandedItems((prevState) => ({
-           ...prevState,
-           [`${sidebarIndex}-${tabIndex}`]:
-               !prevState[`${sidebarIndex}-${tabIndex}`]
-       }));
-   }, []);
+    const toggleItem = useCallback((sidebarIndex, tabIndex) => {
+        setExpandedItems((prevState) => ({
+            ...prevState,
+            [`${sidebarIndex}-${tabIndex}`]:
+                !prevState[`${sidebarIndex}-${tabIndex}`]
+        }));
+    }, []);
 
-   const sidebarItems = useMemo(
-       () =>
-           sideBar.map((item, index) => ({
-               ...item,
-               isExpanded: !!expandedItems[index],
-               tabs: item.tabs.map((tab, tabIndex) => ({
-                   ...tab,
-                   isExpanded: !!expandedItems[`${index}-${tabIndex}`],
-               }))
-           })),
-       [expandedItems]
-   );
+    const sidebarItems = useMemo(
+        () =>
+            sideBar.map((item, index) => ({
+                ...item,
+                isExpanded: !!expandedItems[index],
+                tabs: item.tabs.map((tab, tabIndex) => ({
+                    ...tab,
+                    isExpanded: !!expandedItems[`${index}-${tabIndex}`]
+                }))
+            })),
+        [expandedItems]
+    );
 
-        useEffect(() => {
-            console.log('SideBar rendered');
-        }, []);
-
+    useEffect(() => {
+        console.log('SideBar rendered');
+    }, []);
 
     return (
         <>
@@ -55,6 +62,10 @@ const SideBar = ({setTabs, toggle, setToggle}) => {
                             key={item.title}
                             {...item}
                             setTabs={setTabs}
+                            changeTabs={changeTabs}
+                            defaultTabIndex={defaultTabIndex}
+                            currentIndex={currentIndex}
+                            setCurrentIndex={setCurrentIndex}
                         />
                     ))}
                 </div>

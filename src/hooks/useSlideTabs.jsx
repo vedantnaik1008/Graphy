@@ -19,13 +19,13 @@ const useSlideTabs = () => {
     const [currentIndex, setCurrentIndex] = useState(
         defaultTabIndex !== -1 ? defaultTabIndex : 0
     );
-    const [tabs, setTabs] = useState(TabsComponents[currentIndex].name);
+    // const [tabs, setTabs] = useState('Atomic Habits full book');
 
-    const updateCurrentIndex = (Name) => {
-        const foundIndex = TabsComponents.findIndex((tab) => tab.name === Name);
+    // const updateCurrentIndex = (Name) => {
+    //     const foundIndex = TabsComponents.findIndex((tab) => tab.name === Name);
 
-        setCurrentIndex(foundIndex !== -1 ? foundIndex : 0);
-    };
+    //     setCurrentIndex(foundIndex !== -1 ? foundIndex : 0);
+    // };
     // useEffect(() => {
     //     // Set the default tab on mount
     //     setTabs(TabsComponents[currentIndex].name);
@@ -87,11 +87,11 @@ const useSlideTabs = () => {
     return {
         // handleNavigation,
         currentIndex,
-        updateCurrentIndex,
+        // updateCurrentIndex,
         // toggle,
         // setToggle,
-        tabs,
-        setTabs,
+        // tabs,
+        // setTabs,
         // ToggleArrowDown,
         setCurrentIndex
     };

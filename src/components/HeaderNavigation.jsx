@@ -1,20 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Bar from '../assets/Bar.svg';
 import { TabsComponents } from '../data/TabsData';
 const HeaderNavigation = ({
     toggle,
     tabs,
     setToggle,
-    setTabs
+    setTabs,
+    defaultTabIndex,
+    currentIndex,
+    setCurrentIndex
 }) => {
-    const defaultTabIndex = TabsComponents.findIndex(
-        (tab) => tab.name === tabs
-    );
-    const [currentIndex, setCurrentIndex] = useState(
-        defaultTabIndex !== -1 ? defaultTabIndex : 0
-    );
-
     useEffect(() => {
         // Set the default tab on mount
         setTabs(TabsComponents[currentIndex].name);
@@ -36,7 +32,8 @@ const HeaderNavigation = ({
             return newIndex;
         });
     };
-    console.log(tabs, currentIndex);
+
+    console.log(tabs, defaultTabIndex);
 
     return (
         <section className='shadow-[0px_1px] shadow-gray-300 '>

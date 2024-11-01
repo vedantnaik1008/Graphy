@@ -1,7 +1,17 @@
 /* eslint-disable react/prop-types */
 import { memo, useState } from 'react';
+import { TabsComponents } from '../data/TabsData';
 
-const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
+const SubItems = ({
+    title,
+    headingIcon,
+    tabs,
+    setTabs,
+    changeTabs,
+    defaultTabIndex,
+    currentIndex,
+    setCurrentIndex
+}) => {
     const [click, setClick] = useState(true);
     const [toggle, setToggle] = useState({
         one: true,
@@ -32,6 +42,8 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
             return newToggle;
         });
     };
+
+    console.log('subItem', changeTabs, defaultTabIndex);
 
     return (
         <div className='pl-8'>
@@ -100,13 +112,23 @@ const SubItems = ({ title, headingIcon, tabs, setTabs }) => {
                                                 className=''
                                             />
                                             <p
-                                                onClick={() =>{
+                                                onClick={() => {
                                                     setTabs(
                                                         tab.name +
                                                             ' ' +
                                                             item.name
                                                     );
-                                                }} className='cursor-pointer'>
+                                                    setCurrentIndex(
+                                                        TabsComponents.findIndex(
+                                                            (i) =>
+                                                                i.name ===
+                                                                tab.name +
+                                                                    ' ' +
+                                                                    item.name
+                                                        )
+                                                    );
+                                                }}
+                                                className='cursor-pointer'>
                                                 {item.name}
                                             </p>
                                         </div>
