@@ -2,6 +2,11 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { useRef, useState } from 'react';
 import { storage } from '../FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
+import Books from './Books/Books';
+import { TabsComponents } from '../data/TabsData';
+import { sideBar } from '../data/data';
+import PDF from '../assets/pdfIcon.svg';
+import completedIcon from '../assets/CompletedIcon.svg';
 
 const FormValidation = () => {
     const [formData, setFormData] = useState({
@@ -26,7 +31,8 @@ const FormValidation = () => {
         const { name, files } = e.target;
         setFormData({ ...formData, [name]: files[0] });
     };
-
+    console.log(formData);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -62,6 +68,41 @@ const FormValidation = () => {
                 console.log('Book and summary uploaded to Firebase.');
 
                 alert('Book Uploaded Successfully');
+                const newTabs = [
+                    {
+                        id: TabsComponents.length + 1,
+                        element: (
+                            <Books bookUrl={`${formData.name}/full book`} />
+                        ),
+                        name: `${formData.name} full book`
+                    },
+                    {
+                        id: TabsComponents.length + 2,
+                        element: (
+                            <Books bookUrl={`${formData.name}/summary`} />
+                        ),
+                        name: `${formData.name} summary`
+                    }
+                ];
+                TabsComponents.push(...newTabs)
+                const newSideData = [
+                    {
+                        completedIcon: completedIcon,
+                        completed: false,
+                        icon: PDF,
+                        name: `${formData.name}`,
+                        sub: [
+                            {
+                                name: 'full book'
+                            },
+                            {
+                                name: 'summary'
+                            }
+                        ]
+                    }
+                ]; 
+                sideBar[0].tabs.push(...newSideData)
+                console.log(sideBar, TabsComponents);
                 navigate('/dashboard');
             } catch (error) {
                 console.error('Upload failed: ', error);

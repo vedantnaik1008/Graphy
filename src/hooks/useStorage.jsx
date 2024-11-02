@@ -59,9 +59,9 @@ const useStorage = (getUrl) => {
     };
 
     useEffect(() => {
-        
         fetchFiles();
     }, []);
+    
     return { progress, downloadURL, fileLinks, handleFileChange, handleUpload, loading };
 };
 

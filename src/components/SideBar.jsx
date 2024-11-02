@@ -4,6 +4,9 @@ import { sideBar } from '../data/data';
 import SubItems from './SubItems';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import useSideBar from '../hooks/useSideBar';
+import { TabsComponents } from '../data/TabsData';
+import SubItemss from './SubItemss';
 
 const SideBar = ({
     tabs: changeTabs,
@@ -15,6 +18,8 @@ const SideBar = ({
     setCurrentIndex
 }) => {
     const [expandedItems, setExpandedItems] = useState({});
+    const {tabsData} = useSideBar()
+
 
     const toggleItem = useCallback((sidebarIndex, tabIndex) => {
         setExpandedItems((prevState) => ({
@@ -26,7 +31,7 @@ const SideBar = ({
 
     const sidebarItems = useMemo(
         () =>
-            sideBar.map((item, index) => ({
+            tabsData.map((item, index) => ({
                 ...item,
                 isExpanded: !!expandedItems[index],
                 tabs: item.tabs.map((tab, tabIndex) => ({
@@ -40,6 +45,12 @@ const SideBar = ({
     useEffect(() => {
         console.log('SideBar rendered');
     }, []);
+const data = tabsData?.map((item)=> (
+    item.tabs.map((item)=> (
+        item.name
+    ))
+))
+// console.log('data', data);
 
     return (
         <>
@@ -57,7 +68,7 @@ const SideBar = ({
                         ? 'translate-x-0 absolute left-0 z-30 lg:relative'
                         : '-translate-x-full absolute left-0'
                 }`}>
-                <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5'>
+                {/* <div className='border-t-1px border-gray-300 p-5 sm:hidden flex-col gap-5 relative md:hidden'>
                     {sidebarItems.map((item) => (
                         <SubItems
                             key={item.title}
@@ -69,8 +80,21 @@ const SideBar = ({
                             setCurrentIndex={setCurrentIndex}
                         />
                     ))}
-                </div>
-                <Link to={'/teacher'} className="bg-purple-700 rounded-sm w-full fixed bottom-0 left-0 font-medium py-4 text-white text-center"><button>Upload</button></Link>
+                    <Link
+                        to={'/teacher'}
+                        className='bg-purple-700 rounded-sm w-full fixed bottom-0 left-0 font-medium py-4 text-white text-center'>
+                        <button>Upload</button>
+                    </Link>
+                </div> */}
+                <SubItemss
+                    setTabs={setTabs}
+                    setCurrentIndex={setCurrentIndex}
+                />
+                <Link
+                    to={'/teacher'}
+                    className='bg-purple-700 rounded-sm w-full fixed bottom-0 left-0 font-medium py-4 text-white text-center'>
+                    <button>Upload</button>
+                </Link>
             </aside>
         </>
     );

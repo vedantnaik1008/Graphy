@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
+import { getDatabase } from 'firebase/database';
 console.log('Firebase Config:', {
     apiKey: import.meta.env.VITE_REACT_APP_API_KEY,
     projectId: import.meta.env.VITE_REACT_APP_PROJECT_ID
@@ -28,3 +29,4 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const storage = getStorage(app)
+export const database = getDatabase(app);

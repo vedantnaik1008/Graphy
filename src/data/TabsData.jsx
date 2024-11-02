@@ -1,6 +1,7 @@
 import Books from '../components/Books/Books';
 import { sideBar } from './data';
 
+
 export const TabsComponents = [
     {
         id: 1,
