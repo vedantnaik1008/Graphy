@@ -37,7 +37,7 @@ const HeaderNavigation = ({
 
     return (
         <section className='shadow-[0px_1px] shadow-gray-300 '>
-            <div className='flex items-center justify-between mx-auto w-[90%] py-10'>
+            <div className='flex items-center justify-between mx-auto w-[90%] py-5'>
                 <div className='flex gap-2 items-center'>
                     <img
                         src={Bar}
