@@ -2,18 +2,21 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { useRef, useState } from 'react';
 import { storage } from '../FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
+import { PostData } from '../data/PostData';
 
 const FormValidation = () => {
     const [formData, setFormData] = useState({
         name: '',
         nameError: '',
         fullBookFile: null,
-        summaryFile: null
+        summaryFile: null,
+        audioSummaryFile: null
     });
 
     const [loading, setLoading] = useState(false);
     const fullBookFileRef = useRef(null);
     const summaryFileRef = useRef(null);
+    const audioSummaryFileRef = useRef(null);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -36,7 +39,12 @@ const FormValidation = () => {
             nameError = 'Name must be at least 4 characters.';
         setFormData({ ...formData, nameError });
 
-        if (!nameError && formData.fullBookFile && formData.summaryFile) {
+        if (
+            !nameError &&
+            formData.fullBookFile &&
+            formData.summaryFile &&
+            formData.audioSummaryFile
+        ) {
             try {
                 // Define base path for the book folder inside "Books"
                 const baseBookFolderPath = `Books/${formData.name}`;
@@ -51,6 +59,11 @@ const FormValidation = () => {
                     `${baseBookFolderPath}/summary/${formData.summaryFile.name}`
                 );
 
+                 const audioSummaryRef = ref(
+                     storage,
+                     `${baseBookFolderPath}/audio summary/${formData.audioSummaryFile.name}`
+                 );
+
                 // Upload full book
                 await uploadBytes(fullBookRef, formData.fullBookFile);
                 console.log('Full book uploaded successfully');
@@ -59,9 +72,12 @@ const FormValidation = () => {
                 await uploadBytes(summaryRef, formData.summaryFile);
                 console.log('Summary uploaded successfully');
 
-                console.log('Book and summary uploaded to Firebase.');
+                await uploadBytes(audioSummaryRef, formData.audioSummaryFile);
+                console.log('Audio (video) summary uploaded successfully');
 
-                alert('Book Uploaded Successfully');
+                console.log('Book and summary uploaded to Firebase.');
+                 PostData(formData.name)
+                alert('Book Uploaded Successfully');  
                 navigate('/dashboard');
             } catch (error) {
                 console.error('Upload failed: ', error);
@@ -69,19 +85,25 @@ const FormValidation = () => {
             }
         }
         setLoading(false);
-        setFormData({
-            name: '',
-            nameError: '',
-            fullBookFile: null,
-            summaryFile: null
-        });
-        if (fullBookFileRef.current) fullBookFileRef.current.value = '';
-        if (summaryFileRef.current) summaryFileRef.current.value = '';
+        // setFormData({
+        //     name: '',
+        //     nameError: '',
+        //     fullBookFile: null,
+        //     summaryFile: null
+        // });
+        // if (fullBookFileRef.current) fullBookFileRef.current.value = '';
+        // if (summaryFileRef.current) summaryFileRef.current.value = '';
+        // if (audioSummaryFileRef.current) audioSummaryFileRef.current.value = '';
     };
+console.log(formData);
 
     return (
         <>
-            <Link to={'/dashboard'} className='absolute top-2 left-2 rounded-full px-3 py-1 z-40 text-xl border-black  border'>{'<'}</Link>
+            <Link
+                to={'/dashboard'}
+                className='absolute top-2 left-2 rounded-full px-3 py-1 z-40 text-xl border-black  border'>
+                {'<'}
+            </Link>
             <div className='px-3 py-6 md:p-10 rounded-2xl border-black border-2 bg-white text-black font-mono mx-auto h-[80dvh] w-[90%] md:w-[60%] lg:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2'>
                 <form
                     onSubmit={handleSubmit}
@@ -115,6 +137,7 @@ const FormValidation = () => {
                             onChange={handleFileChange}
                             accept='.pdf'
                             className='file-input'
+                            placeholder='full book'
                         />
                     </label>
 
@@ -127,6 +150,20 @@ const FormValidation = () => {
                             onChange={handleFileChange}
                             accept='.pdf'
                             className='file-input'
+                            placeholder='summary'
+                        />
+                    </label>
+
+                    <label htmlFor='audioSummaryFile' className='w-full'>
+                        <input
+                            type='file'
+                            name='audioSummaryFile'
+                            id='audioSummaryFile'
+                            ref={audioSummaryFileRef}
+                            onChange={handleFileChange}
+                            accept='video/*'
+                            className='file-input'
+                            placeholder='audio summary'
                         />
                     </label>
 
@@ -134,7 +171,8 @@ const FormValidation = () => {
                         disabled={
                             !formData.name ||
                             !formData.fullBookFile ||
-                            !formData.summaryFile
+                            !formData.summaryFile ||
+                            !formData.audioSummaryFile
                         }
                         className='bg-blue-500 rounded-lg w-full font-medium disabled:bg-gray-500 text-white py-3 px-6'
                         type='submit'>

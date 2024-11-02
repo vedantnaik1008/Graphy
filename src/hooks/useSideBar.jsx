@@ -1,30 +1,33 @@
-import { ref, get } from 'firebase/database';
+import { ref,  onValue } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import { database } from '../FirebaseConfig';
 
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
+console.log(tabsData[0]?.tabs[0].name);
 
     useEffect(() => {
-        const fetchTabs = async () => {
-            setLoading(true);
-            const tabsRef = ref(database, 'Tabs'); // Use database from FirebaseConfig
+        const tabsRef = ref(database, 'Tabs'); // Use database from FirebaseConfig
 
-            try {
-                const snapshot = await get(tabsRef);
+        const unsubscribe = onValue(
+            tabsRef,
+            (snapshot) => {
+                setLoading(false); // Set loading to false once data is received
                 if (snapshot.exists()) {
                     setTabsData(snapshot.val());
                 } else {
                     console.log('No data available');
                 }
-            } catch (error) {
+            },
+            (error) => {
                 console.error('Error fetching data:', error);
+                setLoading(false); // Stop loading on error
             }
-            setLoading(false);
-        };
+        );
 
-        fetchTabs();
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
     }, []);
 
     if (loading)
@@ -33,7 +36,7 @@ const useSideBar = () => {
                 Loading
             </p>
         );
-    // console.log(tabsData);
+    console.log(tabsData);
     return { tabsData, setTabsData, loading };
 };
 

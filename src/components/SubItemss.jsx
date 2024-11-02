@@ -125,7 +125,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                                     item.name
                                                             );
                                                             setCurrentIndex(
-                                                                TabsComponents.findIndex(
+                                                                tabsData[0]?.tabs?.findIndex(
                                                                     (i) =>
                                                                         i.name ===
                                                                         tab.name +
@@ -142,7 +142,8 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                         </div>
                                     )}
                                 </div>
-                            ))}
+                            ))
+                            }
                         </div>
                     )}
                 </div>

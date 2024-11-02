@@ -2,6 +2,8 @@
 import { useEffect } from 'react';
 import Bar from '../assets/Bar.svg';
 import { TabsComponents } from '../data/TabsData';
+import useSideBar from '../hooks/useSideBar';
+
 const HeaderNavigation = ({
     toggle,
     tabs,
@@ -11,24 +13,45 @@ const HeaderNavigation = ({
     currentIndex,
     setCurrentIndex
 }) => {
+const { tabsData } = useSideBar();
+
     useEffect(() => {
-        // Set the default tab on mount
-        setTabs(TabsComponents[currentIndex].name);
-    }, [currentIndex, setTabs]);
+        if(tabs.includes('full book')){
+            setTabs(tabsData[0]?.tabs[currentIndex].name + ' ' + 'full book');
+        }else if(tabs.includes('summary')){
+            setTabs(tabsData[0]?.tabs[currentIndex].name + ' ' + 'summary');
+
+        }else if (tabs.includes('audio summary')) {
+            setTabs(
+                tabsData[0]?.tabs[currentIndex].name + ' ' + 'audio summary'
+            );
+        }
+    }, [currentIndex, setTabs,  tabsData]);
 
     const handleNavigation = (direction) => {
         setCurrentIndex((prevIndex) => {
             let newIndex;
             if (direction === 'next') {
-                newIndex = (prevIndex + 1) % TabsComponents.length; // Loop to the start
+                newIndex = (prevIndex + 1) % tabsData[0]?.tabs.length; // Loop to the start
             } else if (direction === 'prev') {
                 newIndex =
-                    (prevIndex - 1 + TabsComponents.length) %
-                    TabsComponents.length; // Loop to the end
+                    (prevIndex - 1 + tabsData[0]?.tabs.length) %
+                    tabsData[0]?.tabs.length; // Loop to the end
             } else {
                 return prevIndex;
             }
-            setTabs(TabsComponents[newIndex].name); // Set the new tab name
+
+            if (tabs.includes('full book')) {
+                setTabs(
+                    tabsData[0]?.tabs[currentIndex].name + ' ' + 'full book'
+                );
+            } else if (tabs.includes('summary')) {
+                setTabs(tabsData[0]?.tabs[currentIndex].name + ' ' + 'summary');
+            } else if (tabs.includes('audio summary')) {
+                setTabs(
+                    tabsData[0]?.tabs[currentIndex].name + ' ' + 'audio summary'
+                );
+            }// Set the new tab name
             return newIndex;
         });
     };
@@ -45,8 +68,8 @@ const HeaderNavigation = ({
                         className='w-5'
                         onClick={() => setToggle(!toggle)}
                     />
-                    <h2 className='text-black text-lg font-bold hidden md:truncate md:block'>
-                        Book Reading Marathon
+                    <h2 className='text-black text-base font-bold hidden md:truncate md:block'>
+                        {tabs}
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>
@@ -70,7 +93,7 @@ const HeaderNavigation = ({
                             }}
                             className={`bg-[#5755d9] text-white px-8 py-2`}
                             disabled={
-                                currentIndex === TabsComponents.length - 1
+                                currentIndex === tabsData[0]?.tabs.length - 1
                             }>
                             Next {'>'}
                         </button>

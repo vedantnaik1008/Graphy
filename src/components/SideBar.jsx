@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import  { useCallback, useEffect, useState } from 'react';
 import { sideBar } from '../data/data';
-import SubItems from './SubItems';
 import { useMemo } from 'react';
 import SubItemss from './SubItemss';
 // import { Link } from 'react-router-dom';
@@ -15,28 +14,6 @@ const SideBar = ({
     currentIndex,
     setCurrentIndex
 }) => {
-    const [expandedItems, setExpandedItems] = useState({});
-
-    const toggleItem = useCallback((sidebarIndex, tabIndex) => {
-        setExpandedItems((prevState) => ({
-            ...prevState,
-            [`${sidebarIndex}-${tabIndex}`]:
-                !prevState[`${sidebarIndex}-${tabIndex}`]
-        }));
-    }, []);
-
-    const sidebarItems = useMemo(
-        () =>
-            sideBar.map((item, index) => ({
-                ...item,
-                isExpanded: !!expandedItems[index],
-                tabs: item.tabs.map((tab, tabIndex) => ({
-                    ...tab,
-                    isExpanded: !!expandedItems[`${index}-${tabIndex}`]
-                }))
-            })),
-        [expandedItems]
-    );
 
     useEffect(() => {
         console.log('SideBar rendered');
