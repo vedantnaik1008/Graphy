@@ -70,7 +70,7 @@ const SideBar = ({
                         />
                     ))}
                 </div>
-                <Link to={'/teacher'} className="bg-purple-700 rounded-sm w-full fixed bottom-0 left-0 font-medium py-4 text-white text-center"><button>Upload</button></Link>
+                <Link to={'/teacher'} className="bg-purple-700 rounded-sm w-full mt-5  font-medium py-4 text-white text-center"><button className='w-full'>Upload</button></Link>
             </aside>
         </>
     );
