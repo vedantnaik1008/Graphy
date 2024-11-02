@@ -2,9 +2,9 @@
 import {  useState } from 'react';
 import { TabsComponents } from '../data/TabsData';
 import useSideBar from '../hooks/useSideBar';
-import useStorage from '../hooks/useStorage';
-import Arrow from './Arrow';
-import Icon from './Icon';
+import PDF from '../assets/pdfIcon.svg';
+// import completedIcon from '../assets/CompletedIcon.svg';
+import HeadingIcon from '../assets/HeadingIcon.svg';
 
 const SubItemss = ({ setTabs, setCurrentIndex }) => {
     const [click, setClick] = useState(true);
@@ -54,7 +54,14 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                             className='font-semibold'>
                             {item.title}
                         </h3>
-                        <Arrow click={click} setClick={setClick} />
+                        <img
+                            onClick={() => setClick((prevState) => !prevState)}
+                            src={HeadingIcon}
+                            alt=''
+                            className={` transition-all duration-200 ease-in-out w-[8%] ${
+                                click ? 'rotate-90' : 'rotate-0'
+                            }`}
+                        />
                     </div>
                     {click && (
                         <div
@@ -68,9 +75,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                     <div className='flex gap-2 items-center justify-between'>
                                         <div className='flex gap-2 items-center cursor-pointer'>
                                             <img
-                                                src={
-                                                    tab.icon ||
-                                                    tab.completedIcon
+                                                src={PDF
                                                 }
                                                 alt=''
                                                 className='cursor-pointer'
@@ -85,7 +90,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                         </div>
 
                                         <img
-                                            src={tab.headingIcon}
+                                            src={HeadingIcon}
                                             alt=''
                                             onClick={() =>
                                                 ToggleArrowDown(tabIndex)
@@ -108,7 +113,11 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                 <div
                                                     key={`${item.name}-${Index}`}
                                                     className='flex gap-2 items-center'>
-                                                    <Icon />
+                                                    <img
+                                                        src={''}
+                                                        alt=''
+                                                        className=''
+                                                    />
                                                     <p
                                                         onClick={() => {
                                                             setTabs(
