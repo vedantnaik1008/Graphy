@@ -46,7 +46,7 @@ const HeaderNavigation = ({
                         onClick={() => setToggle(!toggle)}
                     />
                     <h2 className='text-black text-lg font-bold hidden md:truncate md:block'>
-                        Introduction to Product Management
+                        Book Reading Marathon
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>
