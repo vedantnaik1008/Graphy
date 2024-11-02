@@ -3,6 +3,7 @@ import  { useCallback, useEffect, useState } from 'react';
 import { sideBar } from '../data/data';
 import SubItems from './SubItems';
 import { useMemo } from 'react';
+import SubItemss from './SubItemss';
 // import { Link } from 'react-router-dom';
 
 const SideBar = ({
@@ -57,7 +58,7 @@ const SideBar = ({
                         ? 'translate-x-0 absolute left-0 z-30 lg:relative'
                         : '-translate-x-full absolute left-0'
                 }`}>
-                <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5'>
+                {/* <div className='border-t-1px hidden border-gray-300 p-5  md:hidden gap-5'>
                     {sidebarItems.map((item) => (
                         <SubItems
                             key={item.title}
@@ -69,7 +70,8 @@ const SideBar = ({
                             setCurrentIndex={setCurrentIndex}
                         />
                     ))}
-                </div>
+                </div> */}
+                    <SubItemss setTabs={setTabs} currentIndex={currentIndex} />
                 {/* <Link to={'/teacher'} className="bg-purple-700 rounded-sm w-full mt-5  font-medium py-4 text-white text-center"><button className='w-full'>Upload</button></Link> */}
             </aside>
         </>
