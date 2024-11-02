@@ -2,6 +2,9 @@
 import {  useState } from 'react';
 import { TabsComponents } from '../data/TabsData';
 import useSideBar from '../hooks/useSideBar';
+import useStorage from '../hooks/useStorage';
+import Arrow from './Arrow';
+import Icon from './Icon';
 
 const SubItemss = ({ setTabs, setCurrentIndex }) => {
     const [click, setClick] = useState(true);
@@ -51,14 +54,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                             className='font-semibold'>
                             {item.title}
                         </h3>
-                        <img
-                            onClick={() => setClick((prevState) => !prevState)}
-                            src={item.headingIcon}
-                            alt=''
-                            className={` transition-all duration-200 ease-in-out w-[8%] ${
-                                click ? 'rotate-90' : 'rotate-0'
-                            }`}
-                        />
+                        <Arrow click={click} setClick={setClick} />
                     </div>
                     {click && (
                         <div
@@ -112,14 +108,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                 <div
                                                     key={`${item.name}-${Index}`}
                                                     className='flex gap-2 items-center'>
-                                                    <img
-                                                        src={
-                                                            item.icon ||
-                                                            item.completedIcon
-                                                        }
-                                                        alt=''
-                                                        className=''
-                                                    />
+                                                    <Icon />
                                                     <p
                                                         onClick={() => {
                                                             setTabs(
