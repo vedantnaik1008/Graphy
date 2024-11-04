@@ -1,22 +1,14 @@
 /* eslint-disable react/prop-types */
-import  { useCallback, useEffect, useState } from 'react';
-import { sideBar } from '../data/data';
-import { useMemo } from 'react';
 import SubItemss from './SubItemss';
-// import { Link } from 'react-router-dom';
 
 const SideBar = ({
     tabs,
     setTabs,
     toggle,
     setToggle,
-    // defaultTabIndex,
     currentIndex,
     setCurrentIndex
 }) => {
-
- 
-
     return (
         <>
             <div
@@ -33,7 +25,12 @@ const SideBar = ({
                         ? 'translate-x-0 absolute left-0 z-30 lg:relative'
                         : '-translate-x-full absolute left-0'
                 }`}>
-                    <SubItemss setTabs={setTabs} tabs={tabs} setCurrentIndex={setCurrentIndex} currentIndex={currentIndex} />
+                <SubItemss
+                    setTabs={setTabs}
+                    tabs={tabs}
+                    setCurrentIndex={setCurrentIndex}
+                    currentIndex={currentIndex}
+                />
             </aside>
         </>
     );

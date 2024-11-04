@@ -8,11 +8,10 @@ const HeaderNavigation = ({
     tabs,
     setToggle,
     setTabs,
-    // defaultTabIndex,
     currentIndex,
     setCurrentIndex
 }) => {
-const { tabsData, tabsArray } = useSideBar();
+const { tabsArray } = useSideBar();
 
     const handleNavigation = useCallback(
         (direction) => {
@@ -64,11 +63,6 @@ const { tabsData, tabsArray } = useSideBar();
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>
-                    {/* <p className='text-[#5755d9] text-[12px] md:text-base'>
-                        Discuss {'('}
-                        <span className='font-bold'>0</span>
-                        {')'}
-                    </p> */}
                     <div className='flex gap-2  text-[12px] md:text-base'>
                         <button
                             onClick={() => {

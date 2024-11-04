@@ -11,7 +11,6 @@ const Content = ({ tabs, toggle, setToggle, setTabs, currentIndex, setCurrentInd
                 setTabs={setTabs}
                 tabs={tabs}
                 setToggle={setToggle}
-                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />

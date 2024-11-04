@@ -5,8 +5,6 @@ import useStorage from '../../hooks/useStorage';
 
 const Books = ({ bookUrl }) => {
     const { fileLinks, loading } = useStorage(`Books/${bookUrl}`);
-//     console.log(fileLinks[0]);
-// console.log(bookUrl);
 
     if (loading)
         return (

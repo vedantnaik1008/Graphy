@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Content from './Content';
 import SideBar from './SideBar';
-import { TabsComponents } from '../data/TabsData';
 import useSideBar from '../hooks/useSideBar';
 
 const DashBoard = () => {
     const [tabs, setTabs] = useState('Atomic Habits full book');
     const [toggle, setToggle] = useState(false);
-    const { tabsData, tabsArray } = useSideBar();
+    const { tabsArray } = useSideBar();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -28,7 +27,6 @@ const DashBoard = () => {
                 tabs={tabs}
                 toggle={toggle}
                 setToggle={setToggle}
-                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />
@@ -37,7 +35,6 @@ const DashBoard = () => {
                 setTabs={setTabs}
                 toggle={toggle}
                 setToggle={setToggle}
-                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />

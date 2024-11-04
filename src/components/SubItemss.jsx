@@ -2,10 +2,9 @@
 import { useMemo, useState } from 'react';
 import useSideBar from '../hooks/useSideBar';
 import PDF from '../assets/pdfIcon.svg';
-// import completedIcon from '../assets/CompletedIcon.svg';
 import HeadingIcon from '../assets/HeadingIcon.svg';
 
-const SubItemss = ({ setTabs, tabs, setCurrentIndex, currentIndex }) => {
+const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
     const [click, setClick] = useState(true);
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
@@ -19,7 +18,6 @@ const SubItemss = ({ setTabs, tabs, setCurrentIndex, currentIndex }) => {
             ),
         [tabsData]
     );
-
     const [toggle, setToggle] = useState(initialToggleState);
 
     const ToggleArrowDown = (index) => {
