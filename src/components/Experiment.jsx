@@ -4,7 +4,7 @@ import { render } from '../data/render';
 import useStorage from '../hooks/useStorage';
 
 const Experiment = ({ bookUrl }) => {
-    const { fileLinks, loading } = useStorage(`Books/Atomic Habits/summary`);
+    const { fileLinks, loading } = useStorage(`Books/Khambee/summary`);
 
     if (loading)
         return (
