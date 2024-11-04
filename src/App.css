@@ -53,7 +53,9 @@ canvas.react-pdf__Page__canvas{
     margin-bottom: 20px;
 }
 
-div[data-testid="core__inner-current-pages"] > div {
+/* div[data-testid="core__inner-current-pages"] > div {
+} */
+.rpv-core__inner-pages{
     height: 100dvh !important;
 }
 
