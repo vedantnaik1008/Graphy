@@ -1,7 +1,6 @@
 import { get, ref, set } from "firebase/database";
 import { database } from "../FirebaseConfig";
 
-
 export const PostData = async(Name) => {
    const tabsRef = ref(database, 'Tabs/0/tabs');
     try {

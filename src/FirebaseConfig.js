@@ -3,11 +3,6 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
 import { getDatabase } from 'firebase/database';
-console.log('Firebase Config:', {
-    apiKey: import.meta.env.VITE_REACT_APP_API_KEY,
-    projectId: import.meta.env.VITE_REACT_APP_PROJECT_ID
-});
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -22,9 +17,6 @@ const firebaseConfig = {
     appId: import.meta.env.VITE_REACT_APP_APP_ID,
     measurementId: import.meta.env.VITE_REACT_APP_MEASUREMENT_ID
 };
-
-
-
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
