@@ -13,6 +13,8 @@ const useStorage = (getUrl) => {
     const [downloadURL, setDownloadURL] = useState('');
     const [fileLinks, setFileLinks] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [pdf, setPdf] = useState([]);
+
     
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -51,6 +53,8 @@ const useStorage = (getUrl) => {
         const urls = await Promise.all(
             res.items.map(async (item) => {
                 const url = await getDownloadURL(item);
+                console.log('getDownloadUrl', item.name);
+                 setPdf([item.name])
                 return url;
             })
         );
@@ -62,7 +66,7 @@ const useStorage = (getUrl) => {
         
         fetchFiles();
     }, []);
-    return { progress, downloadURL, fileLinks, handleFileChange, handleUpload, loading };
+    return { progress, downloadURL, fileLinks, handleFileChange, handleUpload, loading, pdf };
 };
 
 export default useStorage;
