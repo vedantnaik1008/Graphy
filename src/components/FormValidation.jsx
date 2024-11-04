@@ -85,15 +85,15 @@ const FormValidation = () => {
             }
         }
         setLoading(false);
-        // setFormData({
-        //     name: '',
-        //     nameError: '',
-        //     fullBookFile: null,
-        //     summaryFile: null
-        // });
-        // if (fullBookFileRef.current) fullBookFileRef.current.value = '';
-        // if (summaryFileRef.current) summaryFileRef.current.value = '';
-        // if (audioSummaryFileRef.current) audioSummaryFileRef.current.value = '';
+        setFormData({
+            name: '',
+            nameError: '',
+            fullBookFile: null,
+            summaryFile: null
+        });
+        if (fullBookFileRef.current) fullBookFileRef.current.value = '';
+        if (summaryFileRef.current) summaryFileRef.current.value = '';
+        if (audioSummaryFileRef.current) audioSummaryFileRef.current.value = '';
     };
 console.log(formData);
 
