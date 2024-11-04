@@ -3,7 +3,7 @@ import HeaderNavigation from "./HeaderNavigation";
 import Tabs from "./Tabs";
 
 
-const Content = ({ tabs, toggle, setToggle, setTabs, defaultTabIndex, currentIndex, setCurrentIndex }) => {
+const Content = ({ tabs, toggle, setToggle, setTabs, currentIndex, setCurrentIndex }) => {
     return (
         <section className='transition-all duration-300 ease-in-out flex-grow'>
             <HeaderNavigation
@@ -11,7 +11,7 @@ const Content = ({ tabs, toggle, setToggle, setTabs, defaultTabIndex, currentInd
                 setTabs={setTabs}
                 tabs={tabs}
                 setToggle={setToggle}
-                defaultTabIndex={defaultTabIndex}
+                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />

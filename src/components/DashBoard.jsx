@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Content from './Content';
 import SideBar from './SideBar';
 import { TabsComponents } from '../data/TabsData';
+import useSideBar from '../hooks/useSideBar';
 
 const DashBoard = () => {
     const [tabs, setTabs] = useState('Atomic Habits full book');
-    const [toggle, setToggle] = useState(false)
-    const defaultTabIndex = TabsComponents.findIndex(
-        (tab) => tab.name === tabs
-    );
+    const [toggle, setToggle] = useState(false);
+    const { tabsData, tabsArray } = useSideBar();
 
-    const [currentIndex, setCurrentIndex] = useState(
-        defaultTabIndex !== -1 ? defaultTabIndex : 0
-    );
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+     useEffect(() => {
+         if (tabsArray?.length > 0) {
+             const newIndex = tabsArray.indexOf(tabs);
+              console.log('Updating currentIndex:', newIndex);
+         }
+     }, [tabs, tabsArray]);
+
+      console.log('Rendered with currentIndex:', currentIndex);
+
 
     return (
         <section className='lg:flex'>
@@ -21,7 +28,7 @@ const DashBoard = () => {
                 tabs={tabs}
                 toggle={toggle}
                 setToggle={setToggle}
-                defaultTabIndex={defaultTabIndex}
+                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />
@@ -30,7 +37,7 @@ const DashBoard = () => {
                 setTabs={setTabs}
                 toggle={toggle}
                 setToggle={setToggle}
-                defaultTabIndex={defaultTabIndex}
+                // defaultTabIndex={defaultTabIndex}
                 currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />

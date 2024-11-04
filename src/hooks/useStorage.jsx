@@ -23,7 +23,7 @@ const useStorage = (getUrl) => {
 
         const storageRef = ref(storage, `${getUrl}/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-        console.log('getUrl', getUrl);
+        // console.log('getUrl', getUrl);
 
         uploadTask.on(
             'state_changed',

@@ -1,53 +1,54 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import { TabsComponents } from '../data/TabsData';
+import { useMemo, useState } from 'react';
 import useSideBar from '../hooks/useSideBar';
 import PDF from '../assets/pdfIcon.svg';
 // import completedIcon from '../assets/CompletedIcon.svg';
 import HeadingIcon from '../assets/HeadingIcon.svg';
 
-const SubItemss = ({ setTabs, setCurrentIndex }) => {
+const SubItemss = ({ setTabs, tabs, setCurrentIndex, currentIndex }) => {
     const [click, setClick] = useState(true);
-    const { tabsData } = useSideBar();
-    const [toggle, setToggle] = useState({
-        one: true,
-        two: false,
-        three: false,
-        four: false,
-        five: false,
-        six: false,
-        seven: false
-    });
+    const { tabsData, tabsArray } = useSideBar();
+    const initialToggleState = useMemo(
+        () =>
+            Array.from({ length: tabsData.length }).reduce(
+                (acc, _, index) => ({
+                    ...acc,
+                    [`tab${index}`]: false
+                }),
+                {}
+            ),
+        [tabsData]
+    );
+
+    const [toggle, setToggle] = useState(initialToggleState);
 
     const ToggleArrowDown = (index) => {
-        setToggle((prev) => {
-            const newToggle = {
-                one: false,
-                two: false,
-                three: false,
-                four: false,
-                five: false,
-                six: false,
-                seven: false
-            };
-
-            const key = Object.keys(newToggle)[index];
-
-            // Toggle the clicked index
-            newToggle[key] = !prev[key];
-            return newToggle;
-        });
+        setToggle((prevState) => ({
+            ...prevState,
+            [`tab${index}`]: !prevState[`tab${index}`]
+        }));
     };
 
-    // useEffect(()=> {
-    //     ToggleArrowDown(defaultTabIndex)
-    // }, [defaultTabIndex])
-    // console.log('subItem', changeTabs, defaultTabIndex);
+    const changeTabsAndSetCurrentIndex = (tab, item) => {
+        const newTabName = `${tab} ${item}`;
+        setTabs(newTabName);
 
+        setCurrentIndex(() => {
+            if (tabsArray?.length > 0) {
+                const newIndex = tabsArray.findIndex(
+                    (tab) => tab === newTabName
+                );
+                console.log('Updating currentIndex:', newIndex);
+                return newIndex !== -1 ? newIndex : 0;
+            }
+            return 0;
+        });
+        console.log('Current index after update:', currentIndex);
+    };
     return (
         <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5 relative'>
             {tabsData?.map((item) => (
-                <div className='pl-8' key={item.name}>
+                <div className='pl-8' key={'@' + item.name}>
                     <div className='cursor-pointer flex gap-2 items-center justify-between'>
                         <h3
                             onClick={() => setClick((prevState) => !prevState)}
@@ -95,18 +96,14 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                 ToggleArrowDown(tabIndex)
                                             }
                                             className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out ${
-                                                toggle[
-                                                    Object.keys(toggle)[
-                                                        tabIndex
-                                                    ]
-                                                ]
+                                                toggle[`tab${tabIndex}`]
                                                     ? 'rotate-90'
                                                     : 'rotate-0'
                                             }`}
                                         />
                                     </div>
 
-                                    {toggle[Object.keys(toggle)[tabIndex]] && (
+                                    {toggle[`tab${tabIndex}`] && (
                                         <div className='flex flex-col gap-1 ml-4'>
                                             {tab?.sub?.map((item, Index) => (
                                                 <div
@@ -118,22 +115,12 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                         className=''
                                                     />
                                                     <p
-                                                        onClick={() => {
-                                                            setTabs(
-                                                                tab.name +
-                                                                    ' ' +
-                                                                    item.name
-                                                            );
-                                                            setCurrentIndex(
-                                                                tabsData[0]?.tabs?.findIndex(
-                                                                    (i) =>
-                                                                        i.name ===
-                                                                        tab.name +
-                                                                            ' ' +
-                                                                            item.name
-                                                                )
-                                                            );
-                                                        }}
+                                                        onClick={() =>
+                                                            changeTabsAndSetCurrentIndex(
+                                                                tab.name,
+                                                                item.name
+                                                            )
+                                                        }
                                                         className='cursor-pointer'>
                                                         {item.name}
                                                     </p>
@@ -142,8 +129,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                         </div>
                                     )}
                                 </div>
-                            ))
-                            }
+                            ))}
                         </div>
                     )}
                 </div>

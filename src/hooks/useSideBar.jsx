@@ -5,7 +5,7 @@ import { database } from '../FirebaseConfig';
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
-console.log(tabsData[0]?.tabs[0].name);
+    // console.log(tabsData[0]?.tabs[0].name);
 
     useEffect(() => {
         const tabsRef = ref(database, 'Tabs'); // Use database from FirebaseConfig
@@ -36,8 +36,14 @@ console.log(tabsData[0]?.tabs[0].name);
                 Loading
             </p>
         );
-    console.log(tabsData);
-    return { tabsData, setTabsData, loading };
+
+    const tabsArray = tabsData[0]?.tabs
+        ?.map((tab) => {
+            return tab.sub?.map((subItem) => `${tab.name} ${subItem.name}`);
+        })
+        .flat();
+    // console.log(tabsArray);
+    return { tabsData, setTabsData, loading, tabsArray };
 };
 
 export default useSideBar;
