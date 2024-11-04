@@ -6,7 +6,7 @@ const Tabs = ({tabs: tab}) => {
 const { tabsData } = useSideBar()
 
     return (
-        <section className=' overflow-y-scroll overflow-x-hidden h-screen  md:pb-5'>
+        <section className=' overflow-y-scroll overflow-x-hidden h-screen'>
             <div className='transition-all duration-300 ease-in-out w-[98%] h-full md:w-[90%] mx-auto'>
                 {tabsData[0]?.tabs.map((item) => (
                     <div className='' key={`@${item.name}`}>
