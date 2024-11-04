@@ -19,14 +19,13 @@ const Experiment = ({ bookUrl }) => {
                 {fileLinks.map((link, index) => (
                     <li key={index} className=''>
                         <object
+                            data={`${link}`}
                             width='300'
                             height='700'
                             className='transition-all
                             duration-300 ease-in-out w-full h-[77dvh]
                             md:h-[83dvh]'
-                            data={render(link)}
-                            title='YouTube video player'
-                            ></object>
+                            type='application/pdf'></object>
                     </li>
                 ))}
             </ol>
