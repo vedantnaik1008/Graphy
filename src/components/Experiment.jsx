@@ -1,36 +1,42 @@
-/* eslint-disable react/prop-types */
-
-import { render } from '../data/render';
+import { useState } from 'react';
+import { Document, Page } from 'react-pdf';
 import useStorage from '../hooks/useStorage';
+import pdf from '../assets/Khambee Feedback PART II.pdf'
 
-const Experiment = ({ bookUrl }) => {
+export const Experiment = () =>  {
+  const [numPages, setNumPages] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
     const { fileLinks, loading } = useStorage(`Books/Khambee/summary`);
 
-    if (loading)
-        return (
-            <p className='text-5xl text-black w-[90%] flex justify-center items-center md:left-[40%] mx-auto h-[80dvh] align-middle'>
-                Loading
-            </p>
-        );
+console.log(fileLinks[0]);
 
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+if (loading)
     return (
-        <div className='w-full mx-auto my-4 h-full md:mt-5 md:mb-0'>
-            <ol className='flex flex-col'>
-                {fileLinks.map((link, index) => (
-                    <li key={index} className=''>
-                        <object
-                            data={`${link}`}
-                            width='300'
-                            height='700'
-                            className='transition-all
-                            duration-300 ease-in-out w-full h-[77dvh]
-                            md:h-[83dvh]'
-                            type='application/pdf'></object>
-                    </li>
-                ))}
-            </ol>
-        </div>
+        <p className='text-5xl text-black w-[90%] flex justify-center items-center md:left-[40%] mx-auto h-[80dvh] align-middle'>
+            Loading
+        </p>
     );
-};
-
-export default Experiment;
+  return (
+      <div className='pdf-div overflow-scroll'>
+          <p>
+              Page {pageNumber} of {numPages}
+          </p>
+          <Document file={`${pdf}`} onLoadSuccess={onDocumentLoadSuccess}>
+              {Array.apply(null, Array(numPages))
+                  .map((x, i) => i + 1)
+                  .map((page) => (
+                      <>
+                          <Page
+                              pageNumber={page}
+                              renderTextLayer={false}
+                              renderAnnotationLayer={false}
+                          />
+                      </>
+                  ))}
+          </Document>
+      </div>
+  );
+}

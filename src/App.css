@@ -44,6 +44,15 @@ body{
     content: 'audio summary video';
 }
 
+.pdf-div{
+    padding: 20px;
+    background-color: red;
+}
+
+canvas.react-pdf__Page__canvas{
+    margin-bottom: 20px;
+}
+
 @keyframes slide_In {
     0%{
         transform: translateX(-200%);
