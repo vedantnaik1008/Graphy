@@ -50,7 +50,7 @@ const { tabsArray } = useSideBar();
     
     return (
         <section className='shadow-[0px_1px] shadow-gray-300 '>
-            <div className='flex items-center justify-between mx-auto w-[90%] py-5'>
+            <div className='flex flex-col gap-2 items-start md:flex-row md:items-center md:gap-1 md:justify-between mx-auto w-[98%] md:w-[90%] py-2 md:py-5'>
                 <div className='flex gap-2 items-center'>
                     <img
                         src={Bar}
@@ -58,12 +58,12 @@ const { tabsArray } = useSideBar();
                         className='w-5'
                         onClick={() => setToggle(!toggle)}
                     />
-                    <h2 className='text-black text-base font-bold hidden md:truncate md:block'>
+                    <h2 className='text-black text-[10px] md:text-sm xl:text-base font-bold truncate block'>
                         {tabs === undefined ? 'Book Reading Marathon' : tabs}
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>
-                    <div className='flex gap-2  text-[12px] md:text-base'>
+                    <div className='flex gap-2 text-[12px] md:text-base'>
                         <button
                             onClick={() => {
                                 handleNavigation('prev');
@@ -76,10 +76,8 @@ const { tabsArray } = useSideBar();
                             onClick={() => {
                                 handleNavigation('next');
                             }}
-                            className={`bg-[#5755d9] text-white px-8 py-2`}
-                            disabled={
-                                currentIndex === tabsArray?.length - 1
-                            }>
+                            className={`bg-[#5755d9] text-white px-6 py-1 md:px-8 md:py-2`}
+                            disabled={currentIndex === tabsArray?.length - 1}>
                             Next {'>'}
                         </button>
                     </div>
