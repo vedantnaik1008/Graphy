@@ -14,7 +14,7 @@ const useStorage = (getUrl) => {
     const [fileLinks, setFileLinks] = useState([]);
     const [loading, setLoading] = useState(false)
     const [pdf, setPdf] = useState([]);
-
+// console.log('getUrl', getUrl);
     
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -25,7 +25,7 @@ const useStorage = (getUrl) => {
 
         const storageRef = ref(storage, `${getUrl}/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-        // console.log('getUrl', getUrl);
+        
 
         uploadTask.on(
             'state_changed',
@@ -45,16 +45,18 @@ const useStorage = (getUrl) => {
             }
         );
     };
+    const firebase = `gs://graphy-c2078.appspot.com/`;
 
     const fetchFiles = async () => {
         setLoading(true);
-        const listRef = ref(storage, `${getUrl}/`);
+        const listRef = ref(storage, `${firebase}${getUrl}`);
         const res = await listAll(listRef);
         const urls = await Promise.all(
             res.items.map(async (item) => {
                 const url = await getDownloadURL(item);
-                console.log('getDownloadUrl', item.name);
                  setPdf([item.name])
+                 console.log('url', url);
+                 
                 return url;
             })
         );

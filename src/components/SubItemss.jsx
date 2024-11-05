@@ -30,19 +30,20 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
     const changeTabsAndSetCurrentIndex = (tab, item) => {
         const newTabName = `${tab} ${item}`;
         setTabs(newTabName);
-
+        
+        
         setCurrentIndex(() => {
             if (tabsArray?.length > 0) {
                 const newIndex = tabsArray.findIndex(
-                    (tab) => tab === newTabName
+                    (tab) => tab.replace(/\//g, ' ') === newTabName
                 );
-                console.log('Updating currentIndex:', newIndex);
                 return newIndex !== -1 ? newIndex : 0;
             }
             return 0;
         });
-        console.log('Current index after update:', currentIndex);
+        
     };
+
     return (
         <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5 relative'>
             {tabsData?.map((item) => (
@@ -103,27 +104,52 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
 
                                     {toggle[`tab${tabIndex}`] && (
                                         <div className='flex flex-col gap-1 ml-4'>
-                                            {tab?.sub?.map((item, Index) => (
-                                                <div
-                                                    key={`${item.name}-${Index}`}
-                                                    className='flex gap-2 items-center'>
-                                                    <img
-                                                        src={''}
-                                                        alt=''
-                                                        className=''
-                                                    />
-                                                    <p
-                                                        onClick={() =>
-                                                            changeTabsAndSetCurrentIndex(
-                                                                tab.name,
-                                                                item.name
+                                            {tab.sub?.map(
+                                                (subItem, subIndex) => (
+                                                    <div
+                                                        key={`${subItem.name}-${subIndex}`}
+                                                        className='flex flex-col gap-2 '>
+                                                        <img
+                                                            src={''}
+                                                            alt=''
+                                                            className='cursor-pointer'
+                                                        />
+                                                        <p
+                                                            onClick={() =>
+                                                                changeTabsAndSetCurrentIndex(
+                                                                    tab.name,
+                                                                    subItem.name
+                                                                )
+                                                            }
+                                                            className='cursor-pointer'>
+                                                            {subItem.name}
+                                                        </p>
+                                                        {subItem?.subFolders?.map(
+                                                            (
+                                                                subFolder,
+                                                                subFolderIndex
+                                                            ) => (
+                                                                <div
+                                                                    key={`subFolder-${subFolderIndex}`}
+                                                                    className='ml-4'>
+                                                                    <p
+                                                                        onClick={() =>
+                                                                            changeTabsAndSetCurrentIndex(
+                                                                                tab.name + ' ' +subItem.name,
+                                                                                subFolder.name
+                                                                            )
+                                                                        }
+                                                                        className='font-semibold cursor-pointer'>
+                                                                        {
+                                                                            subFolder.name
+                                                                        }
+                                                                    </p>
+                                                                </div>
                                                             )
-                                                        }
-                                                        className='cursor-pointer'>
-                                                        {item.name}
-                                                    </p>
-                                                </div>
-                                            ))}
+                                                        )}
+                                                    </div>
+                                                )
+                                            )}
                                         </div>
                                     )}
                                 </div>

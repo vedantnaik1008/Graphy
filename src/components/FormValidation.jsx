@@ -6,6 +6,10 @@ const FormValidation = () => {
         handleChange,
         handleFileChange,
         handleFolderNameChange,
+        handleSubFolderFileChange,
+        handleSubFolderNameChange,
+        addSubFolder,
+        removeSubFolder,
         addFolder,
         removeFolder,
         handleSubmit,
@@ -45,39 +49,118 @@ const FormValidation = () => {
                         )}
                     </label>
 
-                    {formData.folders.map((folder, index) => (
-                        <div key={index} className='w-full'>
+                    {formData.folders.map((folder, folderIndex) => (
+                        <div key={folderIndex} className='w-full'>
+                            {/* Folder Name Input */}
                             <label
-                                htmlFor={`folderName-${index}`}
+                                htmlFor={`folderName-${folderIndex}`}
                                 className='w-full'>
                                 <input
                                     type='text'
                                     name='folderName'
                                     value={folder.folderName}
-                                    id={`folderName-${index}`}
+                                    id={`folderName-${folderIndex}`}
                                     onChange={(e) =>
-                                        handleFolderNameChange(index, e)
+                                        handleFolderNameChange(folderIndex, e)
                                     }
                                     placeholder='Folder Name'
                                     className='border-b-2 border-b-gray-500 bg-white w-full'
                                 />
                             </label>
+
+                            {/* Folder Files Input */}
                             <label
-                                htmlFor={`files-${index}`}
-                                className='w-[50%]text-sm font-medium text-gray-900 dark:text-white overflow-hidden'>
+                                htmlFor={`files-${folderIndex}`}
+                                className='w-full'>
                                 <input
                                     type='file'
-                                    id={`files-${index}`}
+                                    id={`files-${folderIndex}`}
                                     multiple
-                                    onChange={(e) => handleFileChange(index, e)}
+                                    onChange={(e) =>
+                                        handleFileChange(folderIndex, e)
+                                    }
                                     accept='.pdf, video/*'
-                                    className='block w-full md:w-[50%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  my-2'
+                                    className='block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 my-2'
                                 />
                             </label>
+
+                            {/* Subfolders */}
+                            {folder.subFolders?.map(
+                                (subFolder, subFolderIndex) => (
+                                    <div
+                                        key={subFolderIndex}
+                                        className='ml-4 w-full'>
+                                        <label
+                                            htmlFor={`subFolderName-${folderIndex}-${subFolderIndex}`}
+                                            className='w-full'>
+                                            <input
+                                                type='text'
+                                                name='subFolderName'
+                                                value={subFolder.subFolderName}
+                                                id={`subFolderName-${folderIndex}-${subFolderIndex}`}
+                                                onChange={(e) =>
+                                                    handleSubFolderNameChange(
+                                                        folderIndex,
+                                                        subFolderIndex,
+                                                        e
+                                                    )
+                                                }
+                                                placeholder='Subfolder Name'
+                                                className='border-b-2 border-b-gray-500 bg-white w-full'
+                                            />
+                                        </label>
+
+                                        {/* Subfolder Files Input */}
+                                        <label
+                                            htmlFor={`subFiles-${folderIndex}-${subFolderIndex}`}
+                                            className='w-full'>
+                                            <input
+                                                type='file'
+                                                id={`subFiles-${folderIndex}-${subFolderIndex}`}
+                                                multiple
+                                                onChange={(e) =>
+                                                    handleSubFolderFileChange(
+                                                        folderIndex,
+                                                        subFolderIndex,
+                                                        e
+                                                    )
+                                                }
+                                                accept='.pdf, video/*'
+                                                className='block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 my-2'
+                                            />
+                                        </label>
+
+                                        {/* Remove Subfolder Button */}
+                                        <button
+                                            disabled={loading}
+                                            type='button'
+                                            onClick={() =>
+                                                removeSubFolder(
+                                                    folderIndex,
+                                                    subFolderIndex
+                                                )
+                                            }
+                                            className='text-red-500'>
+                                            Remove Subfolder
+                                        </button>
+                                    </div>
+                                )
+                            )}
+
+                            {/* Add Subfolder Button */}
                             <button
                                 disabled={loading}
                                 type='button'
-                                onClick={() => removeFolder(index)}
+                                onClick={() => addSubFolder(folderIndex)}
+                                className='text-blue-500'>
+                                + Add Subfolder
+                            </button>
+
+                            {/* Remove Folder Button */}
+                            <button
+                                disabled={loading}
+                                type='button'
+                                onClick={() => removeFolder(folderIndex)}
                                 className='text-red-500'>
                                 Remove Folder
                             </button>

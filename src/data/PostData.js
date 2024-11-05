@@ -23,8 +23,18 @@ export const PostData = async (name, folders) => {
             files: folder.files.map((file) => ({
                 name: file.name,
                 type: file.type
-            }))
+            })),
+            subFolders: folder.subFolders
+                .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
+                .map((subFolder) => ({
+                    name: subFolder.subFolderName,
+                    files: subFolder.files.map((file) => ({
+                        name: file.name,
+                        type: file.type
+                    }))
+                }))
         }));
+
 
         // Set the data with dynamic folders and files
         await set(newTabRef, {

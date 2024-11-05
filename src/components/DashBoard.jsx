@@ -13,11 +13,9 @@ const DashBoard = () => {
      useEffect(() => {
          if (tabsArray?.length > 0) {
              const newIndex = tabsArray.indexOf(tabs);
-              console.log('Updating currentIndex:', newIndex);
          }
      }, [tabs, tabsArray]);
 
-      console.log('Rendered with currentIndex:', currentIndex);
 
 
     return (

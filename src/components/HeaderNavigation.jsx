@@ -15,7 +15,6 @@ const { tabsArray } = useSideBar();
 
     const handleNavigation = useCallback(
         (direction) => {
-            console.log('Navigating:', direction);
             setCurrentIndex((prevIndex) => {
                 let newIndex;
                 if (direction === 'next') {
@@ -26,7 +25,6 @@ const { tabsArray } = useSideBar();
                 } else {
                     return prevIndex;
                 }
-                console.log('New index:', newIndex);
                 return newIndex;
             });
         },
@@ -40,7 +38,6 @@ const { tabsArray } = useSideBar();
             currentIndex < tabsArray.length
         ) {
             setTabs(tabsArray[currentIndex]);
-            console.log('Updated tabs:', tabsArray[currentIndex]);
         }
     }, [tabsArray, currentIndex, setTabs]);
 
@@ -59,7 +56,9 @@ const { tabsArray } = useSideBar();
                         onClick={() => setToggle(!toggle)}
                     />
                     <h2 className='text-black text-[10px] md:text-sm xl:text-base font-bold truncate block'>
-                        {tabs === undefined ? 'Book Reading Marathon' : tabs}
+                        {tabs === undefined
+                            ? 'Book Reading Marathon'
+                            : tabs.replace(/\//g, ' ')}
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>

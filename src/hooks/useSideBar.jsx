@@ -5,7 +5,6 @@ import { database } from '../FirebaseConfig';
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
-    // console.log(tabsData[0]?.tabs[0].name);
 
     useEffect(() => {
         const tabsRef = ref(database, 'Tabs'); // Use database from FirebaseConfig
@@ -41,13 +40,34 @@ const useSideBar = () => {
         ?.map((tab) => {
             return tab.sub?.map((subItem) => `${tab.name} ${subItem.name}`);
         })
-        .flat();
-    // console.log(tabsArray);
+        .flat(2);
+
     const tabsArrayUrl = tabsData[0]?.tabs
         ?.map((tab) => {
             return tab.sub?.map((subItem) => `${tab.name}/${subItem.name}`);
         })
-        .flat();
+        .flat(2);
+    const subFolder = tabsData[0]?.tabs
+        ?.flatMap(
+            (tab) =>
+                tab.sub
+                    ?.flatMap(
+                        (subItem) =>
+                            subItem?.subFolders
+                                ?.map(
+                                    (subFolder) =>
+                                        `${tab.name}/${subItem.name}/${subFolder.name}`
+                                )
+                                .filter(Boolean) // Remove any undefined or null values from subfolders map
+                    )
+                    .filter(Boolean) // Remove any undefined or null values from subItems map
+        )
+        .filter(Boolean); // Remove any undefined or null values from tabs map
+
+    tabsArray?.push(...subFolder)
+    tabsArrayUrl?.push(...subFolder);
+
+    // console.log(tabsArray);
     return { tabsData, setTabsData, loading, tabsArray, tabsArrayUrl };
 };
 

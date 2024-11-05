@@ -1,5 +1,5 @@
 import { ref, uploadBytes } from 'firebase/storage';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseConfig';
 import { PostData } from '../data/PostData';
@@ -8,7 +8,18 @@ const UseForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         nameError: '',
-        folders: [{ folderName: '', files: [] }]
+        folders: [
+            {
+                folderName: '',
+                files: [],
+                subFolders: [
+                    {
+                        subFolderName: '',
+                        files: []
+                    }
+                ]
+            }
+        ]
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -36,18 +47,65 @@ const UseForm = () => {
         });
     };
 
+    const handleSubFolderNameChange = (folderIndex, subFolderIndex, e) => {
+        const { value } = e.target;
+        setFormData((prevData) => {
+            const updatedFolders = [...prevData.folders];
+            updatedFolders[folderIndex].subFolders[
+                subFolderIndex
+            ].subFolderName = value;
+            return { ...prevData, folders: updatedFolders };
+        });
+    };
+
+    const handleSubFolderFileChange = (folderIndex, subFolderIndex, e) => {
+        const files = Array.from(e.target.files);
+        setFormData((prevData) => {
+            const updatedFolders = [...prevData.folders];
+            updatedFolders[folderIndex].subFolders[subFolderIndex].files =
+                files;
+            return { ...prevData, folders: updatedFolders };
+        });
+    };
+
     const addFolder = () => {
         setFormData((prevData) => ({
             ...prevData,
-            folders: [...prevData.folders, { folderName: '', files: [] }]
+            folders: [
+                ...prevData.folders,
+                { folderName: '', files: [], subFolders: [] }
+            ]
         }));
     };
 
-    const removeFolder = (index) => {
+    const addSubFolder = (folderIndex) => {
+        setFormData((prevData) => {
+            const updatedFolders = [...prevData.folders];
+            updatedFolders[folderIndex].subFolders.push({
+                subFolderName: '',
+                files: []
+            });
+            return { ...prevData, folders: updatedFolders };
+        });
+    };
+
+    const removeFolder = (folderIndex) => {
         setFormData((prevData) => ({
             ...prevData,
-            folders: prevData.folders.filter((_, i) => i !== index)
+            folders: prevData.folders.filter(
+                (_, index) => index !== folderIndex
+            )
         }));
+    };
+
+    const removeSubFolder = (folderIndex, subFolderIndex) => {
+        setFormData((prevData) => {
+            const updatedFolders = [...prevData.folders];
+            updatedFolders[folderIndex].subFolders = updatedFolders[
+                folderIndex
+            ].subFolders.filter((_, index) => index !== subFolderIndex);
+            return { ...prevData, folders: updatedFolders };
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -68,7 +126,7 @@ const UseForm = () => {
             for (const folder of formData.folders) {
                 const baseFolderPath = `Books/${formData.name}/${folder.folderName}`;
 
-                // Prepare file upload promises for this folder
+                // Upload files in the main folder
                 const uploadPromises = folder.files.map((file) => {
                     const fileRef = ref(
                         storage,
@@ -79,7 +137,28 @@ const UseForm = () => {
                     });
                 });
 
-                // Upload all files in the current folder in parallel
+                // Loop through each subfolder to upload files, if any
+                for (const subFolder of folder.subFolders || []) {
+                    const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
+                    const subFolderUploadPromises = subFolder.files.map(
+                        (file) => {
+                            const fileRef = ref(
+                                storage,
+                                `${subFolderPath}/${file.name}`
+                            );
+                            return uploadBytes(fileRef, file).then(() => {
+                                console.log(
+                                    `${file.name} uploaded successfully in ${subFolder.subFolderName}`
+                                );
+                            });
+                        }
+                    );
+
+                    // Upload all files in the current subfolder in parallel
+                    await Promise.all(subFolderUploadPromises);
+                }
+
+                // Upload all files in the main folder in parallel
                 await Promise.all(uploadPromises);
             }
 
@@ -95,7 +174,7 @@ const UseForm = () => {
             setFormData({
                 name: '',
                 nameError: '',
-                folders: [{ folderName: '', files: [] }]
+                folders: [{ folderName: '', files: [], subFolders: [] }]
             });
         }
     };
@@ -104,8 +183,12 @@ const UseForm = () => {
         handleChange,
         handleFileChange,
         handleFolderNameChange,
+        handleSubFolderNameChange,
+        handleSubFolderFileChange,
         addFolder,
+        addSubFolder,
         removeFolder,
+        removeSubFolder,
         handleSubmit,
         loading,
         formData
