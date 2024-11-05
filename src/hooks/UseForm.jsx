@@ -79,15 +79,30 @@ const UseForm = () => {
     };
 
     const addSubFolder = (folderIndex) => {
+        console.log(`Adding subfolder to folder index: ${folderIndex}`);
+
         setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[folderIndex].subFolders.push({
-                subFolderName: '',
-                files: []
+            console.log('Previous formData:', prevData); // Log previous state
+
+            const updatedFolders = prevData.folders.map((folder, index) => {
+                if (index === folderIndex) {
+                    return {
+                        ...folder,
+                        subFolders: [
+                            ...folder.subFolders,
+                            { subFolderName: '', files: [] }
+                        ]
+                    };
+                }
+                return folder;
             });
-            return { ...prevData, folders: updatedFolders };
+
+            const newData = { ...prevData, folders: updatedFolders };
+            console.log('New formData:', newData);
+            return newData;
         });
     };
+
 
     const removeFolder = (folderIndex) => {
         setFormData((prevData) => ({
@@ -100,13 +115,25 @@ const UseForm = () => {
 
     const removeSubFolder = (folderIndex, subFolderIndex) => {
         setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[folderIndex].subFolders = updatedFolders[
-                folderIndex
-            ].subFolders.filter((_, index) => index !== subFolderIndex);
+            // Create a copy of the current folders
+            const updatedFolders = prevData.folders.map((folder, index) => {
+                if (index === folderIndex) {
+                    // Only modify the folder that matches folderIndex
+                    return {
+                        ...folder,
+                        subFolders: folder.subFolders.filter(
+                            (_, index) => index !== subFolderIndex
+                        )
+                    };
+                }
+                return folder; // Return other folders unchanged
+            });
+
+            // Return the updated state with modified folders
             return { ...prevData, folders: updatedFolders };
         });
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();

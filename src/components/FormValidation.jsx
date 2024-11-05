@@ -151,7 +151,11 @@ const FormValidation = () => {
                             <button
                                 disabled={loading}
                                 type='button'
-                                onClick={() => addSubFolder(folderIndex)}
+                                onClick={() =>{ 
+                                    addSubFolder(folderIndex);
+                                    console.log(formData.folders);
+                                    
+                                }}
                                 className='text-blue-500'>
                                 + Add Subfolder
                             </button>
