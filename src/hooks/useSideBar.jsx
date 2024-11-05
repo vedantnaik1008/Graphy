@@ -43,7 +43,12 @@ const useSideBar = () => {
         })
         .flat();
     // console.log(tabsArray);
-    return { tabsData, setTabsData, loading, tabsArray };
+    const tabsArrayUrl = tabsData[0]?.tabs
+        ?.map((tab) => {
+            return tab.sub?.map((subItem) => `${tab.name}/${subItem.name}`);
+        })
+        .flat();
+    return { tabsData, setTabsData, loading, tabsArray, tabsArrayUrl };
 };
 
 export default useSideBar;
