@@ -75,6 +75,7 @@ const FormValidation = () => {
                                 />
                             </label>
                             <button
+                                disabled={loading}
                                 type='button'
                                 onClick={() => removeFolder(index)}
                                 className='text-red-500'>
@@ -84,6 +85,7 @@ const FormValidation = () => {
                     ))}
 
                     <button
+                        disabled={loading}
                         type='button'
                         onClick={addFolder}
                         className='text-blue-500'>
