@@ -16,7 +16,7 @@ console.log(fileLinks[0]);
 
     return (
         <div className='w-full mx-auto my-4 h-full md:mt-5 md:mb-0'>
-            {fileLinks[0]?.includes('.pdf') ? (
+            {/* {fileLinks[0]?.includes('.pdf') ? (
                 <Viewer
                     fileUrl={fileLinks[0]}
                     plugins={[defaultLayoutPluginInstance]}
@@ -34,7 +34,30 @@ console.log(fileLinks[0]);
                              clipboard-write; encrypted-media;
                             gyroscope; picture-in-picture'
                     allowFullScreen></iframe>
-            )}
+            )} */}
+            {fileLinks.map((fileLink, index) => (
+                <div key={index} className='mb-4'>
+                    {fileLink.includes('.pdf') ? (
+                        <Viewer
+                            fileUrl={fileLink}
+                            plugins={[defaultLayoutPluginInstance]}
+                        />
+                    ) : (
+                        <iframe
+                            width='300'
+                            height='700'
+                            className='transition-all
+                                duration-300 ease-in-out w-full h-[77dvh]
+                                md:h-[83dvh]'
+                            src={fileLink}
+                            title={`Media content ${index + 1}`}
+                            allow='accelerometer;
+                                clipboard-write; encrypted-media;
+                                gyroscope; picture-in-picture'
+                            allowFullScreen></iframe>
+                    )}
+                </div>
+            ))}
         </div>
     );
 };

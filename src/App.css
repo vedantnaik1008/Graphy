@@ -63,6 +63,13 @@ canvas.react-pdf__Page__canvas{
     height: 100dvh !important;
 }
 
+/* .rpv-core__spinner{
+    height: 100dvh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
 
 @keyframes slide_In {
     0%{
