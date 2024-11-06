@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import useSideBar from '../hooks/useSideBar';
 import PDF from '../assets/pdfIcon.svg';
 import HeadingIcon from '../assets/HeadingIcon.svg';
 
 const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
     const [click, setClick] = useState(true);
+    const [clickOne, setClickOne] = useState(false);
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
         () =>
@@ -108,45 +109,68 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                                 (subItem, subIndex) => (
                                                     <div
                                                         key={`${subItem.name}-${subIndex}`}
-                                                        className='flex flex-col gap-2 '>
-                                                        <img
-                                                            src={''}
-                                                            alt=''
-                                                            className='cursor-pointer'
-                                                        />
+                                                        className='flex flex-col gap-2 relative'>
                                                         <p
-                                                            onClick={() =>
+                                                            onClick={() => {
                                                                 changeTabsAndSetCurrentIndex(
                                                                     tab.name,
                                                                     subItem.name
-                                                                )
-                                                            }
+                                                                );
+                                                            }}
                                                             className='cursor-pointer'>
                                                             {subItem.name}
                                                         </p>
-                                                        {subItem?.subFolders?.map(
-                                                            (
-                                                                subFolder,
-                                                                subFolderIndex
-                                                            ) => (
-                                                                <div
-                                                                    key={`subFolder-${subFolderIndex}`}
-                                                                    className='ml-4'>
-                                                                    <p
-                                                                        onClick={() =>
-                                                                            changeTabsAndSetCurrentIndex(
-                                                                                tab.name + ' ' +subItem.name,
-                                                                                subFolder.name
-                                                                            )
-                                                                        }
-                                                                        className='font-semibold cursor-pointer'>
-                                                                        {
-                                                                            subFolder.name
-                                                                        }
-                                                                    </p>
-                                                                </div>
-                                                            )
+                                                        {subItem?.subFolders
+                                                            ?.length > 0 && (
+                                                            <img
+                                                                src={
+                                                                    HeadingIcon
+                                                                }
+                                                                onClick={() =>
+                                                                    setClickOne(
+                                                                        (
+                                                                            prev
+                                                                        ) =>
+                                                                            !prev
+                                                                    )
+                                                                }
+                                                                alt=''
+                                                                className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out absolute right-0 ${
+                                                                    clickOne
+                                                                        ? 'rotate-90'
+                                                                        : 'rotate-0'
+                                                                }`}
+                                                            />
                                                         )}
+
+                                                        <div className='ml-4 flex flex-col gap-2'>
+                                                            {subItem?.subFolders?.map(
+                                                                (
+                                                                    subFolder,
+                                                                    subFolderIndex
+                                                                ) => (
+                                                                    <React.Fragment
+                                                                        key={`subFolder-${subFolderIndex}`}>
+                                                                        {clickOne && (
+                                                                            <p
+                                                                                onClick={() =>
+                                                                                    changeTabsAndSetCurrentIndex(
+                                                                                        tab.name +
+                                                                                            ' ' +
+                                                                                            subItem.name,
+                                                                                        subFolder.name
+                                                                                    )
+                                                                                }
+                                                                                className='cursor-pointer'>
+                                                                                {
+                                                                                    subFolder.name
+                                                                                }
+                                                                            </p>
+                                                                        )}
+                                                                    </React.Fragment>
+                                                                )
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 )
                                             )}
