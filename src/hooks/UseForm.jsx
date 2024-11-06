@@ -79,10 +79,8 @@ const UseForm = () => {
     };
 
     const addSubFolder = (folderIndex) => {
-        console.log(`Adding subfolder to folder index: ${folderIndex}`);
 
         setFormData((prevData) => {
-            console.log('Previous formData:', prevData); // Log previous state
 
             const updatedFolders = prevData.folders.map((folder, index) => {
                 if (index === folderIndex) {
@@ -98,7 +96,6 @@ const UseForm = () => {
             });
 
             const newData = { ...prevData, folders: updatedFolders };
-            console.log('New formData:', newData);
             return newData;
         });
     };
@@ -111,9 +108,12 @@ const UseForm = () => {
                 (_, index) => index !== folderIndex
             )
         }));
+        
     };
 
     const removeSubFolder = (folderIndex, subFolderIndex) => {
+        console.log(folderIndex, subFolderIndex);
+
         setFormData((prevData) => {
             // Create a copy of the current folders
             const updatedFolders = prevData.folders.map((folder, index) => {
@@ -132,6 +132,7 @@ const UseForm = () => {
             // Return the updated state with modified folders
             return { ...prevData, folders: updatedFolders };
         });
+
     };
 
 
