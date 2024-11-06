@@ -36,7 +36,7 @@ const Folders = () => {
                   {/* Folder Files Input */}
                   <label
                       htmlFor={`files-${folderIndex}`}
-                      className='my-2 flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'>
+                      className='my-2 flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 relative'>
                       <div className='flex flex-col items-center justify-center pt-5 pb-6'>
                           <svg
                               className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400'
@@ -68,7 +68,7 @@ const Folders = () => {
                           multiple
                           onChange={(e) => handleFileChange(folderIndex, e)}
                           accept='.pdf, video/*'
-                          className='hidden'
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
                   </label>
 
@@ -97,7 +97,7 @@ const Folders = () => {
                           {/* Subfolder Files Input */}
                           <label
                               htmlFor={`subFiles-${folderIndex}-${subFolderIndex}`}
-                              className='my-2 flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'>
+                              className='my-2 flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 relative'>
                               <div className='flex flex-col items-center justify-center pt-5 pb-6'>
                                   <svg
                                       className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400'
@@ -135,7 +135,7 @@ const Folders = () => {
                                       )
                                   }
                                   accept='.pdf, video/*'
-                                  className='hidden'
+                                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
                           </label>
                           {/* Remove Subfolder Button */}
