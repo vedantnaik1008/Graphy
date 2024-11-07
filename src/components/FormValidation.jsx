@@ -35,7 +35,7 @@ const FormValidation = () => {
                         {formData.series.map((series, seriesIndex) => (
                             <div
                                 key={seriesIndex}
-                                className='border-b-2 border-gray-300 pb-8 mb-8'>
+                                className='border-b-2 border-gray-300 pb-8 mb-8 w-full'>
                                 <h3 className='text-xl font-bold mb-4'>
                                     Series {seriesIndex + 1}
                                 </h3>
