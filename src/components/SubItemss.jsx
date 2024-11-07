@@ -6,25 +6,50 @@ import HeadingIcon from '../assets/HeadingIcon.svg';
 
 const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
     const [click, setClick] = useState(true);
-    const [clickOne, setClickOne] = useState(false);
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
-        () =>
-            Array.from({ length: tabsData.length }).reduce(
-                (acc, _, index) => ({
-                    ...acc,
-                    [`tab${index}`]: false
-                }),
-                {}
-            ),
+        () => (
+            {
+                ...tabsData.reduce((acc, item) => {
+                    acc[item.name] = false;
+                    if (item.tabs) {
+                        item.tabs.forEach((tab, tabIndex) => {
+                            acc[`${tab.name}-tab`] = false;
+                            if (tab.sub) {
+                                tab.sub.forEach((subItem, subIndex) => {
+                                    acc[`${subItem.name}-subFolder`] = false;
+                                });
+                            }
+                        });
+                    }
+                    return acc;
+                }, {}),
+                ...tabsData.reduce((acc, item) => {
+                    if (item.tabs) {
+                        item.tabs.forEach((tab, tabIndex) => {
+                            if (tab.sub) {
+                                tab.sub.forEach((subItem, subIndex) => {
+                                    acc[
+                                        `${subItem.name}-subFolder-${subIndex}`
+                                    ] = false;
+                                });
+                            }
+                        });
+                    }
+                    return acc;
+                }, {})
+            },
+            []
+        ),
         [tabsData]
     );
-    const [toggle, setToggle] = useState(initialToggleState);
+    
+    const [toggleState, setToggleState] = useState(initialToggleState);
 
-    const ToggleArrowDown = (index) => {
-        setToggle((prevState) => ({
+    const ToggleArrowDown = (type, index) => {
+        setToggleState((prevState) => ({
             ...prevState,
-            [`tab${index}`]: !prevState[`tab${index}`]
+            [type]: !prevState[type]
         }));
     };
 
@@ -82,7 +107,10 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                             />
                                             <p
                                                 onClick={() =>
-                                                    ToggleArrowDown(tabIndex)
+                                                    ToggleArrowDown(
+                                                        `tab${tabIndex}`,
+                                                        tabIndex
+                                                    )
                                                 }
                                                 className='text-sm md:text-base'>
                                                 {tab.name}
@@ -93,17 +121,20 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                             src={HeadingIcon}
                                             alt=''
                                             onClick={() =>
-                                                ToggleArrowDown(tabIndex)
+                                                ToggleArrowDown(
+                                                    `tab${tabIndex}`,
+                                                    tabIndex
+                                                )
                                             }
                                             className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out ${
-                                                toggle[`tab${tabIndex}`]
+                                                toggleState[`tab${tabIndex}`]
                                                     ? 'rotate-90'
                                                     : 'rotate-0'
                                             }`}
                                         />
                                     </div>
 
-                                    {toggle[`tab${tabIndex}`] && (
+                                    {toggleState[`tab${tabIndex}`] && (
                                         <div className='flex flex-col gap-1 ml-4'>
                                             {tab.sub?.map(
                                                 (subItem, subIndex) => (
@@ -127,16 +158,16 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                                                     HeadingIcon
                                                                 }
                                                                 onClick={() =>
-                                                                    setClickOne(
-                                                                        (
-                                                                            prev
-                                                                        ) =>
-                                                                            !prev
+                                                                    ToggleArrowDown(
+                                                                        `subFolder-${subIndex}`,
+                                                                        subIndex
                                                                     )
                                                                 }
                                                                 alt=''
                                                                 className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out absolute right-0 ${
-                                                                    clickOne
+                                                                    toggleState[
+                                                                        `subFolder-${subIndex}`
+                                                                    ]
                                                                         ? 'rotate-90'
                                                                         : 'rotate-0'
                                                                 }`}
@@ -151,7 +182,9 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                                                 ) => (
                                                                     <React.Fragment
                                                                         key={`subFolder-${subFolderIndex}`}>
-                                                                        {clickOne && (
+                                                                        {toggleState[
+                                                                            `subFolder-${subIndex}`
+                                                                        ] && (
                                                                             <p
                                                                                 onClick={() =>
                                                                                     changeTabsAndSetCurrentIndex(
