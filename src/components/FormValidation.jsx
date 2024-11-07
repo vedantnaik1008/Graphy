@@ -281,7 +281,7 @@ const FormValidation = () => {
                                         onClick={() =>
                                             removeSeries(seriesIndex)
                                         }
-                                        className='bg-red-500 text-white px-4 py-2 rounded-md mb-4'>
+                                        className='bg-red-500 text-white px-4 py-2 rounded-md mb-4 md:ml-4'>
                                         Remove Series
                                     </button>
                                 )}
