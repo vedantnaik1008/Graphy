@@ -53,7 +53,7 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                         <h3
                             onClick={() => setClick((prevState) => !prevState)}
                             className='font-semibold'>
-                            {item.title}
+                            Book Reading Marathon
                         </h3>
                         <img
                             onClick={() => setClick((prevState) => !prevState)}
