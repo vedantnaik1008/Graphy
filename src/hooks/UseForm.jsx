@@ -4,18 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseConfig';
 import { PostData } from '../data/PostData';
 
-const UseForm = () => {
+const UseMultipleBookSeriesForm = () => {
     const [formData, setFormData] = useState({
-        name: '',
-        nameError: '',
-        folders: [
+        series: [
             {
-                folderName: '',
-                files: [],
-                subFolders: [
+                name: '',
+                folders: [
                     {
-                        subFolderName: '',
-                        files: []
+                        folderName: '',
+                        files: [],
+                        subFolders: [
+                            {
+                                subFolderName: '',
+                                files: []
+                            }
+                        ]
                     }
                 ]
             }
@@ -24,187 +27,318 @@ const UseForm = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = (seriesIndex, e) => {
+        if (!e.target) {
+            console.error('Event target not found', e);
+            return;
+        }
+
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
 
-    const handleFileChange = (folderIndex, e) => {
-        const files = Array.from(e.target.files);
-        setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[folderIndex].files = files;
-            return { ...prevData, folders: updatedFolders };
-        });
-    };
-
-    const handleFolderNameChange = (index, e) => {
-        const { value } = e.target;
-        setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[index].folderName = value;
-            return { ...prevData, folders: updatedFolders };
-        });
-    };
-
-    const handleSubFolderNameChange = (folderIndex, subFolderIndex, e) => {
-        const { value } = e.target;
-        setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[folderIndex].subFolders[
-                subFolderIndex
-            ].subFolderName = value;
-            return { ...prevData, folders: updatedFolders };
-        });
-    };
-
-    const handleSubFolderFileChange = (folderIndex, subFolderIndex, e) => {
-        const files = Array.from(e.target.files);
-        setFormData((prevData) => {
-            const updatedFolders = [...prevData.folders];
-            updatedFolders[folderIndex].subFolders[subFolderIndex].files =
-                files;
-            return { ...prevData, folders: updatedFolders };
-        });
-    };
-
-    const addFolder = () => {
         setFormData((prevData) => ({
             ...prevData,
-            folders: [
-                ...prevData.folders,
-                { folderName: '', files: [], subFolders: [] }
+            series: prevData.series.map((s, index) =>
+                index === seriesIndex ? { ...s, [name]: value } : s
+            )
+        }));
+    };
+
+
+    const handleFileChange = (seriesIndex, folderIndex, e) => {
+        const files = Array.from(e.target.files);
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex ? { ...f, files } : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const handleFolderNameChange = (seriesIndex, folderIndex, e) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex
+                                  ? { ...f, folderName: value }
+                                  : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const handleSubFolderNameChange = (
+        seriesIndex,
+        folderIndex,
+        subFolderIndex,
+        e
+    ) => {
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex
+                                  ? {
+                                        ...f,
+                                        subFolders: f.subFolders.map(
+                                            (sf, sfIdx) =>
+                                                sfIdx === subFolderIndex
+                                                    ? {
+                                                          ...sf,
+                                                          subFolderName: value
+                                                      }
+                                                    : sf
+                                        )
+                                    }
+                                  : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const handleSubFolderFileChange = (
+        seriesIndex,
+        folderIndex,
+        subFolderIndex,
+        e
+    ) => {
+        const files = Array.from(e.target.files);
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex
+                                  ? {
+                                        ...f,
+                                        subFolders: f.subFolders.map(
+                                            (sf, sfIdx) =>
+                                                sfIdx === subFolderIndex
+                                                    ? { ...sf, files }
+                                                    : sf
+                                        )
+                                    }
+                                  : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const addFolder = (seriesIndex) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: [
+                              ...s.folders,
+                              {
+                                  folderName: '',
+                                  files: [],
+                                  subFolders: []
+                              }
+                          ]
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const addSubFolder = (seriesIndex, folderIndex) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex
+                                  ? {
+                                        ...f,
+                                        subFolders: [
+                                            ...f.subFolders,
+                                            {
+                                                subFolderName: '',
+                                                files: []
+                                            }
+                                        ]
+                                    }
+                                  : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const removeFolder = (seriesIndex, folderIndex) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.filter(
+                              (_, index) => index !== folderIndex
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const removeSubFolder = (seriesIndex, folderIndex, subFolderIndex) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            series: prevData.series.map((s, idx) =>
+                idx === seriesIndex
+                    ? {
+                          ...s,
+                          folders: s.folders.map((f, fIdx) =>
+                              fIdx === folderIndex
+                                  ? {
+                                        ...f,
+                                        subFolders: f.subFolders.filter(
+                                            (_, index) =>
+                                                index !== subFolderIndex
+                                        )
+                                    }
+                                  : f
+                          )
+                      }
+                    : s
+            )
+        }));
+    };
+
+    const addSeries = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            series: [
+                ...prevData.series,
+                {
+                    name: '',
+                    folders: [
+                        {
+                            folderName: '',
+                            files: [],
+                            subFolders: []
+                        }
+                    ]
+                }
             ]
         }));
     };
 
-    const addSubFolder = (folderIndex) => {
-
-        setFormData((prevData) => {
-
-            const updatedFolders = prevData.folders.map((folder, index) => {
-                if (index === folderIndex) {
-                    return {
-                        ...folder,
-                        subFolders: [
-                            ...folder.subFolders,
-                            { subFolderName: '', files: [] }
-                        ]
-                    };
-                }
-                return folder;
-            });
-
-            const newData = { ...prevData, folders: updatedFolders };
-            return newData;
-        });
-    };
-
-
-    const removeFolder = (folderIndex) => {
+    const removeSeries = (seriesIndex) => {
         setFormData((prevData) => ({
             ...prevData,
-            folders: prevData.folders.filter(
-                (_, index) => index !== folderIndex
-            )
+            series: prevData.series.filter((_, index) => index !== seriesIndex)
         }));
-        
     };
-
-    const removeSubFolder = (folderIndex, subFolderIndex) => {
-        console.log(folderIndex, subFolderIndex);
-
-        setFormData((prevData) => {
-            // Create a copy of the current folders
-            const updatedFolders = prevData.folders.map((folder, index) => {
-                if (index === folderIndex) {
-                    // Only modify the folder that matches folderIndex
-                    return {
-                        ...folder,
-                        subFolders: folder.subFolders.filter(
-                            (_, index) => index !== subFolderIndex
-                        )
-                    };
-                }
-                return folder; // Return other folders unchanged
-            });
-
-            // Return the updated state with modified folders
-            return { ...prevData, folders: updatedFolders };
-        });
-
-    };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        if (formData.name.length <= 3) {
-            setFormData((prevData) => ({
-                ...prevData,
-                nameError: 'Name must be at least 4 characters.'
-            }));
-            setLoading(false);
-            return;
-        }
-
         try {
-            // Loop through each folder to upload files
-            for (const folder of formData.folders) {
-                const baseFolderPath = `Books/${formData.name}/${folder.folderName}`;
-
-                // Upload files in the main folder
-                const uploadPromises = folder.files.map((file) => {
-                    const fileRef = ref(
-                        storage,
-                        `${baseFolderPath}/${file.name}`
+            for (let i = 0; i < formData.series.length; i++) {
+                const series = formData.series[i];
+                if (series.name.length <= 3) {
+                    throw new Error(
+                        `Series ${i + 1} name must be at least 4 characters.`
                     );
-                    return uploadBytes(fileRef, file).then(() => {
-                        console.log(`${file.name} uploaded successfully`);
-                    });
-                });
-
-                // Loop through each subfolder to upload files, if any
-                for (const subFolder of folder.subFolders || []) {
-                    const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
-                    const subFolderUploadPromises = subFolder.files.map(
-                        (file) => {
-                            const fileRef = ref(
-                                storage,
-                                `${subFolderPath}/${file.name}`
-                            );
-                            return uploadBytes(fileRef, file).then(() => {
-                                console.log(
-                                    `${file.name} uploaded successfully in ${subFolder.subFolderName}`
-                                );
-                            });
-                        }
-                    );
-
-                    // Upload all files in the current subfolder in parallel
-                    await Promise.all(subFolderUploadPromises);
                 }
 
-                // Upload all files in the main folder in parallel
-                await Promise.all(uploadPromises);
+                await uploadAndPostSeries(series);
             }
 
-            console.log('All files uploaded to Firebase.');
-            PostData(formData.name, formData.folders);
-            alert('Files Uploaded Successfully');
+            alert('All series uploaded successfully!');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Upload failed: ', error);
-            alert('File Upload failed');
+            console.error(error);
+            alert('Upload failed: ' + error.message);
         } finally {
             setLoading(false);
             setFormData({
-                name: '',
-                nameError: '',
-                folders: [{ folderName: '', files: [], subFolders: [] }]
+                series: [
+                    {
+                        name: '',
+                        folders: [
+                            {
+                                folderName: '',
+                                files: [],
+                                subFolders: []
+                            }
+                        ]
+                    }
+                ]
             });
         }
+    };
+
+    const uploadAndPostSeries = async (series) => {
+        // Loop through each folder to upload files
+        for (const folder of series.folders) {
+            const baseFolderPath = `Books/${series.name}/${folder.folderName}`;
+
+            // Upload files in the main folder
+            const uploadPromises = folder.files.map((file) => {
+                const fileRef = ref(storage, `${baseFolderPath}/${file.name}`);
+                return uploadBytes(fileRef, file).then(() => {
+                    console.log(`${file.name} uploaded successfully`);
+                });
+            });
+
+            // Loop through each subfolder to upload files, if any
+            for (const subFolder of folder.subFolders || []) {
+                const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
+                const subFolderUploadPromises = subFolder.files.map((file) => {
+                    const fileRef = ref(
+                        storage,
+                        `${subFolderPath}/${file.name}`
+                    );
+                    return uploadBytes(fileRef, file).then(() => {
+                        console.log(
+                            `${file.name} uploaded successfully in ${subFolder.subFolderName}`
+                        );
+                    });
+                });
+
+                // Upload all files in the current subfolder in parallel
+                await Promise.all(subFolderUploadPromises);
+            }
+
+            // Upload all files in the main folder in parallel
+            await Promise.all(uploadPromises);
+        }
+
+        console.log('All files uploaded to Firebase.');
+        await PostData(series.name, series.folders);
     };
 
     return {
@@ -217,10 +351,12 @@ const UseForm = () => {
         addSubFolder,
         removeFolder,
         removeSubFolder,
+        addSeries,
+        removeSeries,
         handleSubmit,
         loading,
         formData
     };
 };
 
-export default UseForm;
+export default UseMultipleBookSeriesForm;
