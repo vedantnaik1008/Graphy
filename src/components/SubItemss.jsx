@@ -135,12 +135,12 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                     </div>
 
                                     {toggleState[`tab${tabIndex}`] && (
-                                        <div className='flex flex-col gap-1 ml-4'>
+                                        <div className='flex flex-col gap-1 ml-4 mt-1'>
                                             {tab.sub?.map(
                                                 (subItem, subIndex) => (
                                                     <div
                                                         key={`${subItem.name}-${subIndex}`}
-                                                        className='flex flex-col gap-2 relative'>
+                                                        className='flex flex-col gap-0 relative'>
                                                         <p
                                                             onClick={() => {
                                                                 changeTabsAndSetCurrentIndex(
@@ -148,7 +148,7 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                                                     subItem.name
                                                                 );
                                                             }}
-                                                            className='cursor-pointer'>
+                                                            className='cursor-pointer text-sm'>
                                                             {subItem.name}
                                                         </p>
                                                         {subItem?.subFolders
@@ -194,7 +194,7 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                                                                         subFolder.name
                                                                                     )
                                                                                 }
-                                                                                className='cursor-pointer'>
+                                                                                className='cursor-pointer text-sm'>
                                                                                 {
                                                                                     subFolder.name
                                                                                 }
