@@ -1,4 +1,4 @@
-import { ref,  onValue } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import { database } from '../FirebaseConfig';
 
@@ -35,40 +35,37 @@ const useSideBar = () => {
                 Loading
             </p>
         );
-
-    const tabsArray = tabsData[0]?.tabs
-        ?.map((tab) => {
-            return tab.sub?.map((subItem) => `${tab.name} ${subItem.name}`);
+    let tabsArrayData = []
+    const tabsArray = tabsData?.map((tabsdata) => {
+        return tabsdata?.tabs?.map((tab)=> {
+            return tab?.sub?.map((subItem)=> {
+                const data = `${tab.name} ${subItem.name}`;
+                tabsArrayData.push(data);
+                return subItem?.subFolders?.map((subFolder)=> {
+                    const subFolderData =  `${tab.name} ${subItem.name} ${subFolder.name}`
+                    return tabsArrayData.push(subFolderData)
+                })
+            })
         })
-        .flat(2);
+    });
 
-    const tabsArrayUrl = tabsData[0]?.tabs
-        ?.map((tab) => {
-            return tab.sub?.map((subItem) => `${tab.name}/${subItem.name}`);
-        })
-        .flat(2);
-    const subFolder = tabsData[0]?.tabs
-        ?.flatMap(
-            (tab) =>
-                tab.sub
-                    ?.flatMap(
-                        (subItem) =>
-                            subItem?.subFolders
-                                ?.map(
-                                    (subFolder) =>
-                                        `${tab.name}/${subItem.name}/${subFolder.name}`
-                                )
-                                .filter(Boolean) // Remove any undefined or null values from subfolders map
-                    )
-                    .filter(Boolean) // Remove any undefined or null values from subItems map
-        )
-        .filter(Boolean); // Remove any undefined or null values from tabs map
+    let tabsArrayDataUrl = []
+    const tabsArrayUrl = tabsData?.map((tabsdata) => {
+        return tabsdata?.tabs?.map((tab) => {
+            return tab?.sub?.map((subItem) => {
+                const data = `${tab.name}/${subItem.name}`;
+                tabsArrayDataUrl.push(data);
+                return subItem?.subFolders?.map((subFolder) => {
+                    const subFolderData = `${tab.name}/${subItem.name}/${subFolder.name}`;
+                    return tabsArrayDataUrl.push(subFolderData);
+                });
+            });
+        });
+    });
 
-    tabsArray?.push(...subFolder)
-    tabsArrayUrl?.push(...subFolder);
-        // console.log(tabsData);
-        
-    return { tabsData, setTabsData, loading, tabsArray, tabsArrayUrl };
+    // console.log(tabsArrayData, tabsArrayDataUrl);
+    
+    return { tabsData, setTabsData, loading, tabsArray: tabsArrayData, tabsArrayUrl: tabsArrayDataUrl };
 };
 
 export default useSideBar;
