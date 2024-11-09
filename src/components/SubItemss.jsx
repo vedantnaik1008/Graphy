@@ -160,7 +160,12 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                                 }
                                                                 onClick={() =>
                                                                     ToggleArrowDown(
-                                                                        `subFolder-${subIndex}`,
+                                                                        `subFolder-${subItem?.subFolders?.map(
+                                                                            (
+                                                                                subFolder
+                                                                            ) =>
+                                                                                subFolder.name
+                                                                        )}`,
                                                                         subIndex
                                                                     )
                                                                 }
@@ -184,7 +189,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                                     <React.Fragment
                                                                         key={`subFolder-${subFolderIndex}`}>
                                                                         {toggleState[
-                                                                            `subFolder-${subIndex}`
+                                                                            `subFolder-${subFolder.name}`
                                                                         ] && (
                                                                             <p
                                                                                 onClick={() =>
