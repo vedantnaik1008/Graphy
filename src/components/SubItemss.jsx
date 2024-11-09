@@ -5,48 +5,37 @@ import PDF from '../assets/pdfIcon.svg';
 import HeadingIcon from '../assets/HeadingIcon.svg';
 
 const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
-    const [click, setClick] = useState(true);
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
-        () => (
-            {
-                ...tabsData.reduce((acc, item) => {
-                    acc[item.name] = false;
-                    if (item.tabs) {
-                        item.tabs.forEach((tab, tabIndex) => {
-                            acc[`${tab.name}-tab`] = false;
-                            if (tab.sub) {
-                                tab.sub.forEach((subItem, subIndex) => {
-                                    acc[`${subItem.name}-subFolder`] = false;
-                                });
-                            }
-                        });
-                    }
-                    return acc;
-                }, {}),
-                ...tabsData.reduce((acc, item) => {
-                    if (item.tabs) {
-                        item.tabs.forEach((tab, tabIndex) => {
-                            if (tab.sub) {
-                                tab.sub.forEach((subItem, subIndex) => {
-                                    acc[
-                                        `${subItem.name}-subFolder-${subIndex}`
-                                    ] = false;
-                                });
-                            }
-                        });
-                    }
-                    return acc;
-                }, {})
-            },
-            []
-        ),
+        () =>
+            tabsData.reduce((acc, item) => {
+                if (item.tabs) {
+                    item.tabs.forEach((tab, firstIndex) => {
+                        acc[`firstIndex-${item.title}-${firstIndex}`] = false; // Track toggle state for each course
+
+                        if (item.tabs) {
+                            item.tabs.forEach((tab, tabIndex) => {
+                                acc[`tab-${item.name}-${tabIndex}`] = false; // Track toggle state for each tab
+                                if (tab.sub) {
+                                    tab.sub.forEach((subItem, subIndex) => {
+                                        acc[
+                                            `subItem-${item.name}-${tabIndex}-${subIndex}`
+                                        ] = false; // Track toggle state for each subItem
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+                return acc;
+            }, {}),
         [tabsData]
     );
-    
+
     const [toggleState, setToggleState] = useState(initialToggleState);
 
     const ToggleArrowDown = (type, index) => {
+        console.log(type);
         setToggleState((prevState) => ({
             ...prevState,
             [type]: !prevState[type]
@@ -56,8 +45,7 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
     const changeTabsAndSetCurrentIndex = (tab, item) => {
         const newTabName = `${tab} ${item}`;
         setTabs(newTabName);
-        
-        
+
         setCurrentIndex(() => {
             if (tabsArray?.length > 0) {
                 const newIndex = tabsArray.findIndex(
@@ -67,32 +55,45 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
             }
             return 0;
         });
-        
     };
 
     return (
         <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5 relative'>
-            {tabsData?.map((item) => (
-                <div className='pl-8' key={'@' + item.name}>
+            {tabsData?.map((item, firstIndex) => (
+                <div className='pl-8' key={'@' + item.title}>
                     <div className='cursor-pointer flex gap-2 items-center justify-between'>
                         <h3
-                            onClick={() => setClick((prevState) => !prevState)}
+                            onClick={() =>
+                                ToggleArrowDown(
+                                    `firstIndex${item.title}`,
+                                    firstIndex
+                                )
+                            }
                             className='font-semibold'>
-                            Book Reading Marathon
+                            {item.title}
                         </h3>
                         <img
-                            onClick={() => setClick((prevState) => !prevState)}
+                            onClick={() =>
+                                ToggleArrowDown(
+                                    `firstIndex${item.title}`,
+                                    firstIndex
+                                )
+                            }
                             src={HeadingIcon}
                             alt=''
                             className={` transition-all duration-200 ease-in-out w-[8%] ${
-                                click ? 'rotate-90' : 'rotate-0'
+                                toggleState[`firstIndex${item.title}`]
+                                    ? 'rotate-90'
+                                    : 'rotate-0'
                             }`}
                         />
                     </div>
-                    {click && (
+                    {toggleState[`firstIndex${item.title}`] && (
                         <div
                             className={`ml-4 mt-3 transition-all duration-200 ease-in-out ${
-                                click ? 'flex flex-col gap-4 py-2' : 'hidden'
+                                toggleState[`firstIndex${item.title}`]
+                                    ? 'flex flex-col gap-4 py-2'
+                                    : 'flex flex-col gap-4 py-2'
                             }`}>
                             {item.tabs.map((tab, tabIndex) => (
                                 <div
@@ -108,7 +109,7 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                             <p
                                                 onClick={() =>
                                                     ToggleArrowDown(
-                                                        `tab${tabIndex}`,
+                                                        `tab${tab.name}`,
                                                         tabIndex
                                                     )
                                                 }
@@ -122,19 +123,19 @@ const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
                                             alt=''
                                             onClick={() =>
                                                 ToggleArrowDown(
-                                                    `tab${tabIndex}`,
+                                                    `tab${tab.name}`,
                                                     tabIndex
                                                 )
                                             }
                                             className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out ${
-                                                toggleState[`tab${tabIndex}`]
+                                                toggleState[`tab${tab.name}`]
                                                     ? 'rotate-90'
                                                     : 'rotate-0'
                                             }`}
                                         />
                                     </div>
 
-                                    {toggleState[`tab${tabIndex}`] && (
+                                    {toggleState[`tab${tab.name}`] && (
                                         <div className='flex flex-col gap-1 ml-4 mt-1'>
                                             {tab.sub?.map(
                                                 (subItem, subIndex) => (

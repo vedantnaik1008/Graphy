@@ -4,7 +4,6 @@ import Books from './Books/Books';
 
 const Tabs = ({tabs: tab}) => {
 const { tabsArrayUrl } = useSideBar();
-    console.log(tab, 'tab');
     
     return (
         <section className=' overflow-y-scroll overflow-x-hidden h-screen'>

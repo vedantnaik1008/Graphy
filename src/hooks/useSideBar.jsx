@@ -66,8 +66,8 @@ const useSideBar = () => {
 
     tabsArray?.push(...subFolder)
     tabsArrayUrl?.push(...subFolder);
-
-    // console.log(tabsArray);
+        // console.log(tabsData);
+        
     return { tabsData, setTabsData, loading, tabsArray, tabsArrayUrl };
 };
 

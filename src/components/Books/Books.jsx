@@ -5,8 +5,7 @@ import useStorage from '../../hooks/useStorage';
 
 const Books = ({ bookUrl }) => {
     const { fileLinks, loading } = useStorage(`Books/${bookUrl}`);
-    // console.log(`Books/${bookUrl}`, 'bookUrl');
-    // console.log(fileLinks);
+    
     
 const defaultLayoutPluginInstance = defaultLayoutPlugin();
     if (loading)

@@ -55,7 +55,6 @@ const useStorage = (getUrl) => {
             res.items.map(async (item) => {
                 const url = await getDownloadURL(item);
                  setPdf([item.name])
-                 console.log('url', url);
                  
                 return url;
             })

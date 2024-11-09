@@ -16,7 +16,8 @@ const FormValidation = () => {
         removeSeries,
         handleSubmit,
         loading,
-        formData
+        formData,
+        setFormData
     } = UseMultipleBookSeriesForm();
 
     return (
@@ -32,6 +33,30 @@ const FormValidation = () => {
                             Collection Hub
                         </h2>
 
+                        <label htmlFor={`title`} className='w-full'>
+                            <input
+                                type='text'
+                                name='title'
+                                value={formData.series[0].title}
+                                id={`title`}
+                                onChange={(e) =>
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        series: prev.series.map((s, index) =>
+                                            index === 0
+                                                ? {
+                                                      ...s,
+                                                      title: e.target.value
+                                                  }
+                                                : s
+                                        )
+                                    }))
+                                }
+                                placeholder='Course Name'
+                                className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full '
+                            />
+                        </label>
+
                         {formData.series.map((series, seriesIndex) => (
                             <div
                                 key={seriesIndex}
@@ -39,6 +64,7 @@ const FormValidation = () => {
                                 <h3 className='text-xl font-bold mb-4'>
                                     Series {seriesIndex + 1}
                                 </h3>
+
                                 <label
                                     htmlFor={`name-${seriesIndex}`}
                                     className='w-full'>

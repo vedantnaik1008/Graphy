@@ -8,6 +8,7 @@ const UseMultipleBookSeriesForm = () => {
     const [formData, setFormData] = useState({
         series: [
             {
+                title: '',
                 name: '',
                 folders: [
                     {
@@ -338,8 +339,10 @@ const UseMultipleBookSeriesForm = () => {
         }
 
         console.log('All files uploaded to Firebase.');
-        await PostData(series.name, series.folders);
+        await PostData(series.title ,series.name, series.folders);
     };
+
+    
 
     return {
         handleChange,
@@ -355,7 +358,8 @@ const UseMultipleBookSeriesForm = () => {
         removeSeries,
         handleSubmit,
         loading,
-        formData
+        formData,
+        setFormData,
     };
 };
 

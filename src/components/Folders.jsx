@@ -157,7 +157,6 @@ const Folders = () => {
                           type='button'
                           onClick={() => {
                               addSubFolder(folderIndex);
-                              console.log(formData.folders);
                           }}
                           className='bg-black text-white px-4 py-2 rounded-md'>
                           + Add Subfolder
