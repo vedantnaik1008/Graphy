@@ -59,7 +59,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
     };
 
     return (
-        <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-5 relative'>
+        <div className='border-t-1px border-gray-300 p-5 flex flex-col gap-3 relative'>
             {tabsData?.map((item, firstIndex) => (
                 <div className='pl-8' key={'@' + item.title}>
                     <div className='cursor-pointer flex gap-2 items-center justify-between'>
@@ -91,7 +91,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                     </div>
                     {toggleState[`firstIndex${item.title}`] && (
                         <div
-                            className={`ml-4 mt-3 transition-all duration-200 ease-in-out ${
+                            className={`ml-4  transition-all duration-200 ease-in-out ${
                                 toggleState[`firstIndex${item.title}`]
                                     ? 'flex flex-col gap-4 py-2'
                                     : 'flex flex-col gap-4 py-2'
