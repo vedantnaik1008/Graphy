@@ -6,7 +6,6 @@ const SideBar = ({
     setTabs,
     toggle,
     setToggle,
-    currentIndex,
     setCurrentIndex
 }) => {
     return (
@@ -29,7 +28,6 @@ const SideBar = ({
                     setTabs={setTabs}
                     tabs={tabs}
                     setCurrentIndex={setCurrentIndex}
-                    currentIndex={currentIndex}
                 />
             </aside>
         </>

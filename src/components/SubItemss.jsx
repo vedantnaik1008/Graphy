@@ -4,7 +4,7 @@ import useSideBar from '../hooks/useSideBar';
 import PDF from '../assets/pdfIcon.svg';
 import HeadingIcon from '../assets/HeadingIcon.svg';
 
-const SubItemss = ({ setTabs, setCurrentIndex, currentIndex }) => {
+const SubItemss = ({ setTabs, setCurrentIndex }) => {
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
         () =>

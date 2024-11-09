@@ -25,7 +25,6 @@ const DashBoard = () => {
                 tabs={tabs}
                 toggle={toggle}
                 setToggle={setToggle}
-                currentIndex={currentIndex}
                 setCurrentIndex={setCurrentIndex}
             />
             <Content
