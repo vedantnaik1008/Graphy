@@ -2,6 +2,7 @@
 import { useCallback, useEffect } from 'react';
 import Bar from '../assets/Bar.svg';
 import useSideBar from '../hooks/useSideBar';
+import FirebaseAuth from './FireBaseAuth';
 
 const HeaderNavigation = ({
     toggle,
@@ -80,6 +81,8 @@ const { tabsArray } = useSideBar();
                             Next {'>'}
                         </button>
                     </div>
+
+                    <FirebaseAuth />
                 </div>
             </div>
         </section>
