@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storage } from '../FirebaseConfig';
 import { PostData } from '../data/PostData';
+import useUserData from './useUserData';
 
 const UseMultipleBookSeriesForm = () => {
     const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const UseMultipleBookSeriesForm = () => {
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const {userID} = useUserData()
 
     const handleChange = (seriesIndex, e) => {
         if (!e.target) {
@@ -305,7 +307,7 @@ const UseMultipleBookSeriesForm = () => {
     const uploadAndPostSeries = async (series) => {
         // Loop through each folder to upload files
         for (const folder of series.folders) {
-            const baseFolderPath = `Books/${series.name}/${folder.folderName}`;
+            const baseFolderPath = `Books/${userID}/${series.name}/${folder.folderName}`;
 
             // Upload files in the main folder
             const uploadPromises = folder.files.map((file) => {
@@ -339,7 +341,7 @@ const UseMultipleBookSeriesForm = () => {
         }
 
         console.log('All files uploaded to Firebase.');
-        await PostData(series.title ,series.name, series.folders);
+        await PostData(userID, series.title, series.name, series.folders);
     };
 
     

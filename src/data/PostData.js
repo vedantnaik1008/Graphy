@@ -1,9 +1,9 @@
-import { get, ref, set, update } from 'firebase/database';
+import { get, ref, remove, set, update } from 'firebase/database';
 import { database } from '../FirebaseConfig';
 
-export const PostData = async (title, name, folders) => {
+export const PostData = async (userId , title, name, folders) => {
     // Log the inputs to ensure title, name, and folders are correctly received
-    console.log('PostData received:', { title, name, folders });
+    console.log('PostData received:', {userId, title, name, folders });
 
     // Check if title is provided, otherwise return an error
     if (!title || title.trim() === '') {
@@ -11,7 +11,7 @@ export const PostData = async (title, name, folders) => {
         return;
     }
 
-    const tabsRef = ref(database, 'Tabs/'); // Reference to the Tabs collection
+    const tabsRef = ref(database, `course/${userId}`); // Reference to the Tabs collection
 
     try {
         // Fetch all existing tabs to check if the title already exists
@@ -28,7 +28,7 @@ export const PostData = async (title, name, folders) => {
         console.log('Next available ID:', newId);
 
         // Create a reference for the new title
-        const titleRef = ref(database, `Tabs/${newId}`);
+        const titleRef = ref(database, `course/${userId}/${newId}`);
 
         // Fetch all titles to check if the provided title already exists
         const titlesSnapshot = await get(tabsRef);
@@ -72,7 +72,7 @@ export const PostData = async (title, name, folders) => {
             ];
 
             // Update the existing title with the new tab
-            await update(ref(database, `Tabs/${newId}`), {
+            await update(ref(database, `course/${userId}/${newId}`), {
                 title: title,
                 tabs: updatedTabs
             });
@@ -96,7 +96,7 @@ export const PostData = async (title, name, folders) => {
                     }))
             }));
 
-            await set(ref(database, `Tabs/${newId}`), {
+            await set(ref(database, `course/${userId}/${newId}`), {
                 title: title,
                 tabs: [
                     {
@@ -114,5 +114,43 @@ export const PostData = async (title, name, folders) => {
         // Log the error and rethrow
         console.error('Error adding data:', error);
         throw new Error('Error adding data to Firebase: ' + error.message);
+    }
+};
+
+export const postUserData = async (email, userId, role) => {
+    try {
+        await set(ref(database, 'users/' + userId), {
+            email: email,
+            role: role,
+            lastLogin: Date.now(),
+            createdAt: Date.now()
+        });
+        console.log('User data posted successfully');
+    } catch (error) {
+        console.error('Error posting user data:', error);
+    }
+};
+
+export const removeUserData = async (userId) => {
+    try {
+        await remove(ref(database, 'users/' + userId));
+        console.log(`User data removed for ${userId}`);
+    } catch (error) {
+        console.error('Error removing user data:', error);
+    }
+};
+
+export const getUserData = async (userId) => {
+    try {
+        const snapshot = await get(ref(database, 'users/' + userId));
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            console.log('No data available');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return null;
     }
 };

@@ -9,7 +9,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
     const { tabsData, tabsArray } = useSideBar();
     const initialToggleState = useMemo(
         () =>
-            tabsData.reduce((acc, item) => {
+            tabsData?.reduce((acc, item) => {
                 if (item.tabs) {
                     item.tabs.forEach((tab, firstIndex) => {
                         acc[`firstIndex-${item.title}-${firstIndex}`] = false; // Track toggle state for each course

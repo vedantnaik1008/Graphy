@@ -1,13 +1,15 @@
 import { ref, onValue } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import { database } from '../FirebaseConfig';
+import useUserData from './useUserData';
 
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const {userID} = useUserData()
 
     useEffect(() => {
-        const tabsRef = ref(database, 'Tabs'); // Use database from FirebaseConfig
+        const tabsRef = ref(database, `course/${userID}/`); // Use database from FirebaseConfig
 
         const unsubscribe = onValue(
             tabsRef,
@@ -27,7 +29,7 @@ const useSideBar = () => {
 
         // Cleanup subscription on unmount
         return () => unsubscribe();
-    }, []);
+    }, [userID]);
 
     if (loading)
         return (
@@ -36,7 +38,7 @@ const useSideBar = () => {
             </p>
         );
     let tabsArrayData = []
-    const tabsArray = tabsData?.map((tabsdata) => {
+    const tabsArray =  tabsData?.map((tabsdata) => {
         return tabsdata?.tabs?.map((tab)=> {
             return tab?.sub?.map((subItem)=> {
                 const data = `${tab.name} ${subItem.name}`;

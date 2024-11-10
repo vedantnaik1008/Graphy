@@ -2,9 +2,12 @@
 import { Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import useStorage from '../../hooks/useStorage';
+import useUserData from '../../hooks/useUserData';
 
 const Books = ({ bookUrl }) => {
-    const { fileLinks, loading } = useStorage(`Books/${bookUrl}`);
+    const {userID} = useUserData()
+    const { fileLinks, loading } = useStorage(`Books/${userID}/${bookUrl}`);
+    console.log(userID, 'Books');
     
     
 const defaultLayoutPluginInstance = defaultLayoutPlugin();

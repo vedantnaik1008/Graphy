@@ -14,7 +14,7 @@ const useStorage = (getUrl) => {
     const [fileLinks, setFileLinks] = useState([]);
     const [loading, setLoading] = useState(false)
     const [pdf, setPdf] = useState([]);
-// console.log('getUrl', getUrl);
+console.log('getUrl', getUrl);
     
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);

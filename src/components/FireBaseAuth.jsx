@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { auth } from '../FirebaseConfig';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import {  signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import {  removeUserData } from '../data/PostData';
 
 const FirebaseAuth = () => {
     const [user, setUser] = useState(null);
@@ -17,21 +18,17 @@ const FirebaseAuth = () => {
         return () => unsubscribe();
     }, []);
 
-    const loginWithGoogle = async () => {
-        try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            console.log('Login successful:', result.user);
-            navigate('/dashboard'); // Navigate to dashboard after successful login
-        } catch (error) {
-            console.error('Login failed:', error);
-        }
-    };
+    
 
     const logout = async () => {
         try {
             await signOut(auth);
             console.log('Logged out successfully');
+
+            const userId = auth.currentUser?.uid;
+            if (userId) {
+                await removeUserData(userId);
+            }
             navigate('/'); // Navigate to home page after logout
         } catch (error) {
             console.error('Logout failed:', error);
@@ -43,20 +40,15 @@ const FirebaseAuth = () => {
     }
 
     if (!user) {
-        navigate('/')
+        navigate('/');
     }
+    console.log(user.uid);
 
     return (
         <div className='flex gap-2 items-center'>
-            {!user ? (
-                <div>
-                    <button onClick={loginWithGoogle}>
-                        Log In with Google
-                    </button>
-                </div>
-            ) : (
+            {!user ? null : (
                 <>
-                    <img src={user.photoURL} alt='' className='' />
+                    <img src={user.photoURL} alt='' className='rounded-full h-10 w-10' />
                     <button onClick={logout}>Log Out</button>
                 </>
             )}
