@@ -39,9 +39,9 @@ const FirebaseAuth = () => {
         return <div>Loading...</div>;
     }
 
-    if (!user) {
-        navigate('/');
-    }
+    // if (!user) {
+    //     navigate('/');
+    // }
     console.log(user.uid);
 
    
