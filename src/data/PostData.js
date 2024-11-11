@@ -11,7 +11,7 @@ export const PostData = async (userId , title, name, folders) => {
         return;
     }
 
-    const tabsRef = ref(database, `course/${userId}`); // Reference to the Tabs collection
+    const tabsRef = ref(database, `users/${userId}/course`); // Reference to the Tabs collection
 
     try {
         // Fetch all existing tabs to check if the title already exists
@@ -28,7 +28,7 @@ export const PostData = async (userId , title, name, folders) => {
         console.log('Next available ID:', newId);
 
         // Create a reference for the new title
-        const titleRef = ref(database, `course/${userId}/${newId}`);
+        const titleRef = ref(database, `users/${userId}/course/${newId}`);
 
         // Fetch all titles to check if the provided title already exists
         const titlesSnapshot = await get(tabsRef);
@@ -72,7 +72,7 @@ export const PostData = async (userId , title, name, folders) => {
             ];
 
             // Update the existing title with the new tab
-            await update(ref(database, `course/${userId}/${newId}`), {
+            await update(ref(database, `users/${userId}/course/${newId}`), {
                 title: title,
                 tabs: updatedTabs
             });
@@ -96,7 +96,7 @@ export const PostData = async (userId , title, name, folders) => {
                     }))
             }));
 
-            await set(ref(database, `course/${userId}/${newId}`), {
+            await set(ref(database, `users/${userId}/course/${newId}`), {
                 title: title,
                 tabs: [
                     {

@@ -4,9 +4,8 @@ import { auth } from '../FirebaseConfig';
 
 const useUserData = () => {
     const [userData, setUserData] = useState(null);
-    
-    const userId = auth.currentUser?.uid;
-    let user = userId;
+
+    let user = auth.currentUser?.uid;
     useEffect(() => {
         if (user) {
             getUserData(user).then((data) => {

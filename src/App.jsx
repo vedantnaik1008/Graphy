@@ -11,6 +11,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 function App() {
+   
   
   return (
       <>
@@ -18,8 +19,14 @@ function App() {
               <BrowserRouter>
                   <Routes>
                       <Route path='/' element={<Home />} />
-                      <Route path='/dashboard' element={<DashBoard />} />
-                      <Route path='/teacher' element={<FormValidation />} />
+                      <Route
+                          path='/dashboard/:userId'
+                          element={<DashBoard />}
+                      />
+                      <Route
+                          path='/teacher/:userId'
+                          element={<FormValidation />}
+                      />
                   </Routes>
               </BrowserRouter>
           </Worker>

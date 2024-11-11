@@ -9,7 +9,7 @@ const useSideBar = () => {
     const {userID} = useUserData()
 
     useEffect(() => {
-        const tabsRef = ref(database, `course/${userID}/`);
+        const tabsRef = ref(database, `users/${userID}/course`);
 
         const unsubscribe = onValue(
             tabsRef,
@@ -38,7 +38,7 @@ const useSideBar = () => {
 
     const fetchTabsData = () => {
         setLoading(true);
-        const tabsRef = ref(database, `course/${userID}/`);
+        const tabsRef = ref(database, `users/${userID}/course/`);
         onValue(
             tabsRef,
             (snapshot) => {
