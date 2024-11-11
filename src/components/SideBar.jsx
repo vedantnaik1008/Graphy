@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import SubItemss from './SubItemss';
 import useUserData from '../hooks/useUserData';
+
 
 const SideBar = ({
     tabs,
@@ -11,6 +12,7 @@ const SideBar = ({
     setCurrentIndex
 }) => {
     const {userData} = useUserData() 
+    const {userId} = useParams()
     console.log(userData);
     
     return (
@@ -36,7 +38,7 @@ const SideBar = ({
                 />
                 <div className='w-[98%] mx-auto flex items-center flex-grow'>
                     {userData?.role === 'teacher' && <Link
-                        to={'/teacher'}
+                        to={`/teacher/${userId}`}
                         className='bg-[#5755d9] text-center rounded-lg text-white py-2 w-full'>
                         Create Your Course
                     </Link>}
