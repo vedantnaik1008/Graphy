@@ -9,12 +9,12 @@ const useSideBar = () => {
     const {userID} = useUserData()
 
     useEffect(() => {
-        const tabsRef = ref(database, `course/${userID}/`); // Use database from FirebaseConfig
+        const tabsRef = ref(database, `course/${userID}/`);
 
         const unsubscribe = onValue(
             tabsRef,
             (snapshot) => {
-                setLoading(false); // Set loading to false once data is received
+                setLoading(false);
                 if (snapshot.exists()) {
                     setTabsData(snapshot.val());
                 } else {
@@ -23,13 +23,37 @@ const useSideBar = () => {
             },
             (error) => {
                 console.error('Error fetching data:', error);
-                setLoading(false); // Stop loading on error
+                setLoading(false);
             }
         );
 
         // Cleanup subscription on unmount
         return () => unsubscribe();
-    }, [userID]);
+    }, [userID]); // Add userID to dependency array
+
+    useEffect(() => {
+        // Force fetch data when component mounts
+        fetchTabsData();
+    }, []); // Empty dependency array means this runs only on mount
+
+    const fetchTabsData = () => {
+        setLoading(true);
+        const tabsRef = ref(database, `course/${userID}/`);
+        onValue(
+            tabsRef,
+            (snapshot) => {
+                if (snapshot.exists()) {
+                    setTabsData(snapshot.val());
+                } else {
+                    console.log('No data available');
+                }
+            },
+            (error) => {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        );
+    };
 
     if (loading)
         return (
