@@ -22,7 +22,9 @@ const Home = () => {
             console.error('Login failed:', error);
         }
     };
+
     console.log(role);
+    
     
     return (
         <section className='flex gap-4 items-center   h-screen text-white'>

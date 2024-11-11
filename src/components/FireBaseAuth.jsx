@@ -44,6 +44,8 @@ const FirebaseAuth = () => {
     }
     console.log(user.uid);
 
+   
+
     return (
         <div className='flex gap-2 items-center'>
             {!user ? null : (

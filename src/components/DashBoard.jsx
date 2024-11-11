@@ -7,7 +7,6 @@ const DashBoard = () => {
     const [tabs, setTabs] = useState('Atomic Habits full book');
     const [toggle, setToggle] = useState(false);
     const { tabsArray } = useSideBar();
-    
     const [currentIndex, setCurrentIndex] = useState(0);
 
      useEffect(() => {
@@ -15,7 +14,6 @@ const DashBoard = () => {
              const newIndex = tabsArray.indexOf(tabs);
          }
      }, [tabs, tabsArray]);
-
 
 
     return (
