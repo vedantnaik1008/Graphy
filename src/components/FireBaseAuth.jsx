@@ -42,7 +42,6 @@ const FirebaseAuth = () => {
     if (!user) {
         navigate('/');
     }
-    console.log(user.uid);
 
    
 
