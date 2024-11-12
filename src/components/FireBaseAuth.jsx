@@ -14,19 +14,11 @@ const FirebaseAuth = ({userId}) => {
         const unsubscribe = auth.onAuthStateChanged((newUser) => {
             setUser(newUser);
             setLoading(false);
-            if (newUser) {
-                if (newUser.uid === userId) {
-                    navigate(`/dashboard/${userId}`);
-                } else {
-                    navigate('/');
-                }
-            } else {
-                navigate('/');
-            }
+            
         });
 
         return () => unsubscribe();
-    }, [userId, navigate]);
+    }, []);
 
     
 
@@ -49,8 +41,8 @@ const FirebaseAuth = ({userId}) => {
         return <div>Loading...</div>;
     }
 
-    if (!user) {
-        navigate('/');
+    if (user.uid === userId) {
+        navigate(`/dashboard/${userId}`);
     }
     console.log(user);
     
