@@ -3,6 +3,7 @@ import { useCallback, useEffect } from 'react';
 import Bar from '../assets/Bar.svg';
 import useSideBar from '../hooks/useSideBar';
 import FirebaseAuth from './FireBaseAuth';
+import { useParams } from 'react-router-dom';
 
 const HeaderNavigation = ({
     toggle,
@@ -13,6 +14,7 @@ const HeaderNavigation = ({
     setCurrentIndex
 }) => {
 const { tabsArray } = useSideBar();
+const { userId } = useParams();
 
     const handleNavigation = useCallback(
         (direction) => {
@@ -82,7 +84,7 @@ const { tabsArray } = useSideBar();
                         </button>
                     </div>
 
-                    <FirebaseAuth />
+                    <FirebaseAuth userId={userId}/>
                 </div>
             </div>
         </section>

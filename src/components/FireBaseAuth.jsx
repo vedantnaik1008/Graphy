@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import  { useEffect, useState } from 'react';
 import { auth } from '../FirebaseConfig';
 import {  signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import {  removeUserData } from '../data/PostData';
 
-const FirebaseAuth = () => {
+const FirebaseAuth = ({userId}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate(); // Get the navigate function
@@ -13,10 +14,19 @@ const FirebaseAuth = () => {
         const unsubscribe = auth.onAuthStateChanged((newUser) => {
             setUser(newUser);
             setLoading(false);
+            if (newUser) {
+                if (newUser.uid === userId) {
+                    navigate(`/dashboard/${userId}`);
+                } else {
+                    navigate('/');
+                }
+            } else {
+                navigate('/');
+            }
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [userId, navigate]);
 
     
 
