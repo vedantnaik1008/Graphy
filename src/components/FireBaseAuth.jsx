@@ -8,7 +8,7 @@ const FirebaseAuth = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate(); // Get the navigate function
-
+    
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((newUser) => {
             setUser(newUser);
@@ -25,10 +25,10 @@ const FirebaseAuth = () => {
             await signOut(auth);
             console.log('Logged out successfully');
 
-            const userId = auth.currentUser?.uid;
-            if (userId) {
-                await removeUserData(userId);
-            }
+            // const userId = auth.currentUser?.uid;
+            // if (userId) {
+            //     await removeUserData(userId);
+            // }
             navigate('/'); // Navigate to home page after logout
         } catch (error) {
             console.error('Logout failed:', error);
@@ -42,6 +42,8 @@ const FirebaseAuth = () => {
     if (!user) {
         navigate('/');
     }
+    console.log(user);
+    
 
    
 
