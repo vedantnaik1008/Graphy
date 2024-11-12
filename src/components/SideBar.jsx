@@ -36,11 +36,11 @@ const SideBar = ({
                     setCurrentIndex={setCurrentIndex}
                 />
                 <div className='w-[98%] mx-auto flex items-center flex-grow'>
-                    {userData?.role === 'teacher' && <Link
+                    <Link
                         to={`/teacher/${userId}`}
                         className='bg-[#5755d9] text-center rounded-lg text-white py-2 w-full'>
                         Create Your Course
-                    </Link>}
+                    </Link>
                 </div>
             </aside>
         </>
