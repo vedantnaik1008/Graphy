@@ -1,6 +1,6 @@
 import { ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { storage } from '../FirebaseConfig';
 import { PostData } from '../data/PostData';
 import useUserData from './useUserData';
@@ -28,6 +28,7 @@ const UseMultipleBookSeriesForm = () => {
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { userId } = useParams();
     const {userID} = useUserData()
 
     const handleChange = (seriesIndex, e) => {
@@ -281,7 +282,7 @@ const UseMultipleBookSeriesForm = () => {
             }
 
             alert('All series uploaded successfully!');
-            navigate('/dashboard');
+            navigate(`/dashboard/${userId}`);
         } catch (error) {
             console.error(error);
             alert('Upload failed: ' + error.message);

@@ -1,12 +1,13 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../FirebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UseRole from "../hooks/UseRole";
 import { postUserData } from "../data/PostData";
 
 
 const Home = () => {
     const navigate = useNavigate();
+    const { userId } = useParams()
     const {student, teacher, role} = UseRole()
     const loginWithGoogle = async () => {
         try {
@@ -17,7 +18,7 @@ const Home = () => {
 
             // Post user data to Firebase Realtime Database
             await postUserData(email, uid, role);
-            navigate('/dashboard'); // Navigate to dashboard after successful login
+            navigate(`/dashboard/${userId}`); // Navigate to dashboard after successful login
         } catch (error) {
             console.error('Login failed:', error);
         }
