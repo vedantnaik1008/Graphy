@@ -14,7 +14,6 @@ const FirebaseAuth = ({userId}) => {
         const unsubscribe = auth.onAuthStateChanged((newUser) => {
             setUser(newUser);
             setLoading(false);
-            
         });
 
         return () => unsubscribe();
@@ -26,12 +25,7 @@ const FirebaseAuth = ({userId}) => {
         try {
             await signOut(auth);
             console.log('Logged out successfully');
-
-            // const userId = auth.currentUser?.uid;
-            // if (userId) {
-            //     await removeUserData(userId);
-            // }
-            navigate('/'); // Navigate to home page after logout
+            navigate('/');
         } catch (error) {
             console.error('Logout failed:', error);
         }
@@ -44,10 +38,10 @@ const FirebaseAuth = ({userId}) => {
     // if (user.uid === userId) {
     //     navigate(`/dashboard/${userId}`);
     // }
-    if(!user){
-        navigate(`/`);
-    }
-    console.log(user);
+    // if(!user){
+    //     navigate(`/`);
+    // }
+    // console.log(user);
     
 
    
