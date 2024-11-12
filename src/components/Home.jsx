@@ -13,7 +13,6 @@ const Home = () => {
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
-            console.log('Login successful:', result.user);
             const { email, uid } = result.user;
 
             // Post user data to Firebase Realtime Database

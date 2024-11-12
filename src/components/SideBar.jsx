@@ -13,7 +13,6 @@ const SideBar = ({
 }) => {
     const {userData} = useUserData() 
     const {userId} = useParams()
-    console.log(userData);
     
     return (
         <>

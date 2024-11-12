@@ -12,11 +12,11 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import TeacherMeeting from './pages/TeacherMeeting';
 
 let payload = {
-    meetingNumber: '844 5528 4950',
+    meetingNumber: '886 8799 1153',
     role: 0,
     sdkKey: 'kL11uagHSlqFkV9LsjF0yg',
     sdkSecret: 'zBANg0KBFCFSreC2fQz1kZGwQG5eSAKw',
-    passWord: 'z28Bk7',
+    passWord: 'L5p4zG',
     userName: 'Testing',
     userEmail: 'vedunaik777@gmail.com',
     leaveUrl: 'https://localhost:5173/teacher/0'

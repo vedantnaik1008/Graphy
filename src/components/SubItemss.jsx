@@ -36,7 +36,6 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
     const [toggleState, setToggleState] = useState(initialToggleState);
 
     const ToggleArrowDown = (type, index) => {
-        console.log(type);
         setToggleState((prevState) => ({
             ...prevState,
             [type]: !prevState[type]

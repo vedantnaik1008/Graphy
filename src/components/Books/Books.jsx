@@ -9,7 +9,6 @@ const Books = ({ bookUrl }) => {
     // const {userID} = useUserData()
     const { userId } = useParams();
     const { fileLinks, loading } = useStorage(`Books/${userId}/${bookUrl}`);
-    console.log(userId, 'Books');
     
     
 const defaultLayoutPluginInstance = defaultLayoutPlugin();
