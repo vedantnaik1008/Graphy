@@ -41,8 +41,11 @@ const FirebaseAuth = ({userId}) => {
         return <div>Loading...</div>;
     }
 
-    if (user.uid === userId) {
-        navigate(`/dashboard/${userId}`);
+    // if (user.uid === userId) {
+    //     navigate(`/dashboard/${userId}`);
+    // }
+    if(!user){
+        navigate(`/`);
     }
     console.log(user);
     
