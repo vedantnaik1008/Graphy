@@ -12,12 +12,12 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import TeacherMeeting from './pages/TeacherMeeting';
 
 let payload = {
-    meetingNumber: '886 8799 1153',
+    meetingNumber: import.meta.env.VITE_REACT_CLIENT_SECRET,
     role: 0,
-    sdkKey: 'kL11uagHSlqFkV9LsjF0yg',
-    sdkSecret: 'zBANg0KBFCFSreC2fQz1kZGwQG5eSAKw',
-    passWord: 'L5p4zG',
-    userName: 'Testing',
+    sdkKey: import.meta.env.VITE_REACT_CLIENT_ID,
+    sdkSecret: import.meta.env.VITE_REACT_MEETING_NUMBER,
+    passWord: import.meta.env.VITE_REACT_PASSWORD,
+    userName: 'Vedant Naik',
     userEmail: 'vedunaik777@gmail.com',
     leaveUrl: 'https://localhost:5173/teacher/0'
 };
