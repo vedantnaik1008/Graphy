@@ -42,7 +42,8 @@ const FormValidation = () => {
                                 name='title'
                                 value={formData.series[0].title}
                                 id={`title`}
-                                onChange={(e) =>
+                                onChange={(e) =>{
+                                    e.persist();
                                     setFormData((prev) => ({
                                         ...prev,
                                         series: prev.series.map((s, index) =>
@@ -54,7 +55,7 @@ const FormValidation = () => {
                                                 : s
                                         )
                                     }))
-                                }
+                                }}
                                 placeholder='Course Name'
                                 className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full '
                             />

@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 
-const TeacherMeeting = ({ payload }) => {
+
+const Meeting = ({ payload }) => {
     useEffect(() => {
         const initializeZoomSDK = async () => {
-            const { ZoomMtg } = await import('@zoomus/websdk');
+const { ZoomMtg } = await import('@zoomus/websdk');
 
             ZoomMtg.setZoomJSLib('https://source.zoom.us/2.18.0/lib', '/av');
-            ZoomMtg.preLoadWasm();
-            ZoomMtg.prepareWebSDK();
+ZoomMtg.preLoadWasm();
+ZoomMtg.prepareWebSDK();
             try {
                 ZoomMtg.generateSDKSignature({
                     meetingNumber: payload.meetingNumber,
@@ -86,4 +87,4 @@ const TeacherMeeting = ({ payload }) => {
     );
 };
 
-export default TeacherMeeting;
+export default Meeting;

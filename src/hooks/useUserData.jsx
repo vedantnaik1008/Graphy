@@ -14,9 +14,9 @@ const useUserData = () => {
                 setUserData(data);
             });
         }
-    }, [user]);
+    }, [user, userId]);
     
-    return { userData, userID: user, setUserData };
+    return { userData, userID: user, userId, setUserData };
 };
 
 export default useUserData;

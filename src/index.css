@@ -5,4 +5,9 @@
 #zmmtg-root {
     min-width: unset !important;
     background-color: unset !important;
+    z-index: 1000 !important;
 }
+
+/* .rpv-default-layout__toolbar{
+    z-index: 1 !important;
+}//changing this to 0 removes pdf top part */

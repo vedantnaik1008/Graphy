@@ -6,10 +6,10 @@ import useUserData from './useUserData';
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {userID} = useUserData()
+    const {userID, userId} = useUserData()
 
     useEffect(() => {
-        const tabsRef = ref(database, `users/${userID}/course`);
+        const tabsRef = ref(database, `users/${userId}/course`);
 
         const unsubscribe = onValue(
             tabsRef,

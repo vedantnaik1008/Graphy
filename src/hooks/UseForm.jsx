@@ -32,6 +32,7 @@ const UseMultipleBookSeriesForm = () => {
     // const {userID} = useUserData()
 
     const handleChange = (seriesIndex, e) => {
+        e.persist();
         if (!e.target) {
             console.error('Event target not found', e);
             return;
@@ -49,6 +50,8 @@ const UseMultipleBookSeriesForm = () => {
 
 
     const handleFileChange = (seriesIndex, folderIndex, e) => {
+        e.persist();
+
         const files = Array.from(e.target.files);
         setFormData((prevData) => ({
             ...prevData,
@@ -66,6 +69,7 @@ const UseMultipleBookSeriesForm = () => {
     };
 
     const handleFolderNameChange = (seriesIndex, folderIndex, e) => {
+        e.persist();
         const { value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -90,6 +94,8 @@ const UseMultipleBookSeriesForm = () => {
         subFolderIndex,
         e
     ) => {
+        
+e.persist()
         const { value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -125,6 +131,8 @@ const UseMultipleBookSeriesForm = () => {
         subFolderIndex,
         e
     ) => {
+e.persist();
+
         const files = Array.from(e.target.files);
         setFormData((prevData) => ({
             ...prevData,
