@@ -12,14 +12,14 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import TeacherMeeting from './pages/TeacherMeeting';
 
 let payload = {
-    meetingNumber: import.meta.env.VITE_REACT_CLIENT_SECRET,
+    meetingNumber: import.meta.env.VITE_REACT_MEETING_NUMBER,
     role: 0,
     sdkKey: import.meta.env.VITE_REACT_CLIENT_ID,
-    sdkSecret: import.meta.env.VITE_REACT_MEETING_NUMBER,
+    sdkSecret: import.meta.env.VITE_REACT_CLIENT_SECRET,
     passWord: import.meta.env.VITE_REACT_PASSWORD,
     userName: 'Vedant Naik',
     userEmail: 'vedunaik777@gmail.com',
-    leaveUrl: 'https://localhost:5173/teacher/0'
+    leaveUrl: 'http://localhost:5173/teacher/0'
 };
 
 function App() {
