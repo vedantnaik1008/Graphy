@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
- 
+#zmmtg-root {
+    min-width: unset !important;
+    background-color: unset !important;
+}
