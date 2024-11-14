@@ -7,7 +7,7 @@ const TeacherMeeting = ({ payload }) => {
         const initializeZoomSDK = async () => {
 const { ZoomMtg } = await import('@zoomus/websdk');
 
-            ZoomMtg.setZoomJSLib('https://source.zoom.us/2.18.2/lib', '/av');
+            ZoomMtg.setZoomJSLib('https://source.zoom.us/2.18.0/lib', '/av');
 ZoomMtg.preLoadWasm();
 ZoomMtg.prepareWebSDK();
             try {
@@ -76,12 +76,12 @@ ZoomMtg.prepareWebSDK();
             <link
                 type='text/css'
                 rel='stylesheet'
-                href='https://source.zoom.us/2.18.2/css/bootstrap.css'
+                href='https://source.zoom.us/2.18.0/css/bootstrap.css'
             />
             <link
                 type='text/css'
                 rel='stylesheet'
-                href='https://source.zoom.us/2.18.2/css/react-select.css'
+                href='https://source.zoom.us/2.18.0/css/react-select.css'
             />
         </React.Fragment>
     );
