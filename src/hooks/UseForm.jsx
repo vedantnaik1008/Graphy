@@ -1,12 +1,14 @@
-import { ref, uploadBytes } from 'firebase/storage';
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { storage } from '../FirebaseConfig';
-import { PostData } from '../data/PostData';
-// import useUserData from './useUserData';
+import { updateAndPostSeries, uploadAndPostSeries } from '../data/PostData';
 
-const UseMultipleBookSeriesForm = () => {
-    const [formData, setFormData] = useState({
+const UseMultipleBookSeriesForm = ({
+    formCourseData,
+    isEditing,
+    setIsEditing,
+    selectedCourse
+}) => {
+    const initialFormData = {
         series: [
             {
                 title: '',
@@ -25,11 +27,63 @@ const UseMultipleBookSeriesForm = () => {
                 ]
             }
         ]
-    });
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { userId } = useParams();
-    // const {userID} = useUserData()
+
+    // Flag to track component mount status
+    const isMounted = useRef(true); // Using useRef to persist value across renders
+
+    // Function to transform course data
+    const transformCourseData = (formCourseData) => {
+        // Function to recursively transform folders and subfolders
+        const transformFolders = (folders) => {
+            return folders.map((folder) => ({
+                folderName: folder.name || '', // Map folder name
+                // files: folder.files || [], // Map files at folder level
+                subFolders: folder.subFolders
+                    ? folder.subFolders.map((subFolder) => ({
+                           subFolderName: subFolder.name || '', // Map subfolder name
+                        //   files: subFolder.files || [] // Map files in subfolder
+                      }))
+                    : [] // If no subfolders, set it to an empty array
+            }));
+        };
+
+        return {
+            series: formCourseData.tabs.map((tab) => ({
+                title: formCourseData.title || '', // Map course title
+                name: tab.name || '', // Map tab name
+                folders: transformFolders(tab.sub || []) // Transform folders with potential subfolders
+            }))
+        };
+    };
+
+    useEffect(() => {
+        isMounted.current = true; // Mark the component as mounted
+
+        if (isEditing && formCourseData) {
+            // When editing, transform the incoming course data
+            setFormData(transformCourseData(formCourseData));
+        } else {
+            // When not editing, reset formData to the initial state
+            setFormData(initialFormData);
+        }
+
+        return () => {
+            isMounted.current = false; // Mark the component as unmounted
+        };
+    }, [isEditing, formCourseData]); // Runs when isEditing or formCourseData changes
+
+    // Ensure we only update the state if the component is still mounted
+    const safeSetState = (update) => {
+        if (isMounted.current) {
+            setFormData(update);
+        }
+    };
 
     const handleChange = (seriesIndex, e) => {
         e.persist();
@@ -40,7 +94,7 @@ const UseMultipleBookSeriesForm = () => {
 
         const { name, value } = e.target;
 
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, index) =>
                 index === seriesIndex ? { ...s, [name]: value } : s
@@ -48,12 +102,11 @@ const UseMultipleBookSeriesForm = () => {
         }));
     };
 
-
     const handleFileChange = (seriesIndex, folderIndex, e) => {
         e.persist();
 
         const files = Array.from(e.target.files);
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -71,7 +124,7 @@ const UseMultipleBookSeriesForm = () => {
     const handleFolderNameChange = (seriesIndex, folderIndex, e) => {
         e.persist();
         const { value } = e.target;
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -94,10 +147,9 @@ const UseMultipleBookSeriesForm = () => {
         subFolderIndex,
         e
     ) => {
-        
-e.persist()
+        e.persist();
         const { value } = e.target;
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -131,10 +183,10 @@ e.persist()
         subFolderIndex,
         e
     ) => {
-e.persist();
+        e.persist();
 
         const files = Array.from(e.target.files);
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -160,7 +212,7 @@ e.persist();
     };
 
     const addFolder = (seriesIndex) => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -181,7 +233,7 @@ e.persist();
     };
 
     const addSubFolder = (seriesIndex, folderIndex) => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -208,7 +260,7 @@ e.persist();
     };
 
     const removeFolder = (seriesIndex, folderIndex) => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -224,7 +276,7 @@ e.persist();
     };
 
     const removeSubFolder = (seriesIndex, folderIndex, subFolderIndex) => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.map((s, idx) =>
                 idx === seriesIndex
@@ -248,7 +300,7 @@ e.persist();
     };
 
     const addSeries = () => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: [
                 ...prevData.series,
@@ -267,7 +319,7 @@ e.persist();
     };
 
     const removeSeries = (seriesIndex) => {
-        setFormData((prevData) => ({
+        safeSetState((prevData) => ({
             ...prevData,
             series: prevData.series.filter((_, index) => index !== seriesIndex)
         }));
@@ -280,13 +332,19 @@ e.persist();
         try {
             for (let i = 0; i < formData.series.length; i++) {
                 const series = formData.series[i];
-                if (series.name.length <= 3) {
+                if (series.name.length < 4) {
                     throw new Error(
                         `Series ${i + 1} name must be at least 4 characters.`
                     );
                 }
 
-                await uploadAndPostSeries(series);
+                if (isEditing) {
+                    setIsEditing(true);
+                    await updateAndPostSeries(series, selectedCourse, userId);
+                } else {
+                    setIsEditing(false);
+                    await uploadAndPostSeries(series, userId);
+                }
             }
 
             alert('All series uploaded successfully!');
@@ -296,64 +354,9 @@ e.persist();
             alert('Upload failed: ' + error.message);
         } finally {
             setLoading(false);
-            setFormData({
-                series: [
-                    {
-                        name: '',
-                        folders: [
-                            {
-                                folderName: '',
-                                files: [],
-                                subFolders: []
-                            }
-                        ]
-                    }
-                ]
-            });
+            setFormData(initialFormData); // Reset to initial state after submit
         }
     };
-
-    const uploadAndPostSeries = async (series) => {
-        // Loop through each folder to upload files
-        for (const folder of series.folders) {
-            const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
-
-            // Upload files in the main folder
-            const uploadPromises = folder.files.map((file) => {
-                const fileRef = ref(storage, `${baseFolderPath}/${file.name}`);
-                return uploadBytes(fileRef, file).then(() => {
-                    console.log(`${file.name} uploaded successfully`);
-                });
-            });
-
-            // Loop through each subfolder to upload files, if any
-            for (const subFolder of folder.subFolders || []) {
-                const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
-                const subFolderUploadPromises = subFolder.files.map((file) => {
-                    const fileRef = ref(
-                        storage,
-                        `${subFolderPath}/${file.name}`
-                    );
-                    return uploadBytes(fileRef, file).then(() => {
-                        console.log(
-                            `${file.name} uploaded successfully in ${subFolder.subFolderName}`
-                        );
-                    });
-                });
-
-                // Upload all files in the current subfolder in parallel
-                await Promise.all(subFolderUploadPromises);
-            }
-
-            // Upload all files in the main folder in parallel
-            await Promise.all(uploadPromises);
-        }
-
-        console.log('All files uploaded to Firebase.');
-        await PostData(userId, series.title, series.name, series.folders);
-    };
-
-    
 
     return {
         handleChange,
@@ -370,7 +373,7 @@ e.persist();
         handleSubmit,
         loading,
         formData,
-        setFormData,
+        setFormData
     };
 };
 

@@ -1,5 +1,6 @@
 import { get, ref, remove, set, update } from 'firebase/database';
-import { database } from '../FirebaseConfig';
+import { database, storage } from '../FirebaseConfig';
+import { uploadBytes, ref as refs, deleteObject, listAll } from 'firebase/storage';
 
 export const PostData = async (userId , title, name, folders) => {
     // Log the inputs to ensure title, name, and folders are correctly received
@@ -154,3 +155,182 @@ export const getUserData = async (userId) => {
         return null;
     }
 };
+
+export const uploadAndPostSeries = async (series, userId) => {
+    // Loop through each folder to upload files
+    for (const folder of series.folders) {
+        const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
+
+        // Upload files in the main folder
+        const uploadPromises = folder.files.map((file) => {
+            const fileRef = refs(storage, `${baseFolderPath}/${file.name}`);
+            return uploadBytes(fileRef, file).then(() => {
+                console.log(`${file.name} uploaded successfully`);
+            });
+        });
+
+        // Loop through each subfolder to upload files, if any
+        for (const subFolder of folder.subFolders || []) {
+            const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
+            const subFolderUploadPromises = subFolder.files.map((file) => {
+                const fileRef = refs(storage, `${subFolderPath}/${file.name}`);
+                return uploadBytes(fileRef, file).then(() => {
+                    console.log(
+                        `${file.name} uploaded successfully in ${subFolder.subFolderName}`
+                    );
+                });
+            });
+
+            // Upload all files in the current subfolder in parallel
+            await Promise.all(subFolderUploadPromises);
+        }
+
+        // Upload all files in the main folder in parallel
+        await Promise.all(uploadPromises);
+    }
+
+    console.log('All files uploaded to Firebase.');
+    await PostData(userId, series.title, series.name, series.folders);
+};
+
+export const updateAndPostSeries = async (series, url, userId) => {
+    console.log('Updating existing series:', { series });
+
+    try {
+        // Step 1: Update Firebase Storage
+        for (const folder of series.folders) {
+            const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
+
+            // Step 1.1: Delete old files (if any) in the folder
+            const folderRef = refs(storage, baseFolderPath); // Correct usage of refs()
+            const folderSnapshot = await listAll(folderRef);
+
+            // Delete all old files and subfolders in the folder
+            for (const item of folderSnapshot.items) {
+                try {
+                    await deleteObject(item);
+                    console.log(`Deleted old item: ${item.name}`);
+                } catch (error) {
+                    console.error(`Error deleting file ${item.name}:`, error);
+                }
+            }
+
+            // Step 1.2: Upload new files in the main folder
+            const uploadPromises = folder.files.map((file) => {
+                const fileRef = refs(storage, `${baseFolderPath}/${file.name}`);
+
+                return uploadBytes(fileRef, file)
+                    .then((snapshot) => {
+                        console.log(
+                            `${file.name} uploaded successfully to ${baseFolderPath}`
+                        );
+                    })
+                    .catch((error) => {
+                        console.error(
+                            `Error uploading file ${file.name}:`,
+                            error
+                        );
+                    });
+            });
+
+            // Loop through each subfolder to upload files, if any
+            for (const subFolder of folder.subFolders || []) {
+                const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
+                const subFolderRef = refs(storage, subFolderPath);
+
+                // Delete old files in the subfolder
+                const subFolderSnapshot = await listAll(subFolderRef);
+                for (const item of subFolderSnapshot.items) {
+                    try {
+                        await deleteObject(item);
+                        console.log(
+                            `Deleted old item in subfolder: ${item.name}`
+                        );
+                    } catch (error) {
+                        console.error(
+                            `Error deleting file in subfolder ${item.name}:`,
+                            error
+                        );
+                    }
+                }
+
+                // Upload all files in the current subfolder
+                const subFolderUploadPromises = subFolder.files.map((file) => {
+                    const fileRef = refs(
+                        storage,
+                        `${subFolderPath}/${file.name}`
+                    );
+                    return uploadBytes(fileRef, file)
+                        .then(() => {
+                            console.log(
+                                `${file.name} uploaded successfully to ${subFolderPath}`
+                            );
+                        })
+                        .catch((error) => {
+                            console.error(
+                                `Error uploading file in subfolder ${file.name}:`,
+                                error
+                            );
+                        });
+                });
+
+                // Wait for all subfolder uploads to complete
+                await Promise.all(subFolderUploadPromises);
+            }
+
+            // Wait for all main folder uploads to complete
+            await Promise.all(uploadPromises);
+        }
+
+        console.log('All files uploaded to Firebase Storage.');
+
+        // Step 2: Fetch and update the course data in Firebase Database
+        const tabsRef = ref(database, url); // URL pointing to the course
+        const snapshot = await get(tabsRef);
+
+        if (snapshot.exists()) {
+            const courseData = snapshot.val(); // Current course data
+
+            // Step 3: Map over the tabs to update the specific course
+            const updatedTabs = courseData.tabs.map((tab) => {
+                if (tab.name === series.name) {
+                    return {
+                        ...tab,
+                        title: series.title,
+                        sub: series.folders.map((folder) => ({
+                            name: folder.folderName,
+                            files: folder.files.map((file) => ({
+                                name: file.name,
+                                type: file.type,
+                                path: `Books/${userId}/${series.name}/${folder.folderName}/${file.name}` // Store the updated file path in DB
+                            })),
+                            subFolders: folder.subFolders.map((subFolder) => ({
+                                name: subFolder.subFolderName,
+                                files: subFolder.files.map((file) => ({
+                                    name: file.name,
+                                    type: file.type,
+                                    path: `Books/${userId}/${series.name}/${folder.folderName}/${subFolder.subFolderName}/${file.name}` // Store the updated file path for subfolder files
+                                }))
+                            }))
+                        }))
+                    };
+                }
+                return tab;
+            });
+
+            // Step 4: Update Firebase Realtime Database with the new data
+            await update(tabsRef, {
+                title: series.title,
+                tabs: updatedTabs
+            });
+
+            console.log('Course updated successfully in Firebase Database.');
+        } else {
+            console.error('Course not found at the specified URL.');
+        }
+    } catch (error) {
+        console.error('Error updating course in Firebase:', error);
+    }
+};
+
+

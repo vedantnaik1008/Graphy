@@ -2,13 +2,13 @@ import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import DashBoard from './components/DashBoard';
-import FormValidation from './components/FormValidation';
 import { Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
 // Import styles
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import TeacherMeeting from './pages/TeacherMeeting';
+import FormTab from './components/CourseForm/FormTab';
 
 function App() {
     const {userId} = useParams()
@@ -34,7 +34,7 @@ function App() {
                         />
                         <Route
                             path='/teacher/:userId'
-                            element={<FormValidation />}
+                            element={<FormTab />}
                         />
                         <Route
                             path='/teacher/:userId/create-meeting'
