@@ -172,7 +172,12 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                                 alt=''
                                                                 className={`cursor-pointer w-[8%] transition-all duration-200 ease-in-out absolute right-0 ${
                                                                     toggleState[
-                                                                        `subFolder-${subIndex}`
+                                                                        `subFolder-${subItem?.subFolders?.map(
+                                                                            (
+                                                                                subFolder
+                                                                            ) =>
+                                                                                subFolder.name
+                                                                        )}`
                                                                     ]
                                                                         ? 'rotate-90'
                                                                         : 'rotate-0'
