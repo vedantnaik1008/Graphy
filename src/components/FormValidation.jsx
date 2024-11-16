@@ -72,11 +72,11 @@ const FormValidation = () => {
         }
     };
     console.log(selectedCourse, formCourse && formCourse);
-console.log(isEditing);
+    console.log(isEditing);
 
     return (
         <>
-                <div className=''>
+                {formCourse !== null && <div className=''>
                     <button onClick={() => setIsEditing((prev) => !prev)}>
                         Edit
                     </button>
@@ -98,7 +98,7 @@ console.log(isEditing);
                                 ))}
                         </select>
                     )}
-                </div>
+                </div>}
             <div className='px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
                 <form
                     onSubmit={handleSubmit}
