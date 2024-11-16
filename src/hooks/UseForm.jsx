@@ -43,11 +43,11 @@ const UseMultipleBookSeriesForm = ({
         const transformFolders = (folders) => {
             return folders.map((folder) => ({
                 folderName: folder.name || '', // Map folder name
-                // files: folder.files || [], // Map files at folder level
+                files: folder.files || [], // Map files at folder level
                 subFolders: folder.subFolders
                     ? folder.subFolders.map((subFolder) => ({
                            subFolderName: subFolder.name || '', // Map subfolder name
-                        //   files: subFolder.files || [] // Map files in subfolder
+                          files: subFolder.files || [] // Map files in subfolder
                       }))
                     : [] // If no subfolders, set it to an empty array
             }));
@@ -61,6 +61,7 @@ const UseMultipleBookSeriesForm = ({
             }))
         };
     };
+console.log(formData);
 
     useEffect(() => {
         isMounted.current = true; // Mark the component as mounted

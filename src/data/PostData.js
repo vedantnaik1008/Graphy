@@ -197,101 +197,48 @@ export const updateAndPostSeries = async (series, url, userId) => {
     console.log('Updating existing series:', { series });
 
     try {
-        // Step 1: Update Firebase Storage
         for (const folder of series.folders) {
             const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
 
-            // Step 1.1: Delete old files (if any) in the folder
-            const folderRef = refs(storage, baseFolderPath); // Correct usage of refs()
-            const folderSnapshot = await listAll(folderRef);
+            // Cleanup folder
 
-            // Delete all old files and subfolders in the folder
-            for (const item of folderSnapshot.items) {
-                try {
-                    await deleteObject(item);
-                    console.log(`Deleted old item: ${item.name}`);
-                } catch (error) {
-                    console.error(`Error deleting file ${item.name}:`, error);
-                }
-            }
-
-            // Step 1.2: Upload new files in the main folder
+            // Upload new files in the folder
             const uploadPromises = folder.files.map((file) => {
                 const fileRef = refs(storage, `${baseFolderPath}/${file.name}`);
-
-                return uploadBytes(fileRef, file)
-                    .then((snapshot) => {
-                        console.log(
-                            `${file.name} uploaded successfully to ${baseFolderPath}`
-                        );
-                    })
-                    .catch((error) => {
-                        console.error(
-                            `Error uploading file ${file.name}:`,
-                            error
-                        );
-                    });
+                return uploadBytes(fileRef, file).then(() => {
+                    console.log(`${file.name} uploaded successfully.`);
+                });
             });
 
-            // Loop through each subfolder to upload files, if any
+            // Handle subfolders
             for (const subFolder of folder.subFolders || []) {
                 const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
-                const subFolderRef = refs(storage, subFolderPath);
+                await deleteFolderContents(subFolderPath);
 
-                // Delete old files in the subfolder
-                const subFolderSnapshot = await listAll(subFolderRef);
-                for (const item of subFolderSnapshot.items) {
-                    try {
-                        await deleteObject(item);
-                        console.log(
-                            `Deleted old item in subfolder: ${item.name}`
-                        );
-                    } catch (error) {
-                        console.error(
-                            `Error deleting file in subfolder ${item.name}:`,
-                            error
-                        );
-                    }
-                }
-
-                // Upload all files in the current subfolder
                 const subFolderUploadPromises = subFolder.files.map((file) => {
                     const fileRef = refs(
                         storage,
                         `${subFolderPath}/${file.name}`
                     );
-                    return uploadBytes(fileRef, file)
-                        .then(() => {
-                            console.log(
-                                `${file.name} uploaded successfully to ${subFolderPath}`
-                            );
-                        })
-                        .catch((error) => {
-                            console.error(
-                                `Error uploading file in subfolder ${file.name}:`,
-                                error
-                            );
-                        });
+                    return uploadBytes(fileRef, file).then(() => {
+                        console.log(`${file.name} uploaded to subfolder.`);
+                    });
                 });
 
-                // Wait for all subfolder uploads to complete
                 await Promise.all(subFolderUploadPromises);
             }
 
-            // Wait for all main folder uploads to complete
             await Promise.all(uploadPromises);
         }
 
-        console.log('All files uploaded to Firebase Storage.');
+        console.log('All files uploaded.');
 
-        // Step 2: Fetch and update the course data in Firebase Database
-        const tabsRef = ref(database, url); // URL pointing to the course
+        // Update database
+        const tabsRef = ref(database, url);
         const snapshot = await get(tabsRef);
 
         if (snapshot.exists()) {
-            const courseData = snapshot.val(); // Current course data
-
-            // Step 3: Map over the tabs to update the specific course
+            const courseData = snapshot.val();
             const updatedTabs = courseData.tabs.map((tab) => {
                 if (tab.name === series.name) {
                     return {
@@ -302,35 +249,35 @@ export const updateAndPostSeries = async (series, url, userId) => {
                             files: folder.files.map((file) => ({
                                 name: file.name,
                                 type: file.type,
-                                path: `Books/${userId}/${series.name}/${folder.folderName}/${file.name}` // Store the updated file path in DB
+                                path: `Books/${userId}/${series.name}/${folder.folderName}/${file.name}`
                             })),
-                            subFolders: folder.subFolders.map((subFolder) => ({
-                                name: subFolder.subFolderName,
-                                files: subFolder.files.map((file) => ({
-                                    name: file.name,
-                                    type: file.type,
-                                    path: `Books/${userId}/${series.name}/${folder.folderName}/${subFolder.subFolderName}/${file.name}` // Store the updated file path for subfolder files
-                                }))
-                            }))
+                            subFolders: (folder.subFolders || []).map(
+                                (subFolder) => ({
+                                    name: subFolder.subFolderName,
+                                    files: subFolder.files.map((file) => ({
+                                        name: file.name,
+                                        type: file.type,
+                                        path: `Books/${userId}/${series.name}/${folder.folderName}/${subFolder.subFolderName}/${file.name}`
+                                    }))
+                                })
+                            )
                         }))
                     };
                 }
                 return tab;
             });
-
-            // Step 4: Update Firebase Realtime Database with the new data
-            await update(tabsRef, {
-                title: series.title,
-                tabs: updatedTabs
-            });
-
-            console.log('Course updated successfully in Firebase Database.');
+            await update(tabsRef, { title: series.title, tabs: updatedTabs });
+            console.log('Course updated successfully.');
         } else {
             console.error('Course not found at the specified URL.');
         }
     } catch (error) {
-        console.error('Error updating course in Firebase:', error);
+        console.error('Error updating series:', error);
     }
 };
+
+
+           
+
 
 

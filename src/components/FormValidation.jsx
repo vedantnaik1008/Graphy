@@ -72,25 +72,33 @@ const FormValidation = () => {
         }
     };
     console.log(selectedCourse, formCourse && formCourse);
+console.log(isEditing);
 
     return (
         <>
-            <button onClick={() => setIsEditing((prev) => !prev)}>Edit</button>
-            {isEditing && (
-                <select onChange={handleCourseSelect} value={selectedCourse}>
-                    <option value={`users/${userId}/course/0`}>
-                        Select a course to edit
-                    </option>
-                    {courseList &&
-                        courseList.map((course, index) => (
-                            <option
-                                key={course.title}
-                                value={`users/${userId}/course/${index}`}>
-                                {course.title}
+                <div className=''>
+                    <button onClick={() => setIsEditing((prev) => !prev)}>
+                        Edit
+                    </button>
+
+                    {isEditing && (
+                        <select
+                            onChange={handleCourseSelect}
+                            value={selectedCourse}>
+                            <option value={`users/${userId}/course/0`}>
+                                Select a course to edit
                             </option>
-                        ))}
-                </select>
-            )}
+                            {courseList &&
+                                courseList.map((course, index) => (
+                                    <option
+                                        key={course.title}
+                                        value={`users/${userId}/course/${index}`}>
+                                        {course.title}
+                                    </option>
+                                ))}
+                        </select>
+                    )}
+                </div>
             <div className='px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
                 <form
                     onSubmit={handleSubmit}
@@ -103,18 +111,20 @@ const FormValidation = () => {
                         <input
                             type='text'
                             name='title'
-                            value={formData.series?.map((item)=> item.title) || ''}
+                            value={
+                                formData.series?.map((item) => item.title) || ''
+                            }
                             id={`title`}
                             onChange={(e, seriesIndex = 0) => {
                                 const { name, value } = e.target;
-                                 setFormData((prevData) => ({
-                                     ...prevData,
-                                     series: prevData?.series?.map((s, idx) =>
-                                         idx === seriesIndex
-                                             ? { ...s, [name]: value }
-                                             : s
-                                     )
-                                 }));
+                                setFormData((prevData) => ({
+                                    ...prevData,
+                                    series: prevData?.series?.map((s, idx) =>
+                                        idx === seriesIndex
+                                            ? { ...s, [name]: value }
+                                            : s
+                                    )
+                                }));
                             }}
                             placeholder='Course Name'
                             className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full '
