@@ -60,7 +60,7 @@ const { userId } = useParams();
                     />
                     <h2 className='text-black text-[10px] md:text-sm xl:text-base font-bold truncate block'>
                         {tabs === undefined
-                            ? 'Book Reading Marathon'
+                            ? ''
                             : tabs.replace(/\//g, ' ')}
                     </h2>
                 </div>

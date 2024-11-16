@@ -4,17 +4,16 @@ import SideBar from './SideBar';
 import useSideBar from '../hooks/useSideBar';
 
 const DashBoard = () => {
-    const [tabs, setTabs] = useState('Atomic Habits full book');
-    const [toggle, setToggle] = useState(false);
     const { tabsArray } = useSideBar();
+    const [tabs, setTabs] = useState(tabsArray && tabsArray[0]);
+    const [toggle, setToggle] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-     useEffect(() => {
-         if (tabsArray?.length > 0) {
-             const newIndex = tabsArray.indexOf(tabs);
-         }
-     }, [tabs, tabsArray]);
-
+    useEffect(() => {
+        if (tabsArray?.length > 0) {
+            const newIndex = tabsArray.indexOf(tabs);
+        }
+    }, [tabs, tabsArray]);
 
     return (
         <section className='lg:flex'>
@@ -37,4 +36,4 @@ const DashBoard = () => {
     );
 };
 
-export default DashBoard
+export default DashBoard;

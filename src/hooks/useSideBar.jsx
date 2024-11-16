@@ -6,7 +6,7 @@ import useUserData from './useUserData';
 const useSideBar = () => {
     const [tabsData, setTabsData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {userID, userId} = useUserData()
+    const { userID, userId } = useUserData();
 
     useEffect(() => {
         const tabsRef = ref(database, `users/${userId}/course`);
@@ -61,21 +61,21 @@ const useSideBar = () => {
                 Loading
             </p>
         );
-    let tabsArrayData = []
-    const tabsArray =  tabsData?.map((tabsdata) => {
-        return tabsdata?.tabs?.map((tab)=> {
-            return tab?.sub?.map((subItem)=> {
+    let tabsArrayData = [];
+    const tabsArray = tabsData?.map((tabsdata) => {
+        return tabsdata?.tabs?.map((tab) => {
+            return tab?.sub?.map((subItem) => {
                 const data = `${tab.name} ${subItem.name}`;
                 tabsArrayData.push(data);
-                return subItem?.subFolders?.map((subFolder)=> {
-                    const subFolderData =  `${tab.name} ${subItem.name} ${subFolder.name}`
-                    return tabsArrayData.push(subFolderData)
-                })
-            })
-        })
+                return subItem?.subFolders?.map((subFolder) => {
+                    const subFolderData = `${tab.name} ${subItem.name} ${subFolder.name}`;
+                    return tabsArrayData.push(subFolderData);
+                });
+            });
+        });
     });
 
-    let tabsArrayDataUrl = []
+    let tabsArrayDataUrl = [];
     const tabsArrayUrl = tabsData?.map((tabsdata) => {
         return tabsdata?.tabs?.map((tab) => {
             return tab?.sub?.map((subItem) => {
@@ -89,9 +89,13 @@ const useSideBar = () => {
         });
     });
 
-    // console.log(tabsArrayData, tabsArrayDataUrl);
-    
-    return { tabsData, setTabsData, loading, tabsArray: tabsArrayData, tabsArrayUrl: tabsArrayDataUrl };
+    return {
+        tabsData,
+        setTabsData,
+        loading,
+        tabsArray: tabsArrayData,
+        tabsArrayUrl: tabsArrayDataUrl
+    };
 };
 
 export default useSideBar;
