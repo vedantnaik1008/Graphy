@@ -11,7 +11,9 @@ const Folders = (
     handleSubFolderFileChange,
     loading,
     removeSubFolder,
-    addSubFolder}
+    addSubFolder,
+    isEditing
+}
 ) => {
     return (
         <>
@@ -79,11 +81,11 @@ const Folders = (
                     </label>
 
                     {/* Display uploaded files */}
-                    <ul className='list-disc pl-4 mb-4'>
+                    {!isEditing && <ul className='list-disc pl-4 mb-4'>
                         {folder?.files?.map((file, index) => (
                             <li key={index}>{file.name}</li>
                         ))}
-                    </ul>
+                    </ul>}
 
                     {/* Subfolders */}
                     <SubFolder
@@ -94,6 +96,7 @@ const Folders = (
                         handleSubFolderFileChange={handleSubFolderFileChange}
                         loading={loading}
                         removeSubFolder={removeSubFolder}
+                        isEditing={isEditing}
                     />
 
                     <div className='flex gap-4 items-center mb-4'>

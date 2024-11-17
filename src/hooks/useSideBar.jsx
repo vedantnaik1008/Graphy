@@ -79,15 +79,18 @@ const useSideBar = () => {
     const tabsArrayUrl = tabsData?.map((tabsdata) => {
         return tabsdata?.tabs?.map((tab) => {
             return tab?.sub?.map((subItem) => {
-                const data = `${tab.name}/${subItem.name}`;
+                const data = `${tabsdata?.uniqueId}/${tabsdata?.title}/${tab.name}/${subItem.name}`;
                 tabsArrayDataUrl.push(data);
                 return subItem?.subFolders?.map((subFolder) => {
-                    const subFolderData = `${tab.name}/${subItem.name}/${subFolder.name}`;
+                    const subFolderData = `${tabsdata?.uniqueId}/${tabsdata?.title}/${tab.name}/${subItem.name}/${subFolder.name}`;
                     return tabsArrayDataUrl.push(subFolderData);
                 });
             });
         });
     });
+const uniqueId = tabsData[0]?.uniqueId;
+    console.log(tabsData, uniqueId);
+    
 
     return {
         tabsData,

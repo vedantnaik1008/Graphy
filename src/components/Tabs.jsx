@@ -4,6 +4,10 @@ import Books from './Books/Books';
 
 const Tabs = ({tabs: tab}) => {
 const { tabsArrayUrl } = useSideBar();
+console.log(tabsArrayUrl, tab, 'tabsArrayUrl');
+const data = tabsArrayUrl?.map((url) => url.split('/').slice(2).join(' '));
+console.log(data, 'data');
+
     
     return (
         <section className=' overflow-y-scroll overflow-x-hidden h-screen'>
@@ -11,7 +15,7 @@ const { tabsArrayUrl } = useSideBar();
                 {tabsArrayUrl?.map((item) => (
                     <div className='' key={`@${item}`}>
                         {tab.replace(/\//g, ' ') ===
-                        item.replace(/\//g, ' ') ? (
+                        item.split('/').slice(2).join(' ') ? (
                             <Books bookUrl={`${item}`} />
                         ) : null}
                     </div>

@@ -9,6 +9,9 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import TeacherMeeting from './pages/TeacherMeeting';
 import FormTab from './components/CourseForm/FormTab';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the toastify CSS
+
 
 function App() {
     const {userId} = useParams()
@@ -26,19 +29,23 @@ function App() {
         <>
             <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js'>
                 <BrowserRouter>
+                    <ToastContainer
+                        position='top-right'
+                        autoClose={2000}
+                        hideProgressBar={false}
+                    />
                     <Routes>
                         <Route path='/' element={<Home />} />
                         <Route
                             path='/dashboard/:userId'
                             element={<DashBoard />}
                         />
-                        <Route
-                            path='/teacher/:userId'
-                            element={<FormTab />}
-                        />
+                        <Route path='/teacher/:userId' element={<FormTab />} />
                         <Route
                             path='/teacher/:userId/create-meeting'
-                            element={<TeacherMeeting payload={payloadTeacher} />}
+                            element={
+                                <TeacherMeeting payload={payloadTeacher} />
+                            }
                         />
                     </Routes>
                 </BrowserRouter>

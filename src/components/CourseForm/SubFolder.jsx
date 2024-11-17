@@ -7,7 +7,8 @@ const SubFolder = ({
     handleSubFolderNameChange,
     handleSubFolderFileChange,
     loading,
-    removeSubFolder
+    removeSubFolder,
+    isEditing
 }) => {
     return (
         <>
@@ -78,14 +79,14 @@ const SubFolder = ({
                             className='hidden'
                         />
                     </label>
-
                     {/* Display uploaded subfolder files */}
-                    <ul className='list-disc pl-4 mb-4'>
-                        {subFolder?.files?.map((file, index) => (
-                            <li key={index}>{file.name}</li>
-                        ))}
-                    </ul>
-
+                    {!isEditing && (
+                        <ul className='list-disc pl-4 mb-4'>
+                            {subFolder?.files?.map((file, index) => (
+                                <li key={index}>{file.name}</li>
+                            ))}
+                        </ul>
+                    )}
                     <button
                         disabled={loading}
                         type='button'
@@ -105,4 +106,4 @@ const SubFolder = ({
     );
 };
 
-export default SubFolder
+export default SubFolder;

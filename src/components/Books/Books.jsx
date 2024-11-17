@@ -8,7 +8,10 @@ import { useParams } from 'react-router-dom';
 const Books = ({ bookUrl }) => {
     // const {userID} = useUserData()
     const { userId } = useParams();
-    const { fileLinks, loading } = useStorage(`Books/${userId}/${bookUrl}`);
+    const { fileLinks, loading } = useStorage(
+        `Books/${userId}/${bookUrl}`
+    );
+    console.log(fileLinks, 'pdf');
     
     
 const defaultLayoutPluginInstance = defaultLayoutPlugin();

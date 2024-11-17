@@ -1,10 +1,17 @@
 import { get, ref, remove, set, update } from 'firebase/database';
 import { database, storage } from '../FirebaseConfig';
-import { uploadBytes, ref as refs, deleteObject, listAll } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
+import { uploadBytes, ref as refs, listAll, deleteObject } from 'firebase/storage';
 
-export const PostData = async (userId , title, name, folders) => {
+export const PostData = async (userId, title, name, folders, uniqueId) => {
     // Log the inputs to ensure title, name, and folders are correctly received
-    console.log('PostData received:', {userId, title, name, folders });
+    console.log('PostData received:', {
+        userId,
+        title,
+        name,
+        folders,
+        uniqueId
+    });
 
     // Check if title is provided, otherwise return an error
     if (!title || title.trim() === '') {
@@ -28,89 +35,38 @@ export const PostData = async (userId , title, name, folders) => {
         // Log the new ID for the course
         console.log('Next available ID:', newId);
 
-        // Create a reference for the new title
-        const titleRef = ref(database, `users/${userId}/course/${newId}`);
+        // Title doesn't exist, create a new title with tabs
+        const subTabs = folders.map((folder) => ({
+            name: folder.folderName,
+            files: folder.files.map((file) => ({
+                name: file.name,
+                type: file.type
+            })),
+            subFolders: folder.subFolders
+                .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
+                .map((subFolder) => ({
+                    name: subFolder.subFolderName,
+                    files: subFolder.files.map((file) => ({
+                        name: file.name,
+                        type: file.type
+                    }))
+                }))
+        }));
 
-        // Fetch all titles to check if the provided title already exists
-        const titlesSnapshot = await get(tabsRef);
-        let existingTitleData = null;
-
-        // Check if the title already exists
-        if (titlesSnapshot.exists()) {
-            const titles = titlesSnapshot.val();
-            existingTitleData = Object.values(titles).find(
-                (tab) => tab.title === title
-            );
-        }
-
-        // If the title exists, update it with the new tab, otherwise, create a new entry for the title
-        if (existingTitleData) {
-            // Add the new tab under the existing title
-            const updatedTabs = [
-                ...existingTitleData.tabs,
+        await set(ref(database, `users/${userId}/course/${newId}`), {
+            title: title,
+            uniqueId: uniqueId,
+            tabs: [
                 {
                     completed: 'false',
                     completedIcon: 'completedIcon',
                     icon: 'PDF',
                     name: name,
-                    sub: folders.map((folder) => ({
-                        name: folder.folderName,
-                        files: folder.files.map((file) => ({
-                            name: file.name,
-                            type: file.type
-                        })),
-                        subFolders: folder.subFolders
-                            .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
-                            .map((subFolder) => ({
-                                name: subFolder.subFolderName,
-                                files: subFolder.files.map((file) => ({
-                                    name: file.name,
-                                    type: file.type
-                                }))
-                            }))
-                    }))
+                    sub: subTabs
                 }
-            ];
-
-            // Update the existing title with the new tab
-            await update(ref(database, `users/${userId}/course/${newId}`), {
-                title: title,
-                tabs: updatedTabs
-            });
-            console.log(`Added new tab to existing title: ${title}`);
-        } else {
-            // Title doesn't exist, create a new title with tabs
-            const subTabs = folders.map((folder) => ({
-                name: folder.folderName,
-                files: folder.files.map((file) => ({
-                    name: file.name,
-                    type: file.type
-                })),
-                subFolders: folder.subFolders
-                    .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
-                    .map((subFolder) => ({
-                        name: subFolder.subFolderName,
-                        files: subFolder.files.map((file) => ({
-                            name: file.name,
-                            type: file.type
-                        }))
-                    }))
-            }));
-
-            await set(ref(database, `users/${userId}/course/${newId}`), {
-                title: title,
-                tabs: [
-                    {
-                        completed: 'false',
-                        completedIcon: 'completedIcon',
-                        icon: 'PDF',
-                        name: name,
-                        sub: subTabs
-                    }
-                ]
-            });
-            console.log(`Created new title and added new tab: ${title}`);
-        }
+            ]
+        });
+        console.log(`Created new title and added new tab: ${title}`);
     } catch (error) {
         // Log the error and rethrow
         console.error('Error adding data:', error);
@@ -157,9 +113,14 @@ export const getUserData = async (userId) => {
 };
 
 export const uploadAndPostSeries = async (series, userId) => {
+    // Generate a unique ID for this upload session
+    const uniqueId = uuidv4();
+
+    console.log(`Generated unique ID: ${uniqueId}`); // Log the unique ID for reference
+
     // Loop through each folder to upload files
     for (const folder of series.folders) {
-        const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
+        const baseFolderPath = `Books/${userId}/${uniqueId}/${series.title}/${series.name}/${folder.folderName}`;
 
         // Upload files in the main folder
         const uploadPromises = folder.files.map((file) => {
@@ -190,94 +151,152 @@ export const uploadAndPostSeries = async (series, userId) => {
     }
 
     console.log('All files uploaded to Firebase.');
-    await PostData(userId, series.title, series.name, series.folders);
+
+    // Save data with the auto-generated unique ID
+    await PostData(userId, series.title, series.name, series.folders, uniqueId);
 };
 
-export const updateAndPostSeries = async (series, url, userId) => {
-    console.log('Updating existing series:', { series });
+const deleteFilesInPath = async (folderPath) => {
+    const folderRef = refs(storage, folderPath);
 
     try {
-        for (const folder of series.folders) {
-            const baseFolderPath = `Books/${userId}/${series.name}/${folder.folderName}`;
+        // List all files and subfolders
+        const listResult = await listAll(folderRef);
 
-            // Cleanup folder
+        // Delete all files in the current folder
+        const fileDeletionPromises = listResult.items.map((itemRef) =>
+            deleteObject(itemRef)
+        );
 
-            // Upload new files in the folder
-            const uploadPromises = folder.files.map((file) => {
-                const fileRef = refs(storage, `${baseFolderPath}/${file.name}`);
-                return uploadBytes(fileRef, file).then(() => {
-                    console.log(`${file.name} uploaded successfully.`);
-                });
-            });
+        // Recursively delete all subfolders
+        const folderDeletionPromises = listResult.prefixes.map((subFolderRef) =>
+            deleteFilesInPath(subFolderRef.fullPath)
+        );
 
-            // Handle subfolders
-            for (const subFolder of folder.subFolders || []) {
-                const subFolderPath = `${baseFolderPath}/${subFolder.subFolderName}`;
-                await deleteFolderContents(subFolderPath);
+        // Wait for all deletions to complete
+        await Promise.all([...fileDeletionPromises, ...folderDeletionPromises]);
 
-                const subFolderUploadPromises = subFolder.files.map((file) => {
-                    const fileRef = refs(
-                        storage,
-                        `${subFolderPath}/${file.name}`
-                    );
-                    return uploadBytes(fileRef, file).then(() => {
-                        console.log(`${file.name} uploaded to subfolder.`);
-                    });
-                });
-
-                await Promise.all(subFolderUploadPromises);
-            }
-
-            await Promise.all(uploadPromises);
-        }
-
-        console.log('All files uploaded.');
-
-        // Update database
-        const tabsRef = ref(database, url);
-        const snapshot = await get(tabsRef);
-
-        if (snapshot.exists()) {
-            const courseData = snapshot.val();
-            const updatedTabs = courseData.tabs.map((tab) => {
-                if (tab.name === series.name) {
-                    return {
-                        ...tab,
-                        title: series.title,
-                        sub: series.folders.map((folder) => ({
-                            name: folder.folderName,
-                            files: folder.files.map((file) => ({
-                                name: file.name,
-                                type: file.type,
-                                path: `Books/${userId}/${series.name}/${folder.folderName}/${file.name}`
-                            })),
-                            subFolders: (folder.subFolders || []).map(
-                                (subFolder) => ({
-                                    name: subFolder.subFolderName,
-                                    files: subFolder.files.map((file) => ({
-                                        name: file.name,
-                                        type: file.type,
-                                        path: `Books/${userId}/${series.name}/${folder.folderName}/${subFolder.subFolderName}/${file.name}`
-                                    }))
-                                })
-                            )
-                        }))
-                    };
-                }
-                return tab;
-            });
-            await update(tabsRef, { title: series.title, tabs: updatedTabs });
-            console.log('Course updated successfully.');
-        } else {
-            console.error('Course not found at the specified URL.');
-        }
+        console.log(`Deleted all files and folders in ${folderPath}`);
     } catch (error) {
-        console.error('Error updating series:', error);
+        console.error(
+            `Failed to delete files in ${folderPath}: ${error.message}`
+        );
+        throw error; // Re-throw to allow upstream handling
     }
 };
 
 
-           
+const updateBooks = async (series, userId, uniqueId) => {
+    try {
+        const baseFolderPath = `Books/${userId}/${uniqueId}`;
+        await deleteFilesInPath(baseFolderPath);
+        // Loop through each folder in the series to upload files and subfolders
+        const folderUpdates = series.folders.map((folder) => {
+            const folderPath = `${baseFolderPath}/${series.title}/${series.name}/${folder.folderName}`;
+
+            // Upload files in the main folder
+            const uploadPromises = folder.files.map((file) => {
+                const fileRef = refs(
+                    storage,
+                    `${folderPath}/${file.name}`
+                );
+                return uploadBytes(fileRef, file)
+                    .then(() => {
+                        console.log(
+                            `${file.name} uploaded successfully to ${folderPath}`
+                        );
+                    })
+                    .catch((error) => {
+                        console.error(
+                            `Failed to upload ${file.name} to ${folderPath}: ${error.message}`
+                        );
+                    });
+            });
+
+            // Upload files in subfolders if any
+            const subFolderUpdates = folder.subFolders.map((subFolder) => {
+                const subFolderPath = `${folderPath}/${subFolder.subFolderName}`;
+                const subFolderPromises = subFolder.files.map((file) => {
+                    const fileRef = refs(
+                        storage,
+                        `${subFolderPath}/${file.name}`
+                    );
+                    return uploadBytes(fileRef, file)
+                        .then(() => {
+                            console.log(
+                                `${file.name} uploaded successfully to ${subFolderPath}`
+                            );
+                        })
+                        .catch((error) => {
+                            console.error(
+                                `Failed to upload ${file.name} in subfolder ${subFolder.subFolderName}: ${error.message}`
+                            );
+                        });
+                });
+                return Promise.all(subFolderPromises);
+            });
+
+            // Wait for all subfolder uploads and folder uploads to complete
+            return Promise.all([
+                Promise.all(uploadPromises),
+                ...subFolderUpdates
+            ]);
+        });
+
+        // Wait for all file uploads to complete
+        await Promise.all(folderUpdates);
+        console.log('All files uploaded successfully to Firebase Storage.');
+    } catch (error) {
+        console.error(
+            'Failed to update books in Firebase Storage:',
+            error.message
+        );
+        throw error; // Re-throw to allow upstream handling
+    }
+};
 
 
+export const updateAndPostSeries = async (series, url, uniqueId) => {
+    try {
+        if (!url || typeof url !== 'string') {
+            throw new Error('Invalid URL.');
+        }
+        const tabsRef = ref(database, url); // Reference to the Tabs collection
+        const updatedTabs = [
+            {
+                completed: 'false',
+                completedIcon: 'completedIcon',
+                icon: 'PDF',
+                name: series.name,
+                sub: series.folders.map((folder) => ({
+                    name: folder.folderName,
+                    files: folder.files.map((file) => ({
+                        name: file.name,
+                        type: file.type
+                    })),
+                    subFolders: folder.subFolders
+                        .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
+                        .map((subFolder) => ({
+                            name: subFolder.subFolderName,
+                            files: subFolder.files.map((file) => ({
+                                name: file.name,
+                                type: file.type
+                            }))
+                        }))
+                }))
+            }
+        ];
 
+        await update(tabsRef, {
+            uniqueId: uniqueId,
+            title: series.title,
+            tabs: updatedTabs
+        });
+        console.log('Series updated successfully:', updatedTabs);
+        const userId = url.split('/').slice(1, 2);
+        await updateBooks(series, userId, uniqueId);
+    } catch (error) {
+        console.error('Failed to update series:', error.message);
+        throw error; // Re-throw to allow upstream handling
+    }
+};

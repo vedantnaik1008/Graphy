@@ -23,7 +23,6 @@ const Home = () => {
         }
     };
 
-    console.log(role);
     
     
     return (

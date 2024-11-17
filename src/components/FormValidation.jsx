@@ -15,6 +15,12 @@ const FormValidation = () => {
         course: selectedCourse,
         isEditing
     });
+    const selectedCourseIndex = selectedCourse
+        .split('/')
+        .slice(3, 4)
+        .toString();
+
+    const uniqueId = courseList && courseList[selectedCourseIndex]?.uniqueId;
     const {
         handleChange,
         handleFileChange,
@@ -35,13 +41,13 @@ const FormValidation = () => {
         formCourseData: formCourse,
         isEditing,
         setIsEditing,
-        selectedCourse
+        selectedCourse,
+        uniqueId: uniqueId
     });
 
     const handleCourseSelect = async (e) => {
         const courseValue = e.target.value;
         setSelectedCourse(courseValue);
-        console.log('courseValue', courseValue);
 
         if (courseValue) {
             // Set editing mode and fetch data for the selected course
@@ -71,8 +77,11 @@ const FormValidation = () => {
             }); // Reset form if no course is selected
         }
     };
-    console.log(selectedCourse, formCourse && formCourse);
-    console.log(isEditing);
+ 
+        
+
+console.log(uniqueId);
+
 
     return (
         <>
@@ -170,6 +179,7 @@ const FormValidation = () => {
                                 loading={loading}
                                 removeSubFolder={removeSubFolder}
                                 addSubFolder={addSubFolder}
+                                isEditing={isEditing}
                             />
 
                             <button

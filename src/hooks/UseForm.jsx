@@ -1,12 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateAndPostSeries, uploadAndPostSeries } from '../data/PostData';
+import { toast } from 'react-toastify';
 
 const UseMultipleBookSeriesForm = ({
     formCourseData,
     isEditing,
     setIsEditing,
-    selectedCourse
+    selectedCourse,
+    uniqueId
 }) => {
     const initialFormData = {
         series: [
@@ -43,11 +45,11 @@ const UseMultipleBookSeriesForm = ({
         const transformFolders = (folders) => {
             return folders.map((folder) => ({
                 folderName: folder.name || '', // Map folder name
-                files: folder.files || [], // Map files at folder level
+                // files: folder.files || [], // Map files at folder level
                 subFolders: folder.subFolders
                     ? folder.subFolders.map((subFolder) => ({
                            subFolderName: subFolder.name || '', // Map subfolder name
-                          files: subFolder.files || [] // Map files in subfolder
+                        //   files: subFolder.files || [] // Map files in subfolder
                       }))
                     : [] // If no subfolders, set it to an empty array
             }));
@@ -62,6 +64,7 @@ const UseMultipleBookSeriesForm = ({
         };
     };
 console.log(formData);
+                console.log(uniqueId, 'useFOrm');
 
     useEffect(() => {
         isMounted.current = true; // Mark the component as mounted
@@ -120,6 +123,7 @@ console.log(formData);
                     : s
             )
         }));
+        toast.success(`${files.length} file(s) uploaded successfully!`);
     };
 
     const handleFolderNameChange = (seriesIndex, folderIndex, e) => {
@@ -210,6 +214,7 @@ console.log(formData);
                     : s
             )
         }));
+        toast.success(`${files.length} file(s) uploaded successfully!`);
     };
 
     const addFolder = (seriesIndex) => {
@@ -338,21 +343,21 @@ console.log(formData);
                         `Series ${i + 1} name must be at least 4 characters.`
                     );
                 }
-
+                
                 if (isEditing) {
                     setIsEditing(true);
-                    await updateAndPostSeries(series, selectedCourse, userId);
+                    await updateAndPostSeries(series, selectedCourse, uniqueId);
                 } else {
                     setIsEditing(false);
                     await uploadAndPostSeries(series, userId);
                 }
             }
 
-            alert('All series uploaded successfully!');
+            toast.success(`Series ${formData.series[0].name} uploaded successfully!`);
             navigate(`/dashboard/${userId}`);
         } catch (error) {
             console.error(error);
-            alert('Upload failed: ' + error.message);
+            toast.error('Upload failed: ' + error.message);
         } finally {
             setLoading(false);
             setFormData(initialFormData); // Reset to initial state after submit
