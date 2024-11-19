@@ -48,8 +48,8 @@ const UseMultipleBookSeriesForm = ({
                 // files: folder.files || [], // Map files at folder level
                 subFolders: folder.subFolders
                     ? folder.subFolders.map((subFolder) => ({
-                           subFolderName: subFolder.name || '', // Map subfolder name
-                        //   files: subFolder.files || [] // Map files in subfolder
+                          subFolderName: subFolder.name || '' // Map subfolder name
+                          //   files: subFolder.files || [] // Map files in subfolder
                       }))
                     : [] // If no subfolders, set it to an empty array
             }));
@@ -63,8 +63,8 @@ const UseMultipleBookSeriesForm = ({
             }))
         };
     };
-console.log(formData);
-                console.log(uniqueId, 'useFOrm');
+    console.log(formData);
+    console.log(uniqueId, 'useFOrm');
 
     useEffect(() => {
         isMounted.current = true; // Mark the component as mounted
@@ -343,7 +343,7 @@ console.log(formData);
                         `Series ${i + 1} name must be at least 4 characters.`
                     );
                 }
-                
+
                 if (isEditing) {
                     setIsEditing(true);
                     await updateAndPostSeries(series, selectedCourse, uniqueId);
@@ -353,7 +353,9 @@ console.log(formData);
                 }
             }
 
-            toast.success(`Series ${formData.series[0].title} uploaded successfully!`);
+            toast.success(
+                `Series ${formData.series[0].title} uploaded successfully!`
+            );
             navigate(`/dashboard/${userId}`);
         } catch (error) {
             console.error(error);

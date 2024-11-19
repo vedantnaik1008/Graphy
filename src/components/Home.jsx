@@ -2,8 +2,9 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../FirebaseConfig";
 import { useNavigate, useParams } from "react-router-dom";
 import UseRole from "../hooks/UseRole";
-import { postUserData } from "../data/PostData";
+import { checkUserExistence, postUserData } from "../data/PostData";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 const Home = () => {
@@ -17,7 +18,13 @@ const Home = () => {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
             const { email, uid } = result.user;
+            // Check if user already exists
+            const userExists = await checkUserExistence(uid);
 
+            if (userExists) {
+                toast.info('You are already logged in!');
+                return; // Exit the function if user already exists
+            }
             // Post user data to Firebase Realtime Database
             await postUserData(email, uid, role);
             const iframeSrc = `https://books30.vercel.app/dashboard/${uid}`;

@@ -75,6 +75,24 @@ export const PostData = async (userId, title, name, folders, uniqueId) => {
     }
 };
 
+
+export const checkUserExistence = async (uid) => {
+    const userRef = ref(database, `/users/${uid}`);
+
+    try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+            return true; // User exists
+        } else {
+            return false; // User doesn't exist
+        }
+    } catch (error) {
+        console.error('Error checking user existence:', error);
+        return false; // Error occurred, assume user doesn't exist
+    }
+};
+
+
 export const postUserData = async (email, userId, role) => {
     try {
         await set(ref(database, 'users/' + userId), {
