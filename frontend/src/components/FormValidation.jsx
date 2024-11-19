@@ -85,30 +85,38 @@ console.log(uniqueId);
 
     return (
         <>
-                {formCourse !== null && <div className=''>
-                    <button onClick={() => setIsEditing((prev) => !prev)}>
-                        Edit
+            {formCourse !== null && (
+                <div className=' '>
+                    <button
+                        className='px-8 py-2 text-sm rounded-lg bg-blue-500 my-2 mx-2 text-white'
+                        onClick={() => setIsEditing((prev) => !prev)}>
+                        Update Course
                     </button>
 
                     {isEditing && (
                         <select
                             onChange={handleCourseSelect}
-                            value={selectedCourse}>
-                            <option value={`users/${userId}/course/0`}>
+                            value={selectedCourse}
+                            className='ml-2'>
+                            <option
+                                className=''
+                                value={`users/${userId}/course/0`}>
                                 Select a course to edit
                             </option>
                             {courseList &&
                                 courseList.map((course, index) => (
                                     <option
                                         key={course.title}
+                                        className=''
                                         value={`users/${userId}/course/${index}`}>
                                         {course.title}
                                     </option>
                                 ))}
                         </select>
                     )}
-                </div>}
-            <div className='px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
+                </div>
+            )}
+            <div className='mt-8 md:mt-0 px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
                 <form
                     onSubmit={handleSubmit}
                     className='flex flex-col gap-8 items-center justify-center'>
