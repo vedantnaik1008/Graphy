@@ -86,7 +86,7 @@ console.log(uniqueId);
     return (
         <>
             {formCourse !== null && (
-                <div className=' '>
+                <div className=''>
                     <button
                         className='px-8 py-2 text-sm rounded-lg bg-blue-500 my-2 mx-2 text-white'
                         onClick={() => setIsEditing((prev) => !prev)}>
@@ -97,17 +97,17 @@ console.log(uniqueId);
                         <select
                             onChange={handleCourseSelect}
                             value={selectedCourse}
-                            className='ml-2'>
+                            className='ml-2 w-40 p-1 md:w-64 md:p-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500'>
                             <option
-                                className=''
+                                className='text-black font-normal'
                                 value={`users/${userId}/course/0`}>
-                                Select a course to edit
+                                Select a course
                             </option>
                             {courseList &&
                                 courseList.map((course, index) => (
                                     <option
                                         key={course.title}
-                                        className=''
+                                        className='text-black font-normal'
                                         value={`users/${userId}/course/${index}`}>
                                         {course.title}
                                     </option>
