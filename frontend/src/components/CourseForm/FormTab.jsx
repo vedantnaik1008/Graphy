@@ -1,5 +1,4 @@
 import FormValidation from '../FormValidation';
-import GetMeetings from '../Meetings/GetMeetings';
 
 
 const FormTab = () => {
@@ -8,7 +7,6 @@ const FormTab = () => {
     return (
         <section className=''>
             <FormValidation />
-            <GetMeetings />
         </section>
     );
 };
