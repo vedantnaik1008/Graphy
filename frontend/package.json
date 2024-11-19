@@ -3,8 +3,8 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
-    "proxy": "http://localhost:3000",
     "scripts": {
+        "preinstall": "npm ci",
         "dev": "vite",
         "build": "vite build",
         "lint": "eslint .",
