@@ -14,7 +14,7 @@ console.log(data, 'data');
             <div className='transition-all duration-300 ease-in-out w-[98%] h-full md:w-[90%] mx-auto'>
                 {tabsArrayUrl?.map((item) => (
                     <div className='' key={`@${item}`}>
-                        {tab.replace(/\//g, ' ') ===
+                        {tab?.replace(/\//g, ' ') ===
                         item.split('/').slice(2).join(' ') ? (
                             <Books bookUrl={`${item}`} />
                         ) : null}

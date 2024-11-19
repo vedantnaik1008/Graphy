@@ -47,13 +47,13 @@ const FirebaseAuth = ({userId}) => {
    
 
     return (
-        <div className='flex gap-2 items-center'>
-            {!user ? null : (
+        <div className='hidden'>
+            {/* {!user ? null : (
                 <>
                     <img src={user.photoURL} alt='' className='rounded-full h-10 w-10' />
                     <button onClick={logout}>Log Out</button>
                 </>
-            )}
+            )} */}
         </div>
     );
 };
