@@ -353,7 +353,7 @@ console.log(formData);
                 }
             }
 
-            toast.success(`Series ${formData.series[0].name} uploaded successfully!`);
+            toast.success(`Series ${formData.series[0].title} uploaded successfully!`);
             navigate(`/dashboard/${userId}`);
         } catch (error) {
             console.error(error);

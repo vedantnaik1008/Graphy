@@ -2,6 +2,7 @@ import { get, ref, remove, set, update } from 'firebase/database';
 import { database, storage } from '../FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadBytes, ref as refs, listAll, deleteObject } from 'firebase/storage';
+import { toast } from 'react-toastify';
 
 export const PostData = async (userId, title, name, folders, uniqueId) => {
     // Log the inputs to ensure title, name, and folders are correctly received
@@ -126,7 +127,7 @@ export const uploadAndPostSeries = async (series, userId) => {
         const uploadPromises = folder.files.map((file) => {
             const fileRef = refs(storage, `${baseFolderPath}/${file.name}`);
             return uploadBytes(fileRef, file).then(() => {
-                console.log(`${file.name} uploaded successfully`);
+                toast.success(`${file.name} uploaded successfully`);
             });
         });
 
@@ -136,9 +137,7 @@ export const uploadAndPostSeries = async (series, userId) => {
             const subFolderUploadPromises = subFolder.files.map((file) => {
                 const fileRef = refs(storage, `${subFolderPath}/${file.name}`);
                 return uploadBytes(fileRef, file).then(() => {
-                    console.log(
-                        `${file.name} uploaded successfully in ${subFolder.subFolderName}`
-                    );
+                    toast.success(`${file.name} uploaded successfully`);
                 });
             });
 
@@ -150,7 +149,7 @@ export const uploadAndPostSeries = async (series, userId) => {
         await Promise.all(uploadPromises);
     }
 
-    console.log('All files uploaded to Firebase.');
+    toast.success('All files uploaded successfully');
 
     // Save data with the auto-generated unique ID
     await PostData(userId, series.title, series.name, series.folders, uniqueId);
@@ -202,9 +201,7 @@ const updateBooks = async (series, userId, uniqueId) => {
                 );
                 return uploadBytes(fileRef, file)
                     .then(() => {
-                        console.log(
-                            `${file.name} uploaded successfully to ${folderPath}`
-                        );
+                        toast.success(`${file.name} uploaded successfully`);
                     })
                     .catch((error) => {
                         console.error(
@@ -223,9 +220,7 @@ const updateBooks = async (series, userId, uniqueId) => {
                     );
                     return uploadBytes(fileRef, file)
                         .then(() => {
-                            console.log(
-                                `${file.name} uploaded successfully to ${subFolderPath}`
-                            );
+                            toast.success(`${file.name} uploaded successfully`);
                         })
                         .catch((error) => {
                             console.error(
@@ -246,6 +241,7 @@ const updateBooks = async (series, userId, uniqueId) => {
         // Wait for all file uploads to complete
         await Promise.all(folderUpdates);
         console.log('All files uploaded successfully to Firebase Storage.');
+        toast.success(`All files uploaded successfully`);
     } catch (error) {
         console.error(
             'Failed to update books in Firebase Storage:',
