@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
-import CreateMeeting from '../components/Meetings/CreateMeeting';
+// import CreateMeeting from '../components/Meetings/CreateMeeting';
 
 const TeacherMeeting = ({ payload }) => {
     useEffect(() => {
@@ -83,9 +83,9 @@ const TeacherMeeting = ({ payload }) => {
                 rel='stylesheet'
                 href='https://source.zoom.us/2.18.0/css/react-select.css'
             />
-            <div className="relative z-[10000001]">
+            {/* <div className="relative z-[10000001]">
                 <CreateMeeting />
-            </div>
+            </div> */}
         </React.Fragment>
     );
 };
