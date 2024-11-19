@@ -2,7 +2,7 @@ import UseMultipleBookSeriesForm from '../hooks/UseForm';
 import Folders from './CourseForm/Folders';
 import Spinner from './Spinner';
 import useFetchCourse from '../hooks/useFetchCourse';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 const FormValidation = () => {
@@ -85,6 +85,9 @@ console.log(uniqueId);
 
     return (
         <>
+            <Link to={'/dashboard/' + userId} className='absolute right-2 top-2 bg-black text-white rounded-full p-2'>
+                Go Back
+            </Link>
             {formCourse !== null && (
                 <div className=''>
                     <button
@@ -116,7 +119,7 @@ console.log(uniqueId);
                     )}
                 </div>
             )}
-            <div className='px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
+            <div className='mt-10 px-3  h-[80dvh] py-6 md:p-10 rounded-2xl border-black border-2 bg-white  text-black font-mono mx-auto w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 overflow-y-scroll overflow-x-hidden'>
                 <form
                     onSubmit={handleSubmit}
                     className='flex flex-col gap-8 items-center justify-center'>
