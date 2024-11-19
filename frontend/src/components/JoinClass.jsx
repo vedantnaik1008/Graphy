@@ -8,11 +8,11 @@ const JoinClass = () => {
     const { userId } = useParams();
     const [click, setClick] = useState(false)
     let payload = {
-        meetingNumber: 81024439696,
+        meetingNumber: 82549809031,
         role: 0,
         sdkKey: import.meta.env.VITE_REACT_CLIENT_ID,
         sdkSecret: import.meta.env.VITE_REACT_CLIENT_SECRET,
-        passWord: 'MijSb7',
+        passWord: 'iGP5wT',
         userName: 'Vedant Naik',
         userEmail: 'vedunaik777@gmail.com',
         leaveUrl: `http://localhost:5173/dashboard/${userId}`

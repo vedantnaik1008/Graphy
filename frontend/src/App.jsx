@@ -16,11 +16,11 @@ import 'react-toastify/dist/ReactToastify.css'; // Import the toastify CSS
 function App() {
     const {userId} = useParams()
     let payloadTeacher = {
-        meetingNumber: 81024439696,
+        meetingNumber: 82549809031,
         role: 1,
         sdkKey: import.meta.env.VITE_REACT_CLIENT_ID,
         sdkSecret: import.meta.env.VITE_REACT_CLIENT_SECRET,
-        passWord: 'MijSb7',
+        passWord: 'iGP5wT',
         userName: 'Vedant Naik',
         userEmail: 'vedunaik777@gmail.com',
         leaveUrl: `http://localhost:5173/teacher/${userId}/create-meeting`

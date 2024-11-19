@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useCallback, useEffect } from 'react';
-import Bar from '../assets/Bar.svg';
+import Bar from '../../assets/Bar.svg';
 import useSideBar from '../hooks/useSideBar';
 import FirebaseAuth from './FireBaseAuth';
 import { useParams } from 'react-router-dom';

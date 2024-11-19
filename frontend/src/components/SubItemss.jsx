@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState } from 'react';
 import useSideBar from '../hooks/useSideBar';
-import PDF from '../assets/pdfIcon.svg';
-import HeadingIcon from '../assets/HeadingIcon.svg';
+import PDF from '../../assets/pdfIcon.svg';
+import HeadingIcon from '../../assets/HeadingIcon.svg';
 import JoinClass from './JoinClass';
 
 const SubItemss = ({ setTabs, setCurrentIndex }) => {
