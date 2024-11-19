@@ -20,7 +20,7 @@ const Home = () => {
 
             // Post user data to Firebase Realtime Database
             await postUserData(email, uid, role);
-            const iframeSrc = `/dashboard/${uid}`;
+            const iframeSrc = `https://books30.vercel.app/dashboard/${uid}`;
             const iframeTag = `<iframe src="${iframeSrc}" width="100%" height="100dvh""></iframe>`;
             setIframeCode(iframeTag); // Navigate to dashboard after successful login
         } catch (error) {
