@@ -32,7 +32,7 @@ const FirebaseAuth = ({userId}) => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='hidden'>Loading...</div>;
     }
 
     // if (user.uid === userId) {
