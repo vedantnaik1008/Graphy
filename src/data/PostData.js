@@ -282,9 +282,9 @@ export const updateAndPostSeries = async (series, url, uniqueId) => {
                 completedIcon: 'completedIcon',
                 icon: 'PDF',
                 name: series.name,
-                sub: series.folders.map((folder) => ({
+                sub: series?.folders?.map((folder) => ({
                     name: folder.folderName,
-                    files: folder.files.map((file) => ({
+                    files: folder?.files?.map((file) => ({
                         name: file.name,
                         type: file.type
                     })),
@@ -292,7 +292,7 @@ export const updateAndPostSeries = async (series, url, uniqueId) => {
                         .filter((subFolder) => subFolder.files.length > 0) // Only include non-empty subfolders
                         .map((subFolder) => ({
                             name: subFolder.subFolderName,
-                            files: subFolder.files.map((file) => ({
+                            files: subFolder?.files?.map((file) => ({
                                 name: file.name,
                                 type: file.type
                             }))

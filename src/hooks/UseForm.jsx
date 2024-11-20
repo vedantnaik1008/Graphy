@@ -359,7 +359,7 @@ const UseMultipleBookSeriesForm = ({
             navigate(`/dashboard/${userId}`);
         } catch (error) {
             console.error(error);
-            toast.error('Upload failed: ' + error.message);
+            toast.error('Upload failed: re-upload the files');
         } finally {
             setLoading(false);
             setFormData(initialFormData); // Reset to initial state after submit
