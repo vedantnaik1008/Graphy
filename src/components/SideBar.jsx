@@ -35,7 +35,7 @@ const SideBar = ({
                     tabs={tabs}
                     setCurrentIndex={setCurrentIndex}
                 />
-                <div className='w-[98%] mx-auto flex items-center flex-grow'>
+                <div className='w-[98%] mx-auto flex items-center flex-grow my-2'>
                     <Link
                         to={`/teacher/${userId}`}
                         className='bg-[#5755d9] text-center rounded-lg text-white py-2 w-full'>
