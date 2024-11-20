@@ -29,31 +29,11 @@ const useSideBar = () => {
 
         // Cleanup subscription on unmount
         return () => unsubscribe();
-    }, [userID]); // Add userID to dependency array
-
-    useEffect(() => {
-        // Force fetch data when component mounts
-        fetchTabsData();
-    }, []); // Empty dependency array means this runs only on mount
-
-    const fetchTabsData = () => {
-        setLoading(true);
-        const tabsRef = ref(database, `users/${userID}/course/`);
-        onValue(
-            tabsRef,
-            (snapshot) => {
-                if (snapshot.exists()) {
-                    setTabsData(snapshot.val());
-                } else {
-                    console.log('No data available');
-                }
-            },
-            (error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        );
-    };
+        
+        
+    }, []); // Add userID to dependency array
+    
+   
 
     if (loading)
         return (
