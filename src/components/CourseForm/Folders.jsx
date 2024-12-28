@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import React from 'react';
 import SubFolder from './SubFolder';
 
 const Folders = (
@@ -81,12 +82,23 @@ const Folders = (
                     </label>
 
                     {/* Display uploaded files */}
-                    {!isEditing && <ul className='list-disc pl-4 mb-4'>
+                    {/* {!isEditing && <ul className='list-disc pl-4 mb-4'>
                         {folder?.files?.map((file, index) => (
                             <li key={index}>{file.name}</li>
                         ))}
-                    </ul>}
-
+                    </ul>} */}
+                    <ul className='list-disc pl-4 mb-4 flex justify-between items-center'>
+                        {folder?.files?.map((file, index) => (
+                            <React.Fragment key={index}>
+                                <li>{file.name}</li>
+                                <button
+                                    onClick={() => fileNameToDelete(file.name)}
+                                    className='text-black text-base font-extrabold'>
+                                    {'X'}
+                                </button>
+                            </React.Fragment>
+                        ))}
+                    </ul>
                     {/* Subfolders */}
                     <SubFolder
                         folder={folder}

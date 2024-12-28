@@ -173,6 +173,10 @@ export const uploadAndPostSeries = async (series, userId) => {
     await PostData(userId, series.title, series.name, series.folders, uniqueId);
 };
 
+const fileNameToDelete = (name) => {
+    return name
+}
+
 const deleteFilesInPath = async (folderPath) => {
     const folderRef = refs(storage, folderPath);
 

@@ -80,13 +80,18 @@ const SubFolder = ({
                         />
                     </label>
                     {/* Display uploaded subfolder files */}
-                    {!isEditing && (
+                    {/* {!isEditing && (
                         <ul className='list-disc pl-4 mb-4'>
                             {subFolder?.files?.map((file, index) => (
                                 <li key={index}>{file.name}</li>
                             ))}
                         </ul>
-                    )}
+                    )} */}
+                    <ul className='list-disc pl-4 mb-4'>
+                        {subFolder?.files?.map((file, index) => (
+                            <li key={index}>{file.name}</li>
+                        ))}
+                    </ul>
                     <button
                         disabled={loading}
                         type='button'
