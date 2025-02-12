@@ -23,6 +23,8 @@ const useStorage = (getUrl) => {
         if (!file) return;
 
         const storageRef = ref(storage, `${getUrl}/${file.name}`);
+        console.log('handleUpload:', `${getUrl}/${file.name}`);
+
         const uploadTask = uploadBytesResumable(storageRef, file);
         
 
@@ -49,6 +51,8 @@ const useStorage = (getUrl) => {
     const fetchFiles = async () => {
         setLoading(true);
         const listRef = ref(storage, `${firebase}${getUrl}`);
+        console.log('uSGetUrl:', `${firebase}${getUrl}`);
+        
         const res = await listAll(listRef);
         const urls = await Promise.all(
             res.items.map(async (item) => {

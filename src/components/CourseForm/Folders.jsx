@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
 import SubFolder from './SubFolder';
+import { fileToDelete } from '../../data/PostData';
+// import { fileNameToDelete } from '../../data/PostData';
 
-const Folders = (
-    {series,
+const Folders = ({
+    series,
     seriesIndex,
     handleFolderNameChange,
     handleFileChange,
@@ -13,9 +14,13 @@ const Folders = (
     loading,
     removeSubFolder,
     addSubFolder,
-    isEditing
-}
-) => {
+    isEditing,
+    userId,
+    uniqueId,
+    unique,
+    deleteFile,
+    setDeleteFile
+}) => {
     return (
         <>
             {series.folders.map((folder, folderIndex) => (
@@ -82,21 +87,31 @@ const Folders = (
                     </label>
 
                     {/* Display uploaded files */}
-                    {/* {!isEditing && <ul className='list-disc pl-4 mb-4'>
+                    <ul className='list-disc pl-4 flex flex-col justify-center'>
                         {folder?.files?.map((file, index) => (
-                            <li key={index}>{file.name}</li>
-                        ))}
-                    </ul>} */}
-                    <ul className='list-disc pl-4 mb-4 flex justify-between items-center'>
-                        {folder?.files?.map((file, index) => (
-                            <React.Fragment key={index}>
-                                <li>{file.name}</li>
-                                <button
-                                    onClick={() => fileNameToDelete(file.name)}
-                                    className='text-black text-base font-extrabold'>
-                                    {'X'}
-                                </button>
-                            </React.Fragment>
+                            <div key={index} className='flex justify-between gap-2'>
+                                <li>
+                                    {file.name?.length > 50
+                                        ? file.name.substring(0, 50) + '...'
+                                        : file.name}
+                                </li>
+                                {isEditing && (
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            const filePath = `${userId}/${uniqueId}/${unique}/${folderIndex}/${file.name}`;
+
+                                            // Store only the clicked file (not all previous ones)
+                                            setDeleteFile([filePath]);
+
+                                            // Delete the file immediately after updating state
+                                            fileToDelete([filePath]);
+                                        }}
+                                        className='text-black text-base font-extrabold'>
+                                        {'X'}
+                                    </button>
+                                )}
+                            </div>
                         ))}
                     </ul>
                     {/* Subfolders */}
@@ -109,6 +124,11 @@ const Folders = (
                         loading={loading}
                         removeSubFolder={removeSubFolder}
                         isEditing={isEditing}
+                        userId={userId}
+                        uniqueId={uniqueId}
+                        unique={unique}
+                        deleteFile={deleteFile}
+                        setDeleteFile={setDeleteFile}
                     />
 
                     <div className='flex gap-4 items-center mb-4'>
@@ -137,4 +157,4 @@ const Folders = (
     );
 };
 
-export default Folders
+export default Folders;

@@ -5,7 +5,7 @@ import Tabs from "./Tabs";
 
 const Content = ({ tabs, toggle, setToggle, setTabs, currentIndex, setCurrentIndex }) => {
     return (
-        <section className='transition-all duration-300 ease-in-out flex-grow'>
+        <section className='overflow-y-scroll transition-all duration-300 ease-in-out flex-grow h-screen'>
             <HeaderNavigation
                 toggle={toggle}
                 setTabs={setTabs}

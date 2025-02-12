@@ -5,19 +5,19 @@ import Books from './Books/Books';
 const Tabs = ({tabs: tab}) => {
 const { tabsArrayUrl } = useSideBar();
 console.log(tabsArrayUrl, tab, 'tabsArrayUrl');
-const data = tabsArrayUrl?.map((url) => url.split('/').slice(2).join(' '));
-console.log(data, 'data');
+ const data = tabsArrayUrl?.map((item) => (item === tab ? true : false));
+console.log(tab, data, 'tab??????????');
 
     
     return (
-        <section className=' overflow-y-scroll overflow-x-hidden h-screen'>
+        <section className='overflow-x-hidden'>
             <div className='transition-all duration-300 ease-in-out w-[98%] h-full md:w-[90%] mx-auto'>
                 {tabsArrayUrl?.map((item) => (
                     <div className='' key={`@${item}`}>
-                        {tab?.replace(/\//g, ' ') ===
-                        item.split('/').slice(2).join(' ') ? (
+                        {tab.toString() === item.toString() ? (
                             <Books bookUrl={`${item}`} />
                         ) : null}
+                        {/* <Books bookUrl={`${item}`} /> */}
                     </div>
                 ))}
             </div>

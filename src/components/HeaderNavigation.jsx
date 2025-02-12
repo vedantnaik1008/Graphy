@@ -61,7 +61,7 @@ const { userId } = useParams();
                     <h2 className='text-black text-[10px] md:text-sm xl:text-base font-bold truncate block'>
                         {tabs === undefined
                             ? ''
-                            : tabs.replace(/\//g, ' ')}
+                            : tabs}
                     </h2>
                 </div>
                 <div className='flex items-center gap-6'>

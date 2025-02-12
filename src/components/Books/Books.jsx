@@ -11,7 +11,7 @@ const Books = ({ bookUrl }) => {
     const { fileLinks, loading } = useStorage(
         `Books/${userId}/${bookUrl}`
     );
-    console.log(fileLinks, 'pdf');
+    console.log(fileLinks.map((fileLink)=> fileLink), 'pdf');
     
     
 const defaultLayoutPluginInstance = defaultLayoutPlugin();

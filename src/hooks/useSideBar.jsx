@@ -29,11 +29,7 @@ const useSideBar = () => {
 
         // Cleanup subscription on unmount
         return () => unsubscribe();
-        
-        
     }, []); // Add userID to dependency array
-    
-   
 
     if (loading)
         return (
@@ -45,32 +41,38 @@ const useSideBar = () => {
     const tabsArray = tabsData?.map((tabsdata) => {
         return tabsdata?.tabs?.map((tab) => {
             return tab?.sub?.map((subItem) => {
-                const data = `${tab.name} ${subItem.name}`;
+                const data = `${tabsdata?.uniqueId}/${tab?.id}/${subItem?.id}`;
                 tabsArrayData.push(data);
                 return subItem?.subFolders?.map((subFolder) => {
-                    const subFolderData = `${tab.name} ${subItem.name} ${subFolder.name}`;
+                    const subFolderData = `${tabsdata?.uniqueId}/${tab?.id}/${subItem?.id}/${subFolder?.id}`;
                     return tabsArrayData.push(subFolderData);
                 });
             });
         });
     });
-
+    //gs://graphy-c2078.appspot.com/Books/kBziJ0rfNNMY6cwc73T3unNXwMo1/e8365572-a337-4565-8087-6e97f5e93e08/0/0/0
     let tabsArrayDataUrl = [];
     const tabsArrayUrl = tabsData?.map((tabsdata) => {
         return tabsdata?.tabs?.map((tab) => {
             return tab?.sub?.map((subItem) => {
-                const data = `${tabsdata?.uniqueId}/${tabsdata?.title}/${tab.name}/${subItem.name}`;
+                //`${tabsdata?.uniqueId}/${tabsdata?.title}/${tab.name}/${subItem.name}`
+                const data = `${tabsdata?.uniqueId}/${tab?.id}/${subItem?.id}`;
                 tabsArrayDataUrl.push(data);
                 return subItem?.subFolders?.map((subFolder) => {
-                    const subFolderData = `${tabsdata?.uniqueId}/${tabsdata?.title}/${tab.name}/${subItem.name}/${subFolder.name}`;
+                    const subFolderData = `${tabsdata?.uniqueId}/${
+                        tab?.id
+                    }/${subItem?.id}/${subFolder?.id}`;
                     return tabsArrayDataUrl.push(subFolderData);
                 });
             });
         });
     });
-const uniqueId = tabsData[0]?.uniqueId;
-    console.log(tabsData, uniqueId);
-    
+    const uniqueId = tabsData[0]?.uniqueId;
+         console.log(
+             tabsArrayData,
+             uniqueId
+         );
+console.log(tabsArrayDataUrl, ':tabsArrayDataUrl');
 
     return {
         tabsData,

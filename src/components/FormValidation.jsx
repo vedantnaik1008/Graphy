@@ -3,10 +3,12 @@ import Folders from './CourseForm/Folders';
 import Spinner from './Spinner';
 import useFetchCourse from '../hooks/useFetchCourse';
 import { Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fileToDelete } from '../data/PostData';
 
 const FormValidation = () => {
     const [isEditing, setIsEditing] = useState(false);
+    const [deleteFile, setDeleteFile] = useState([]);
     const { userId } = useParams();
     const [selectedCourse, setSelectedCourse] = useState(
         `users/${userId}/course/0`
@@ -21,6 +23,7 @@ const FormValidation = () => {
         .toString();
 
     const uniqueId = courseList && courseList[selectedCourseIndex]?.uniqueId;
+    const unique = courseList && courseList[selectedCourseIndex]?.tabs[0]?.id;
     const {
         handleChange,
         handleFileChange,
@@ -42,7 +45,8 @@ const FormValidation = () => {
         isEditing,
         setIsEditing,
         selectedCourse,
-        uniqueId: uniqueId
+        uniqueId: uniqueId,
+        unique: unique
     });
 
     const handleCourseSelect = async (e) => {
@@ -77,15 +81,21 @@ const FormValidation = () => {
             }); // Reset form if no course is selected
         }
     };
- 
-        
 
-console.log(uniqueId);
+    useEffect(() => {
+        if (deleteFile.length > 0) {
+            fileToDelete(deleteFile);
+        }
+    }, [deleteFile]);
 
+    console.log(uniqueId);
+        console.log('selectedCourse:', selectedCourse);
 
     return (
         <>
-            <Link to={'/dashboard/' + userId} className='absolute right-2 top-2 bg-black text-white rounded-full p-2'>
+            <Link
+                to={'/dashboard/' + userId}
+                className='absolute right-2 top-2 bg-black text-white rounded-full p-2'>
                 Go Back
             </Link>
             {formCourse !== null && (
@@ -127,7 +137,7 @@ console.log(uniqueId);
                         Collection Hub
                     </h2>
 
-                    <label htmlFor={`title`} className='w-full'>
+                    {/* <label htmlFor={`title`} className='w-full'>
                         <input
                             type='text'
                             name='title'
@@ -149,7 +159,26 @@ console.log(uniqueId);
                             placeholder='Course Name'
                             className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full '
                         />
-                    </label>
+                    </label> */}
+                    {/* <label htmlFor={`title`} className='w-full'>
+                        <input
+                            type='text'
+                            name='title'
+                            value={formData.series?.[0]?.title || ''}
+                            id={`title`}
+                            onChange={(e) => {
+                                const { name, value } = e.target;
+                                setFormData((prevData) => ({
+                                    ...prevData,
+                                    series: prevData?.series?.map((s, idx) =>
+                                        idx === 0 ? { ...s, [name]: value } : s
+                                    )
+                                }));
+                            }}
+                            placeholder='Course Name'
+                            className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full '
+                        />
+                    </label> */}
 
                     {formData.series?.map((series, seriesIndex) => (
                         <div
@@ -158,7 +187,19 @@ console.log(uniqueId);
                             <h3 className='text-xl font-bold mb-4'>
                                 Series {seriesIndex + 1}
                             </h3>
-
+                            <label htmlFor={`title`} className='w-full'>
+                                <input
+                                    type='text'
+                                    name='title'
+                                    value={series.title}
+                                    id={`title`}
+                                    onChange={(e) =>
+                                        handleChange(seriesIndex, e)
+                                    }
+                                    placeholder='Course Name'
+                                    className='border-b-2 border-b-gray-500 bg-white focus-visible:outline-none focus-visible:border-b-blue-500 w-full mb-6'
+                                />
+                            </label>
                             <label
                                 htmlFor={`name-${seriesIndex}`}
                                 className='w-full'>
@@ -191,6 +232,11 @@ console.log(uniqueId);
                                 removeSubFolder={removeSubFolder}
                                 addSubFolder={addSubFolder}
                                 isEditing={isEditing}
+                                userId={userId}
+                                uniqueId={uniqueId}
+                                unique={unique}
+                                deleteFile={deleteFile}
+                                setDeleteFile={setDeleteFile}
                             />
 
                             <button

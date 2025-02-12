@@ -1,4 +1,6 @@
 /* eslint-disable react/prop-types */
+import { fileToDelete } from '../../data/PostData';
+// import { fileNameToDelete } from '../../data/PostData';
 
 const SubFolder = ({
     folder,
@@ -8,7 +10,12 @@ const SubFolder = ({
     handleSubFolderFileChange,
     loading,
     removeSubFolder,
-    isEditing
+    isEditing,
+    userId,
+    uniqueId,
+    unique,
+    deleteFile,
+    setDeleteFile
 }) => {
     return (
         <>
@@ -80,16 +87,33 @@ const SubFolder = ({
                         />
                     </label>
                     {/* Display uploaded subfolder files */}
-                    {/* {!isEditing && (
-                        <ul className='list-disc pl-4 mb-4'>
-                            {subFolder?.files?.map((file, index) => (
-                                <li key={index}>{file.name}</li>
-                            ))}
-                        </ul>
-                    )} */}
-                    <ul className='list-disc pl-4 mb-4'>
+                    <ul className='list-disc pl-4 flex flex-col justify-center'>
                         {subFolder?.files?.map((file, index) => (
-                            <li key={index}>{file.name}</li>
+                            <div
+                                key={index}
+                                className='flex justify-between gap-2'>
+                                <li>
+                                    {file.name?.length > 50
+                                        ? file.name.substring(0, 50) + '...'
+                                        : file.name}
+                                </li>
+                                {isEditing && (
+                                    <button
+                                        type='button'
+                                        onClick={() => {
+                                            const filePath = `${userId}/${uniqueId}/${unique}/${folderIndex}/${subFolderIndex}/${file.name}`;
+
+                                            // Store only the clicked file (not all previous ones)
+                                            setDeleteFile([filePath]);
+
+                                            // Delete the file immediately after updating state
+                                            fileToDelete([filePath]);
+                                        }}
+                                        className='text-black text-base font-extrabold'>
+                                        {'X'}
+                                    </button>
+                                )}
+                            </div>
                         ))}
                     </ul>
                     <button

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { updateAndPostSeries, uploadAndPostSeries } from '../data/PostData';
+import { updateBooks, uploadAndPostSeries } from '../data/PostData';
 import { toast } from 'react-toastify';
 
 const UseMultipleBookSeriesForm = ({
@@ -8,7 +8,8 @@ const UseMultipleBookSeriesForm = ({
     isEditing,
     setIsEditing,
     selectedCourse,
-    uniqueId
+    uniqueId, 
+    unique
 }) => {
     const initialFormData = {
         series: [
@@ -43,21 +44,24 @@ const UseMultipleBookSeriesForm = ({
     const transformCourseData = (formCourseData) => {
         // Function to recursively transform folders and subfolders
         const transformFolders = (folders) => {
-            return folders.map((folder) => ({
+            return folders.map((folder, index) => ({
+                id: index,
                 folderName: folder.name || '', // Map folder name
-                 files: folder.files || [], // Map files at folder level
+                files: folder.files || [], // Map files at folder level
                 subFolders: folder.subFolders
-                    ? folder.subFolders.map((subFolder) => ({
+                    ? folder.subFolders.map((subFolder, index) => ({
+                          id: index,
                           subFolderName: subFolder.name || '', // Map subfolder name
-                             files: subFolder.files || [] // Map files in subfolder
+                          files: subFolder.files || [] // Map files in subfolder
                       }))
                     : [] // If no subfolders, set it to an empty array
             }));
         };
 
         return {
-            series: formCourseData.tabs.map((tab) => ({
-                title: formCourseData.title || '', // Map course title
+            series: formCourseData.tabs.map((tab, index) => ({
+                title: formCourseData.title || '',
+                id: index, // Map course title
                 name: tab.name || '', // Map tab name
                 folders: transformFolders(tab.sub || []) // Transform folders with potential subfolders
             }))
@@ -346,7 +350,14 @@ const UseMultipleBookSeriesForm = ({
 
                 if (isEditing) {
                     setIsEditing(true);
-                    await updateAndPostSeries(series, selectedCourse, uniqueId);
+                    // await updateAndPostSeries(series, selectedCourse, uniqueId);
+                    await updateBooks(
+                        series,
+                        userId,
+                        uniqueId,
+                        unique,
+                        selectedCourse
+                    );
                 } else {
                     setIsEditing(false);
                     await uploadAndPostSeries(series, userId);

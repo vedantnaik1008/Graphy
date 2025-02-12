@@ -22,7 +22,7 @@ const Home = () => {
             const userExists = await checkUserExistence(uid);
 
             if (userExists) {
-                toast.info('You are already logged in!');
+                toast.info(`You are already logged in! your userId: ${uid}`);
                 return; // Exit the function if user already exists
             }
             // Post user data to Firebase Realtime Database

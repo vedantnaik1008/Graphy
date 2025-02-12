@@ -20,7 +20,7 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                 if (tab.sub) {
                                     tab.sub.forEach((subItem, subIndex) => {
                                         acc[
-                                            `subItem-${item.name}-${tabIndex}-${subIndex}`
+                                            `subItem-${item.name}-${tabIndex}-${subItem.name}-${subIndex}`
                                         ] = false; // Track toggle state for each subItem
                                     });
                                 }
@@ -41,15 +41,18 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
             [type]: !prevState[type]
         }));
     };
+console.log(toggleState, ':toggleState');
 
     const changeTabsAndSetCurrentIndex = (tab, item) => {
-        const newTabName = `${tab} ${item}`;
+        const newTabName = `${tab}/${item}`;
+        console.log(newTabName, 'newTabName????????');
+        
         setTabs(newTabName);
 
         setCurrentIndex(() => {
             if (tabsArray?.length > 0) {
                 const newIndex = tabsArray.findIndex(
-                    (tab) => tab.replace(/\//g, ' ') === newTabName
+                    (tab) => tab === newTabName
                 );
                 return newIndex !== -1 ? newIndex : 0;
             }
@@ -145,8 +148,10 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                         <p
                                                             onClick={() => {
                                                                 changeTabsAndSetCurrentIndex(
-                                                                    tab.name,
-                                                                    subItem.name
+                                                                    item?.uniqueId +
+                                                                        '/' +
+                                                                        tab?.id,
+                                                                    subItem?.id
                                                                 );
                                                             }}
                                                             className='cursor-pointer text-sm'>
@@ -199,10 +204,12 @@ const SubItemss = ({ setTabs, setCurrentIndex }) => {
                                                                             <p
                                                                                 onClick={() =>
                                                                                     changeTabsAndSetCurrentIndex(
-                                                                                        tab.name +
-                                                                                            ' ' +
-                                                                                            subItem.name,
-                                                                                        subFolder.name
+                                                                                        item?.uniqueId +
+                                                                                            '/' +
+                                                                                            tab?.id +
+                                                                                            '/' +
+                                                                                            subItem?.id,
+                                                                                        subFolder?.id
                                                                                     )
                                                                                 }
                                                                                 className='cursor-pointer text-sm'>
